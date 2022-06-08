@@ -1,0 +1,11 @@
+Can have, 0N CLUB, 11 COURT
+COURT: court_code, name, surface, lightning, type, start_time, end_time, picture, map_detailed, rating_avg, renovated_at,
+Can be, 11 BLOCKED_COURT, 0N COURT
+
+CLUB: club_code, starting_datetime, ending_datetime, name, logo, description
+Reservation, 0N COURT, 0N USER : reservation_code, start_datetime, end_datetime, status, score, court_rating, player2, player3, player4, count_players
+BLOCKED_COURT: start_date_time, end_date_time, blocked_reason
+
+Owns, 11 CLUB, 01 USER
+USER: user_code, lastname, firstname, email, gender, level, phone, password, picture, role
+Is Blocked By, 0N USER, 11 BLOCKED_COURT

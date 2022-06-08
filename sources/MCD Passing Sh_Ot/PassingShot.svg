@@ -1,0 +1,163 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+
+<svg width="442" height="714" view_box="0 0 442 714"
+xmlns="http://www.w3.org/2000/svg"
+xmlns:link="http://www.w3.org/1999/xlink">\n\n<desc>Généré par Mocodo 2.3.7 le Tue, 07 Jun 2022 05:51:47</desc>
+
+<rect id="frame" x="0" y="0" width="442" height="714" fill="#ffffbf" stroke="none" stroke-width="0"/>
+
+<!-- Association Can have -->
+<line x1="69" y1="374" x2="69" y2="128" stroke="#66c2a5" stroke-width="2"/>
+<text x="74.0" y="298" fill="#d53e4f" font-family="Verdana" font-size="12">0,N</text>
+<line x1="221" y1="128" x2="69" y2="128" stroke="#66c2a5" stroke-width="2"/>
+<text x="148" y="145.0" fill="#d53e4f" font-family="Verdana" font-size="12">1,1</text>
+<g id="association-Can have">
+	<path d="M 91 103 a 14 14 90 0 1 14 14 V 128 h -72 V 117 a 14 14 90 0 1 14 -14" fill="#abdda4" stroke="#abdda4" stroke-width="0"/>
+	<path d="M 105 128.0 v 11 a 14 14 90 0 1 -14 14 H 47 a 14 14 90 0 1 -14 -14 V 128.0 H 72" fill="#e6f598" stroke="#e6f598" stroke-width="0"/>
+	<rect x="33" y="103" width="72" height="50" fill="none" rx="14" stroke="#66c2a5" stroke-width="2"/>
+	<line x1="33" y1="128" x2="105" y2="128" stroke="#66c2a5" stroke-width="1"/>
+	<text x="40" y="120.7" fill="#000000" font-family="Verdana" font-size="12">Can have</text>
+</g>
+
+<!-- Association Reservation -->
+<line x1="221" y1="128" x2="221" y2="374" stroke="#66c2a5" stroke-width="2"/>
+<text x="226.0" y="264" fill="#d53e4f" font-family="Verdana" font-size="12">0,N</text>
+<line x1="221" y1="603" x2="221" y2="374" stroke="#66c2a5" stroke-width="2"/>
+<text x="226.0" y="493" fill="#d53e4f" font-family="Verdana" font-size="12">0,N</text>
+<g id="association-Reservation">
+	<path d="M 267 272 a 14 14 90 0 1 14 14 V 297 h -120 V 286 a 14 14 90 0 1 14 -14" fill="#abdda4" stroke="#abdda4" stroke-width="0"/>
+	<path d="M 281 297.0 v 165 a 14 14 90 0 1 -14 14 H 175 a 14 14 90 0 1 -14 -14 V 297.0 H 120" fill="#e6f598" stroke="#e6f598" stroke-width="0"/>
+	<rect x="161" y="272" width="120" height="204" fill="none" rx="14" stroke="#66c2a5" stroke-width="2"/>
+	<line x1="161" y1="297" x2="281" y2="297" stroke="#66c2a5" stroke-width="1"/>
+	<text x="185" y="289.7" fill="#000000" font-family="Verdana" font-size="12">Reservation</text>
+	<text x="168" y="314.7" fill="#000000" font-family="Verdana" font-size="12">reservation_code</text>
+	<text x="168" y="331.7" fill="#000000" font-family="Verdana" font-size="12">start_datetime</text>
+	<text x="168" y="348.7" fill="#000000" font-family="Verdana" font-size="12">end_datetime</text>
+	<text x="168" y="365.7" fill="#000000" font-family="Verdana" font-size="12">status</text>
+	<text x="168" y="382.8" fill="#000000" font-family="Verdana" font-size="12">score</text>
+	<text x="168" y="399.8" fill="#000000" font-family="Verdana" font-size="12">court_rating</text>
+	<text x="168" y="416.8" fill="#000000" font-family="Verdana" font-size="12">player2</text>
+	<text x="168" y="433.8" fill="#000000" font-family="Verdana" font-size="12">player3</text>
+	<text x="168" y="450.8" fill="#000000" font-family="Verdana" font-size="12">player4</text>
+	<text x="168" y="467.8" fill="#000000" font-family="Verdana" font-size="12">count_players</text>
+</g>
+
+<!-- Association Is Blocked By -->
+<line x1="221" y1="603" x2="373" y2="603" stroke="#66c2a5" stroke-width="2"/>
+<text x="263" y="620.0" fill="#d53e4f" font-family="Verdana" font-size="12">0,N</text>
+<line x1="373" y1="374" x2="373" y2="603" stroke="#66c2a5" stroke-width="2"/>
+<text x="378.0" y="433" fill="#d53e4f" font-family="Verdana" font-size="12">1,1</text>
+<g id="association-Is Blocked By">
+	<path d="M 408 578 a 14 14 90 0 1 14 14 V 603 h -98 V 592 a 14 14 90 0 1 14 -14" fill="#abdda4" stroke="#abdda4" stroke-width="0"/>
+	<path d="M 422 603.0 v 11 a 14 14 90 0 1 -14 14 H 338 a 14 14 90 0 1 -14 -14 V 603.0 H 98" fill="#e6f598" stroke="#e6f598" stroke-width="0"/>
+	<rect x="324" y="578" width="98" height="50" fill="none" rx="14" stroke="#66c2a5" stroke-width="2"/>
+	<line x1="324" y1="603" x2="422" y2="603" stroke="#66c2a5" stroke-width="1"/>
+	<text x="331" y="595.7" fill="#000000" font-family="Verdana" font-size="12">Is Blocked By</text>
+</g>
+
+<!-- Association Owns -->
+<line x1="69" y1="374" x2="69" y2="603" stroke="#66c2a5" stroke-width="2"/>
+<text x="74.0" y="459" fill="#d53e4f" font-family="Verdana" font-size="12">1,1</text>
+<line x1="221" y1="603" x2="69" y2="603" stroke="#66c2a5" stroke-width="2"/>
+<text x="158" y="620.0" fill="#d53e4f" font-family="Verdana" font-size="12">0,1</text>
+<g id="association-Owns">
+	<path d="M 79 578 a 14 14 90 0 1 14 14 V 603 h -48 V 592 a 14 14 90 0 1 14 -14" fill="#abdda4" stroke="#abdda4" stroke-width="0"/>
+	<path d="M 93 603.0 v 11 a 14 14 90 0 1 -14 14 H 59 a 14 14 90 0 1 -14 -14 V 603.0 H 48" fill="#e6f598" stroke="#e6f598" stroke-width="0"/>
+	<rect x="45" y="578" width="48" height="50" fill="none" rx="14" stroke="#66c2a5" stroke-width="2"/>
+	<line x1="45" y1="603" x2="93" y2="603" stroke="#66c2a5" stroke-width="1"/>
+	<text x="52" y="595.7" fill="#000000" font-family="Verdana" font-size="12">Owns</text>
+</g>
+
+<!-- Association Can be -->
+<line x1="373" y1="374" x2="373" y2="128" stroke="#66c2a5" stroke-width="2"/>
+<text x="378.0" y="324" fill="#d53e4f" font-family="Verdana" font-size="12">1,1</text>
+<line x1="221" y1="128" x2="373" y2="128" stroke="#66c2a5" stroke-width="2"/>
+<text x="273" y="145.0" fill="#d53e4f" font-family="Verdana" font-size="12">0,N</text>
+<g id="association-Can be">
+	<path d="M 388 103 a 14 14 90 0 1 14 14 V 128 h -58 V 117 a 14 14 90 0 1 14 -14" fill="#abdda4" stroke="#abdda4" stroke-width="0"/>
+	<path d="M 402 128.0 v 11 a 14 14 90 0 1 -14 14 H 358 a 14 14 90 0 1 -14 -14 V 128.0 H 58" fill="#e6f598" stroke="#e6f598" stroke-width="0"/>
+	<rect x="344" y="103" width="58" height="50" fill="none" rx="14" stroke="#66c2a5" stroke-width="2"/>
+	<line x1="344" y1="128" x2="402" y2="128" stroke="#66c2a5" stroke-width="1"/>
+	<text x="351" y="120.7" fill="#000000" font-family="Verdana" font-size="12">Can be</text>
+</g>
+
+<!-- Entity CLUB -->
+<g id="entity-CLUB">
+	<g id="frame-CLUB">
+		<rect x="9" y="306" width="120" height="25" fill="#fdae61" stroke="#fdae61" stroke-width="0"/>
+		<rect x="9" y="331.0" width="120" height="111" fill="#fee08b" stroke="#fee08b" stroke-width="0"/>
+		<rect x="9" y="306" width="120" height="136" fill="none" stroke="#f46d43" stroke-width="2"/>
+		<line x1="9" y1="331" x2="129" y2="331" stroke="#f46d43" stroke-width="1"/>
+	</g>
+	<text x="52" y="323.7" fill="#000000" font-family="Verdana" font-size="12">CLUB</text>
+	<text x="14" y="348.7" fill="#000000" font-family="Verdana" font-size="12">club_code</text>
+	<line x1="14" y1="351" x2="75" y2="351" stroke="#000000" stroke-width="1"/>
+	<text x="14" y="365.7" fill="#000000" font-family="Verdana" font-size="12">starting_datetime</text>
+	<text x="14" y="382.8" fill="#000000" font-family="Verdana" font-size="12">ending_datetime</text>
+	<text x="14" y="399.8" fill="#000000" font-family="Verdana" font-size="12">name</text>
+	<text x="14" y="416.8" fill="#000000" font-family="Verdana" font-size="12">logo</text>
+	<text x="14" y="433.8" fill="#000000" font-family="Verdana" font-size="12">description</text>
+</g>
+
+<!-- Entity COURT -->
+<g id="entity-COURT">
+	<g id="frame-COURT">
+		<rect x="174" y="9" width="94" height="25" fill="#fdae61" stroke="#fdae61" stroke-width="0"/>
+		<rect x="174" y="34.0" width="94" height="213" fill="#fee08b" stroke="#fee08b" stroke-width="0"/>
+		<rect x="174" y="9" width="94" height="238" fill="none" stroke="#f46d43" stroke-width="2"/>
+		<line x1="174" y1="34" x2="268" y2="34" stroke="#f46d43" stroke-width="1"/>
+	</g>
+	<text x="199" y="26.7" fill="#000000" font-family="Verdana" font-size="12">COURT</text>
+	<text x="179" y="51.7" fill="#000000" font-family="Verdana" font-size="12">court_code</text>
+	<line x1="179" y1="54" x2="247" y2="54" stroke="#000000" stroke-width="1"/>
+	<text x="179" y="68.7" fill="#000000" font-family="Verdana" font-size="12">name</text>
+	<text x="179" y="85.7" fill="#000000" font-family="Verdana" font-size="12">surface</text>
+	<text x="179" y="102.7" fill="#000000" font-family="Verdana" font-size="12">lightning</text>
+	<text x="179" y="119.7" fill="#000000" font-family="Verdana" font-size="12">type</text>
+	<text x="179" y="136.8" fill="#000000" font-family="Verdana" font-size="12">start_time</text>
+	<text x="179" y="153.8" fill="#000000" font-family="Verdana" font-size="12">end_time</text>
+	<text x="179" y="170.8" fill="#000000" font-family="Verdana" font-size="12">picture</text>
+	<text x="179" y="187.8" fill="#000000" font-family="Verdana" font-size="12">map_detailed</text>
+	<text x="179" y="204.8" fill="#000000" font-family="Verdana" font-size="12">rating_avg</text>
+	<text x="179" y="221.8" fill="#000000" font-family="Verdana" font-size="12">renovated_at</text>
+</g>
+
+<!-- Entity BLOCKED_COURT -->
+<g id="entity-BLOCKED_COURT">
+	<g id="frame-BLOCKED_COURT">
+		<rect x="313" y="332" width="120" height="25" fill="#fdae61" stroke="#fdae61" stroke-width="0"/>
+		<rect x="313" y="357.0" width="120" height="59" fill="#fee08b" stroke="#fee08b" stroke-width="0"/>
+		<rect x="313" y="332" width="120" height="84" fill="none" stroke="#f46d43" stroke-width="2"/>
+		<line x1="313" y1="357" x2="433" y2="357" stroke="#f46d43" stroke-width="1"/>
+	</g>
+	<text x="318" y="349.7" fill="#000000" font-family="Verdana" font-size="12">BLOCKED_COURT</text>
+	<text x="318" y="374.8" fill="#000000" font-family="Verdana" font-size="12">start_date_time</text>
+	<line x1="318" y1="377" x2="416" y2="377" stroke="#000000" stroke-width="1"/>
+	<text x="318" y="391.8" fill="#000000" font-family="Verdana" font-size="12">end_date_time</text>
+	<text x="318" y="408.8" fill="#000000" font-family="Verdana" font-size="12">blocked_reason</text>
+</g>
+
+<!-- Entity USER -->
+<g id="entity-USER">
+	<g id="frame-USER">
+		<rect x="184" y="501" width="74" height="25" fill="#fdae61" stroke="#fdae61" stroke-width="0"/>
+		<rect x="184" y="526.0" width="74" height="179" fill="#fee08b" stroke="#fee08b" stroke-width="0"/>
+		<rect x="184" y="501" width="74" height="204" fill="none" stroke="#f46d43" stroke-width="2"/>
+		<line x1="184" y1="526" x2="258" y2="526" stroke="#f46d43" stroke-width="1"/>
+	</g>
+	<text x="204" y="518.7" fill="#000000" font-family="Verdana" font-size="12">USER</text>
+	<text x="189" y="543.7" fill="#000000" font-family="Verdana" font-size="12">user_code</text>
+	<line x1="189" y1="546" x2="252" y2="546" stroke="#000000" stroke-width="1"/>
+	<text x="189" y="560.7" fill="#000000" font-family="Verdana" font-size="12">lastname</text>
+	<text x="189" y="577.7" fill="#000000" font-family="Verdana" font-size="12">firstname</text>
+	<text x="189" y="594.7" fill="#000000" font-family="Verdana" font-size="12">email</text>
+	<text x="189" y="611.8" fill="#000000" font-family="Verdana" font-size="12">gender</text>
+	<text x="189" y="628.8" fill="#000000" font-family="Verdana" font-size="12">level</text>
+	<text x="189" y="645.8" fill="#000000" font-family="Verdana" font-size="12">phone</text>
+	<text x="189" y="662.8" fill="#000000" font-family="Verdana" font-size="12">password</text>
+	<text x="189" y="679.8" fill="#000000" font-family="Verdana" font-size="12">picture</text>
+	<text x="189" y="696.8" fill="#000000" font-family="Verdana" font-size="12">role</text>
+</g>
+</svg>

@@ -1,0 +1,82 @@
+<html>
+<head>
+<meta charset='utf-8'>
+<style>
+  #mld .relation { font-variant: small-caps; font-weight: bold }
+  #mld .primary { text-decoration: underline }
+  #mld .foreign { font-style: oblique }
+  #mld .normal { }
+</style>
+</head>
+<body>
+<div id='mld'>
+<div>
+  <span class='relation'>COURT</span> (
+    <span class='primary'>court_code</span>,
+    <span class='normal'>name</span>,
+    <span class='normal'>surface</span>,
+    <span class='normal'>lightning</span>,
+    <span class='normal'>type</span>,
+    <span class='normal'>start_time</span>,
+    <span class='normal'>end_time</span>,
+    <span class='normal'>picture</span>,
+    <span class='normal'>map_detailed</span>,
+    <span class='normal'>rating_avg</span>,
+    <span class='normal'>renovated_at</span>,
+    <span class='normal'></span>,
+    <span class='foreign'>club_code</span>
+  )
+</div>
+<div>
+  <span class='relation'>CLUB</span> (
+    <span class='primary'>club_code</span>,
+    <span class='normal'>starting_datetime</span>,
+    <span class='normal'>ending_datetime</span>,
+    <span class='normal'>name</span>,
+    <span class='normal'>logo</span>,
+    <span class='normal'>description</span>,
+    <span class='foreign'>user_code</span>
+  )
+</div>
+<div>
+  <span class='relation'>Reservation</span> (
+    <span class='foreign primary'>court_code</span>,
+    <span class='foreign primary'>user_code</span>,
+    <span class='normal'>reservation_code</span>,
+    <span class='normal'>start_datetime</span>,
+    <span class='normal'>end_datetime</span>,
+    <span class='normal'>status</span>,
+    <span class='normal'>score</span>,
+    <span class='normal'>court_rating</span>,
+    <span class='normal'>player2</span>,
+    <span class='normal'>player3</span>,
+    <span class='normal'>player4</span>,
+    <span class='normal'>count_players</span>
+  )
+</div>
+<div>
+  <span class='relation'>BLOCKED_COURT</span> (
+    <span class='primary'>start_date_time</span>,
+    <span class='normal'>end_date_time</span>,
+    <span class='normal'>blocked_reason</span>,
+    <span class='foreign'>user_code</span>,
+    <span class='foreign'>court_code</span>
+  )
+</div>
+<div>
+  <span class='relation'>USER</span> (
+    <span class='primary'>user_code</span>,
+    <span class='normal'>lastname</span>,
+    <span class='normal'>firstname</span>,
+    <span class='normal'>email</span>,
+    <span class='normal'>gender</span>,
+    <span class='normal'>level</span>,
+    <span class='normal'>phone</span>,
+    <span class='normal'>password</span>,
+    <span class='normal'>picture</span>,
+    <span class='normal'>role</span>
+  )
+</div>
+</div>
+</body>
+</html>
