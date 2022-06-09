@@ -57,6 +57,12 @@ class Reservation
      */
     private $updatedAt;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Court::class, inversedBy="reservations")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $court;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -154,6 +160,18 @@ class Reservation
     public function setUpdatedAt(?\DateTimeImmutable $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getCourt(): ?Court
+    {
+        return $this->court;
+    }
+
+    public function setCourt(?Court $court): self
+    {
+        $this->court = $court;
 
         return $this;
     }
