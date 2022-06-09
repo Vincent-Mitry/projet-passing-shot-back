@@ -1,0 +1,228 @@
+<?php
+
+namespace App\Entity;
+
+use App\Repository\CourtRepository;
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity(repositoryClass=CourtRepository::class)
+ */
+class Court
+{
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
+     */
+    private $id;
+
+    /**
+     * @ORM\Column(type="string", length=64)
+     */
+    private $name;
+
+    /**
+     * @ORM\Column(type="smallint")
+     */
+    private $surface;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $lightning;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $type;
+
+    /**
+     * @ORM\Column(type="time")
+     */
+    private $startTime;
+
+    /**
+     * @ORM\Column(type="time")
+     */
+    private $endTime;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $picture;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $detailled_map;
+
+    /**
+     * @ORM\Column(type="decimal", precision=3, scale=2, nullable=true)
+     */
+    private $ratingAvg;
+
+    /**
+     * @ORM\Column(type="datetime_immutable", nullable=true)
+     */
+    private $renovatedAt;
+
+    /**
+     * @ORM\Column(type="datetime_immutable")
+     */
+    private $createdAt;
+
+    /**
+     * @ORM\Column(type="datetime_immutable", nullable=true)
+     */
+    private $updatedAt;
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getSurface(): ?int
+    {
+        return $this->surface;
+    }
+
+    public function setSurface(int $surface): self
+    {
+        $this->surface = $surface;
+
+        return $this;
+    }
+
+    public function isLightning(): ?bool
+    {
+        return $this->lightning;
+    }
+
+    public function setLightning(bool $lightning): self
+    {
+        $this->lightning = $lightning;
+
+        return $this;
+    }
+
+    public function isType(): ?bool
+    {
+        return $this->type;
+    }
+
+    public function setType(bool $type): self
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    public function getStartTime(): ?\DateTimeInterface
+    {
+        return $this->startTime;
+    }
+
+    public function setStartTime(\DateTimeInterface $startTime): self
+    {
+        $this->startTime = $startTime;
+
+        return $this;
+    }
+
+    public function getEndTime(): ?\DateTimeInterface
+    {
+        return $this->endTime;
+    }
+
+    public function setEndTime(\DateTimeInterface $endTime): self
+    {
+        $this->endTime = $endTime;
+
+        return $this;
+    }
+
+    public function getPicture(): ?string
+    {
+        return $this->picture;
+    }
+
+    public function setPicture(string $picture): self
+    {
+        $this->picture = $picture;
+
+        return $this;
+    }
+
+    public function getDetailledMap(): ?string
+    {
+        return $this->detailled_map;
+    }
+
+    public function setDetailledMap(string $detailled_map): self
+    {
+        $this->detailled_map = $detailled_map;
+
+        return $this;
+    }
+
+    public function getRatingAvg(): ?string
+    {
+        return $this->ratingAvg;
+    }
+
+    public function setRatingAvg(?string $ratingAvg): self
+    {
+        $this->ratingAvg = $ratingAvg;
+
+        return $this;
+    }
+
+    public function getRenovatedAt(): ?\DateTimeImmutable
+    {
+        return $this->renovatedAt;
+    }
+
+    public function setRenovatedAt(?\DateTimeImmutable $renovatedAt): self
+    {
+        $this->renovatedAt = $renovatedAt;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeImmutable
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?\DateTimeImmutable $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+}

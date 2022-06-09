@@ -1,0 +1,18 @@
+# Création de la base de donnée
+
+
+## Commande pour créer la base de donnée
+- Modification de DATABSE_URL dans le .env.local
+- `bin/console doctrine:database:create`
+
+
+## Commande pour créer une entité
+- `bin/console make:entity`
+
+
+## Créer la migration 
+- `bin/console make:migration`
+
+
+## Effectuer la migration
+- `bin/console doctrine:migrations:migrate`
