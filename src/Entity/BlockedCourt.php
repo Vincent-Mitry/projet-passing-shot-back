@@ -48,6 +48,12 @@ class BlockedCourt
      */
     private $court;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="blockedCourts")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -121,6 +127,18 @@ class BlockedCourt
     public function setCourt(?Court $court): self
     {
         $this->court = $court;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

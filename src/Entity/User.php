@@ -89,9 +89,15 @@ class User
      */
     private $club;
 
+    /**
+     * @ORM\OneToMany(targetEntity=BlockedCourt::class, mappedBy="user")
+     */
+    private $blockedCourts;
+
     public function __construct()
     {
         $this->reservations = new ArrayCollection();
+        $this->blockedCourts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -286,6 +292,36 @@ class User
         }
 
         $this->club = $club;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, BlockedCourt>
+     */
+    public function getBlockedCourts(): Collection
+    {
+        return $this->blockedCourts;
+    }
+
+    public function addBlockedCourt(BlockedCourt $blockedCourt): self
+    {
+        if (!$this->blockedCourts->contains($blockedCourt)) {
+            $this->blockedCourts[] = $blockedCourt;
+            $blockedCourt->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBlockedCourt(BlockedCourt $blockedCourt): self
+    {
+        if ($this->blockedCourts->removeElement($blockedCourt)) {
+            // set the owning side to null (unless already changed)
+            if ($blockedCourt->getUser() === $this) {
+                $blockedCourt->setUser(null);
+            }
+        }
 
         return $this;
     }
