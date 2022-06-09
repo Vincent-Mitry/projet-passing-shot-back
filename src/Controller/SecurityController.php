@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class SecurityController extends AbstractController
 {
     /**
-     * @Route("/login", name="login", methods={"GET})
+     * @Route("/login", name="login", methods={"GET"})
      */
     public function login(): Response
     {
