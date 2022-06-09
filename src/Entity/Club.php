@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ClubRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -57,6 +59,16 @@ class Club
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Court::class, mappedBy="club")
+     */
+    private $courts;
+
+    public function __construct()
+    {
+        $this->courts = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -155,6 +167,36 @@ class Club
     public function setUser(User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Court>
+     */
+    public function getCourts(): Collection
+    {
+        return $this->courts;
+    }
+
+    public function addCourt(Court $court): self
+    {
+        if (!$this->courts->contains($court)) {
+            $this->courts[] = $court;
+            $court->setClub($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCourt(Court $court): self
+    {
+        if ($this->courts->removeElement($court)) {
+            // set the owning side to null (unless already changed)
+            if ($court->getClub() === $this) {
+                $court->setClub(null);
+            }
+        }
 
         return $this;
     }

@@ -84,6 +84,12 @@ class Court
      */
     private $reservations;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Club::class, inversedBy="courts")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $club;
+
     public function __construct()
     {
         $this->reservations = new ArrayCollection();
@@ -264,6 +270,18 @@ class Court
                 $reservation->setCourt(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getClub(): ?Club
+    {
+        return $this->club;
+    }
+
+    public function setClub(?Club $club): self
+    {
+        $this->club = $club;
 
         return $this;
     }
