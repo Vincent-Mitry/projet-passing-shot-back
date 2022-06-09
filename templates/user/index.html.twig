@@ -43,34 +43,23 @@
                     </tr>
                 </thead>
                 <tbody>
+                {% for user in users %}
                         <tr>
                             <td>1</td>
-                            <td> <!-- <img class="rounded-circle me-2" width="30" height="30" src="#">Maxence Caqueret --></td></td>
-                            <td>Maxence</td>
-                            <td>Caqueret</td>
-                            <td>@maxence@oclock.io</td>
-                            <td>24</td>
-                            <td>Homme</td>
-                            <td>Confirmé</td>
-                            <td>0600000000</td>
-                            <td>motdepasse</td>
-                            <td>Propriétaire</td>
-                            <td>09/06/2022</td>
+                            <td><img class="rounded-circle me-2" width="30" height="30" src="{{ user.picture }}"></td></td>
+                            <td>{{ user.firstname }}</td>
+                            <td>{{ user.lastname }}</td>
+                            <td>{{ user.email }}</td>
+                            <td>{{ user.birthdate }}</td>
+                            <td>{{ user.gender }}</td>
+                            <td>{{ user.level }}</td>
+                            <td>{{ user.phone }}</td>
+                            <td>{{ user.password }}</td>
+                            <td>{{ user.role }}</td>
+                            <td>{{ user.createdAt }}</td>
+                            <td>{{ user.updateddAt }}</td>
                         </tr>
-                        <tr>
-                            <td>2</td>
-                            <td> <!-- <img class="rounded-circle me-2" width="30" height="30" src="#">Thomas Dupont --></td></td>
-                            <td>Thomas</td>
-                            <td>Dupont</td>
-                            <td>@thomas@oclock.io</td>
-                            <td>38</td>
-                            <td>Homme</td>
-                            <td>Intermédiaire</td>
-                            <td>0606060606</td>
-                            <td>motdepasse</td>
-                            <td>Membre</td>
-                            <td>09/06/2022</td>
-                        </tr>
+                {% endfor %}
                 </tbody>
             </table>
         </div>
