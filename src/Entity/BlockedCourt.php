@@ -50,7 +50,6 @@ class BlockedCourt
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="blockedCourts")
-     * @ORM\JoinColumn(nullable=false)
      */
     private $user;
 
