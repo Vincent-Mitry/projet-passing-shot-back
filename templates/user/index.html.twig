@@ -37,7 +37,6 @@
                         <th>Level</th>
                         <th>Téléphone</th>
                         <th>Mot de passe</th>
-                        <th>Rôle</th>
                         <th>Date de création</th>
                         <th>Date de modification</th>
                     </tr>
@@ -50,14 +49,17 @@
                             <td>{{ user.firstname }}</td>
                             <td>{{ user.lastname }}</td>
                             <td>{{ user.email }}</td>
-                            <td>{{ user.birthdate }}</td>
+                            <td>{{ user.birthdate|date('d-m-Y') : '' }}</td>
                             <td>{{ user.gender }}</td>
                             <td>{{ user.level }}</td>
                             <td>{{ user.phone }}</td>
                             <td>{{ user.password }}</td>
-                            <td>{{ user.role }}</td>
-                            <td>{{ user.createdAt }}</td>
-                            <td>{{ user.updateddAt }}</td>
+                            <td> 
+                            {% for role in user.roles %}
+                            {{ role }}
+                            {% endfor %}</td>
+                            <td>{{ user.createdAt|date('d-m-Y') : ''  }}</td>
+                            <td>{{ user.updateddAt|date('d-m-Y') : ''  }}</td>
                         </tr>
                 {% endfor %}
                 </tbody>
