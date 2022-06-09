@@ -84,6 +84,11 @@ class User
      */
     private $reservations;
 
+    /**
+     * @ORM\OneToOne(targetEntity=Club::class, mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $club;
+
     public function __construct()
     {
         $this->reservations = new ArrayCollection();
@@ -264,6 +269,23 @@ class User
                 $reservation->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getClub(): ?Club
+    {
+        return $this->club;
+    }
+
+    public function setClub(Club $club): self
+    {
+        // set the owning side of the relation if necessary
+        if ($club->getUser() !== $this) {
+            $club->setUser($this);
+        }
+
+        $this->club = $club;
 
         return $this;
     }
