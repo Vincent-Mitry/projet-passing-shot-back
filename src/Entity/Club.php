@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ClubRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ClubRepository::class)
@@ -23,16 +24,21 @@ class Club
 
     /**
      * @ORM\Column(type="time")
+     * @Assert\Time
+     * @Assert\NotBlank
      */
     private $startingTime;
 
     /**
      * @ORM\Column(type="time")
+     * @Assert\Time
+     * @Assert\NotBlank
      */
     private $endingTime;
 
     /**
      * @ORM\Column(type="string", length=200)
+     * @Assert\NotBlank
      */
     private $name;
 
@@ -43,22 +49,25 @@ class Club
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotBlank
      */
     private $description;
 
     /**
      * @ORM\Column(type="datetime_immutable")
+     * @Assert\DateTime
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime_immutable", nullable=true)
+     * @Assert\DateTime
      */
     private $updatedAt;
 
     /**
      * @ORM\OneToOne(targetEntity=User::class, inversedBy="club", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $user;
 
