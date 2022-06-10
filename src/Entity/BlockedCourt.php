@@ -4,9 +4,12 @@ namespace App\Entity;
 
 use App\Repository\BlockedCourtRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=BlockedCourtRepository::class)
+ * @UniqueEntity(fields={"startDatetime", "endDatetime"})
  */
 class BlockedCourt
 {
@@ -19,26 +22,31 @@ class BlockedCourt
 
     /**
      * @ORM\Column(type="time")
+     * @Assert\DateTime
      */
     private $startDatetime;
 
     /**
      * @ORM\Column(type="time")
+     * @Assert\DateTime
      */
     private $endDatetime;
 
     /**
      * @ORM\Column(type="string", length=200)
+     * @Assert\NotBlank
      */
     private $blockedReason;
 
     /**
      * @ORM\Column(type="datetime_immutable")
+     * @Assert\DateTime
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime_immutable", nullable=true)
+     * @Assert\DateTime
      */
     private $updatedAt;
 
