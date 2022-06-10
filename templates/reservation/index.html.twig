@@ -6,7 +6,7 @@
 <div class="container-fluid">
         <div class="card shadow">
             <div class="card-header py-3">
-                <p class="text-danger m-0 fw-bold text-center">Informations des utilisateurs</p>
+                <p class="text-danger m-0 fw-bold text-center">Informations des réservations</p>
             </div>
             <div class="card-body">
                 <div class="row">
@@ -28,40 +28,33 @@
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Photo</th>
-                        <th>Prénom</th>
-                        <th>Nom</th>
-                        <th>Adresse mail</th>
-                        <th>Age</th>
-                        <th>Genre</th>
-                        <th>Level</th>
-                        <th>Téléphone</th>
-                        <th>Mot de passe</th>
-                        <th>Rôle</th>
+                        <th>Heure de début</th>
+                        <th>Heure de fin</th>
+                        <th>Status</th>
+                        <th>Score</th>
+                        <th>ID du joueur</th>
+                        <th>Terrain</th>
+                        <th>Note du terrain</th>
+                        <th>Nombre de joueur</th>
                         <th>Date de création</th>
                         <th>Date de modification</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                {% for user in users %}
+                {% for reservation in reservations %}
                         <tr>
-                            <td>{{ user.id }}</td>
-                            <td><img class="rounded-circle me-2" width="30" height="30" src="{{ user.picture }}"></td></td>
-                            <td>{{ user.firstname }}</td>
-                            <td>{{ user.lastname }}</td>
-                            <td>{{ user.email }}</td>
-                            <td>{{ user.birthdate|date('d-m-Y')}}</td>
-                            <td>{{ user.gender }}</td>
-                            <td>{{ user.level }}</td>
-                            <td>{{ user.phone }}</td>
-                            <td>{{ user.password }}</td>
-                            <td> 
-                            {% for role in user.roles %}
-                            {{ role }}
-                            {% endfor %}</td>
-                            <td>{{ user.createdAt|date('d-m-Y')}}</td>
-                            <td>{{ user.updatedAt|date('d-m-Y')}}</td>
+                            <td>{{ reservation.id }}</td>
+                            <td>{{ reservation.startDateTime|date('d-m-Y-H:i') }}</td>
+                            <td>{{ reservation.endDateTime|date('d-m-Y-H:i') }}</td>
+                            <td>{{ reservation.status }}</td>
+                            <td>{{ reservation.score }}</td>
+                            <td>{{ reservation.user.id }}</td>
+                            <td>{{ reservation.court.name}}</td>
+                            <td>{{ reservation.courtRating }}</td>
+                            <td>{{ reservation.countPlayers }}</td>
+                            <td>{{ reservation.createdAt|date('d-m-Y')}}</td>
+                            <td>{{ reservation.updatedAt|date('d-m-Y')}}</td>
                             <td>
                                 <a href="#" class="btn btn-sm btn-primary"><i class="bi bi-search"></i></a>
                                 <a href="#" class="btn btn-sm btn-success"><i class="bi bi-pencil-square"></i></a>
