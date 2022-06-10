@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Club;
 use App\Entity\Court;
+use App\Entity\Reservation;
 use App\Entity\User;
 use App\Faker\Provider\DateTimeImmutableFaker;
 use DateTime;
@@ -50,7 +51,8 @@ class AppFixtures extends Fixture
         $faker = Factory::create('fr_FR');
         $faker->addProvider(new DateTimeImmutableFaker($faker));
 
-        // Users
+        //User
+        // Creates super_admin
         $superAdmin = new User();
         $superAdmin->setLastname($faker->lastName())
                    ->setFirstname($faker->firstName())
@@ -65,6 +67,7 @@ class AppFixtures extends Fixture
         
         $manager->persist($superAdmin);
 
+        // Creates admin 
         $admin = new User();
         $admin->setLastname($faker->lastName())
                    ->setFirstname($faker->firstName())
@@ -78,6 +81,9 @@ class AppFixtures extends Fixture
                    ->setBirthdate($faker->immutableDateTimeBetween('-50 years', '-30 years'));
         
         $manager->persist($admin);
+        
+        // Creates 10 members
+        $memberList = [];
 
         for ($i=1; $i < 11; $i++) { 
             $member = new User();
@@ -91,7 +97,9 @@ class AppFixtures extends Fixture
                     ->setRoles(['ROLE_MEMBER'])
                     ->setCreatedAt(new DateTimeImmutable('now'))
                     ->setBirthdate($faker->immutableDateTimeBetween('-60 years', '-15 years'));
-            
+
+            $memberList[] = $member;
+
             $manager->persist($member);
         }
 
@@ -107,6 +115,8 @@ class AppFixtures extends Fixture
         $manager->persist($club);
 
         // Courts
+        $courtList = [];
+
         for ($i=1; $i <11 ; $i++) { 
             $court = new Court();
             $court->setName('Terrain'.$i)
@@ -119,8 +129,41 @@ class AppFixtures extends Fixture
                   ->setPicture('https://picsum.photos/200/300')
                   ->setDetailledMap('https://picsum.photos/200/300')
                   ->setCreatedAt(new DateTimeImmutable());
+
+            $courtList[] = $court;
             
             $manager->persist($court);
+        }
+
+        // Reservation
+        for ($i=1; $i < 21 ; $i++) { 
+            $reservation = new Reservation();
+
+            // Select reservation random date from today to + 1 week
+            /**
+             * @var DateTimeImmutable
+             */
+            $reservationDate = $faker->immutableDateTimeBetween('now', '+1 week');
+
+            // set random start hour from 12 to 19
+            $start_hour = mt_rand(12, 19);
+            // Set end hour (start_hour + 1)
+            $end_hour = $start_hour + 1;
+
+            // Set Random Reservation StartDateTime
+            $startDateTime = $reservationDate->setTime($start_hour, 0);
+            // Set Reservation EndDateTime
+            $endDateTime = $reservationDate->setTime($end_hour, 0);
+
+            $reservation->setStartDatetime($startDateTime)
+                        ->setEndDatetime($endDateTime)
+                        ->setStatus(1)
+                        ->setCountPlayers(2)
+                        ->setCreatedAt(new DateTimeImmutable())
+                        ->setCourt($faker->randomElement($courtList))
+                        ->setUser($faker->randomElement($memberList));
+
+            $manager->persist($reservation);
         }
 
         $manager->flush();
