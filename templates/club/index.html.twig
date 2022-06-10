@@ -6,7 +6,7 @@
 <div class="container-fluid">
         <div class="card shadow">
             <div class="card-header py-3">
-                <p class="text-danger m-0 fw-bold text-center">Informations des terrains</p>
+                <p class="text-danger m-0 fw-bold text-center">Informations des clubs</p>
             </div>
             <div class="card-body">
                 <div class="row">
@@ -28,39 +28,29 @@
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Photo</th>
+                        <th>Logo</th>
                         <th>Nom</th>
-                        <th>Club</th>
-                        <th>Surface</th>
-                        <th>Éclairé</th>
-                        <th>Type</th>
+                        <th>Description</th>
                         <th>Heure d'ouverture</th>
                         <th>Heure de fermeture</th>
-                        <th>Carte</th>
-                        <th>Note</th>
-                        <th>Date de rénovation</th>
+                        <th>Propriétaire</th>
                         <th>Date de création</th>
                         <th>Date de modification</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                {% for court in courts %}
+                {% for club in clubs %}
                         <tr>
-                            <td>{{ court.id }}</td>
-                            <td><img class="rounded-circle me-2" width="30" height="30" src="{{ court.picture }}"></td></td>
-                            <td>{{ court.name }}</td>
-                            <td>{{ court.club.name }}</td>
-                            <td>{{ court.surface }}</td>
-                            <td>{{ court.lightning }}</td>
-                            <td>{{ court.type}}</td>
-                            <td>{{ court.startTime|date('H:i') }}</td>
-                            <td>{{ court.endTime|date('H:i') }}</td>
-                            <td>{{ court.detailledMap }}</td>
-                            <td>{{ court.ratingAvg }}</td>
-                            <td>{{ court.renovatedAt|date('d-m-Y') }}</td>
-                            <td>{{ court.createdAt|date('d-m-Y')}}</td>
-                            <td>{{ court.updatedAt|date('d-m-Y')}}</td>
+                            <td>{{ club.id }}</td>
+                            <td><img class="rounded-circle me-2" width="30" height="30" src="{{ club.logo }}"></td></td>
+                            <td>{{ club.name }}</td>
+                            <td>{{ club.description }}</td>
+                            <td>{{ club.startingTime|date('H:i') }}</td>
+                            <td>{{ club.endingTime|date('H:i') }}</td>
+                            <td>{{ club.user.firstname}} {{ club.user.lastname}}</td>
+                            <td>{{ club.createdAt|date('d-m-Y')}}</td>
+                            <td>{{ club.updatedAt|date('d-m-Y')}}</td>
                             <td>
                                 <a href="#" class="btn btn-sm btn-primary"><i class="bi bi-search"></i></a>
                                 <a href="#" class="btn btn-sm btn-success"><i class="bi bi-pencil-square"></i></a>
