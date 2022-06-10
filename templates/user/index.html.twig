@@ -45,7 +45,7 @@
                 <tbody>
                 {% for user in users %}
                         <tr>
-                            <td>1</td>
+                            <td>{{ user.id }}</td>
                             <td><img class="rounded-circle me-2" width="30" height="30" src="{{ user.picture }}"></td></td>
                             <td>{{ user.firstname }}</td>
                             <td>{{ user.lastname }}</td>
