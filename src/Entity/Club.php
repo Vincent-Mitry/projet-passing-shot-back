@@ -72,6 +72,7 @@ class Club
         $this->courts = new ArrayCollection();
     }
 
+
     public function getId(): ?int
     {
         return $this->id;

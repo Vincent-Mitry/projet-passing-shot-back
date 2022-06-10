@@ -12,6 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Court
 {
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -100,6 +101,7 @@ class Court
         $this->reservations = new ArrayCollection();
         $this->blockedCourts = new ArrayCollection();
     }
+
 
     public function getId(): ?int
     {
