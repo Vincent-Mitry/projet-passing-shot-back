@@ -39,6 +39,25 @@ class ClubRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+    * Find last three clubs for home
+    */
+    public function findLastThree()
+    {
+        // L'EM est nécessaire pour créer une requête
+        $entityManager = $this->getEntityManager();
+
+        // On crée une erquête depuis l'EM
+        // En Doctrine Query Language (DQL)
+        $query = $entityManager->createQuery(
+            'SELECT c
+            FROM App\Entity\Club c
+            ORDER BY c.id DESC'
+        )->setMaxResults(3);
+
+        // returns an array of Reservation objects
+        return $query->getResult();
+    }
 //    /**
 //     * @return Club[] Returns an array of Club objects
 //     */
