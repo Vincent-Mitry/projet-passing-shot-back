@@ -6,7 +6,7 @@ use App\Entity\Club;
 use App\Entity\Court;
 use App\Entity\Reservation;
 use App\Entity\User;
-use App\Faker\Provider\DateTimeImmutableFaker;
+use App\DataFixtures\Provider\DateTimeImmutableFaker;
 use DateTime;
 use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -57,7 +57,7 @@ class AppFixtures extends Fixture
         $superAdmin->setLastname($faker->lastName())
                    ->setFirstname($faker->firstName())
                    ->setEmail('superadmin@superadmin.com')
-                   ->setGender($faker->randomElement(['homme', 'femme', 'neutre']))
+                   ->setGender($faker->numberBetween(1,3))
                    ->setLevel($faker->numberBetween(1,3))
                    ->setPhone('0123456789')
                    ->setPassword('superadmin')
@@ -72,7 +72,7 @@ class AppFixtures extends Fixture
         $admin->setLastname($faker->lastName())
                    ->setFirstname($faker->firstName())
                    ->setEmail('admin@admin.com')
-                   ->setGender($faker->randomElement(['homme', 'femme', 'neutre']))
+                   ->setGender($faker->numberBetween(1,3))
                    ->setLevel($faker->numberBetween(1,3))
                    ->setPhone('0123456789')
                    ->setPassword('admin')
@@ -90,7 +90,7 @@ class AppFixtures extends Fixture
             $member->setLastname($faker->lastName())
                     ->setFirstname($faker->firstName())
                     ->setEmail('member'.$i.'@member.com')
-                    ->setGender($faker->randomElement(['homme', 'femme', 'neutre']))
+                    ->setGender($faker->numberBetween(1,3))
                     ->setLevel($faker->numberBetween(1,3))
                     ->setPhone('0123456789')
                     ->setPassword('member')
@@ -128,6 +128,7 @@ class AppFixtures extends Fixture
                   ->setClub($club)
                   ->setPicture('https://picsum.photos/200/300')
                   ->setDetailledMap('https://picsum.photos/200/300')
+                  ->setSlug('terrain'.$i)
                   ->setCreatedAt(new DateTimeImmutable());
 
             $courtList[] = $court;

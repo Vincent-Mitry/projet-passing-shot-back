@@ -6,9 +6,13 @@ use App\Repository\CourtRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=CourtRepository::class)
+ * 
+ * @UniqueEntity(fields={"name"})
  */
 class Court
 {
@@ -22,61 +26,78 @@ class Court
 
     /**
      * @ORM\Column(type="string", length=64)
+     * @Assert\NotBlank
      */
     private $name;
 
     /**
      * @ORM\Column(type="smallint")
+     * @Assert\NotBlank
      */
     private $surface;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Assert\NotBlank
      */
     private $lightning;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Assert\NotBlank
      */
     private $type;
 
     /**
      * @ORM\Column(type="time")
+     * @Assert\NotBlank
+     * @Assert\Time
      */
     private $startTime;
 
     /**
      * @ORM\Column(type="time")
+     * @Assert\NotBlank
+     * @Assert\Time
      */
     private $endTime;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $picture;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $detailled_map;
 
     /**
-     * @ORM\Column(type="decimal", precision=3, scale=2, nullable=true)
+     * @ORM\Column(type="decimal", precision=2, scale=1, nullable=true)
      */
     private $ratingAvg;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
+     */
+    private $slug;
+
+    /**
      * @ORM\Column(type="datetime_immutable", nullable=true)
+     * @Assert\DateTime
      */
     private $renovatedAt;
 
     /**
      * @ORM\Column(type="datetime_immutable")
+     * @Assert\DateTime
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime_immutable", nullable=true)
+     * @Assert\DateTime
      */
     private $updatedAt;
 
@@ -212,6 +233,18 @@ class Court
     public function setRatingAvg(?string $ratingAvg): self
     {
         $this->ratingAvg = $ratingAvg;
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }
