@@ -11,12 +11,42 @@ use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
-use Symfony\Component\Validator\Constraints\Time;
+use Doctrine\DBAL\Connection;
 
 class AppFixtures extends Fixture
 {
+    /**
+     * Connection from database
+     */
+    private $connection;
+
+    public function __construct(Connection $connection)
+    {
+        // Get connexion from database (DBAL ~= PDO)
+        $this->connection = $connection;
+    }
+    
+    /**
+     * Truncates tables in database and resets IDs to 1
+     */
+    private function truncate()
+    {
+        // Désactivation la vérification des contraintes FK
+        // Disable constraint check on FKs
+        $this->connection->executeQuery('SET foreign_key_checks = 0');
+        // Truncate tables
+        $this->connection->executeQuery('TRUNCATE TABLE court');
+        $this->connection->executeQuery('TRUNCATE TABLE user');
+        $this->connection->executeQuery('TRUNCATE TABLE reservation');
+        $this->connection->executeQuery('TRUNCATE TABLE club');
+        $this->connection->executeQuery('TRUNCATE TABLE blocked_court');
+        // etc.
+    }
+
     public function load(ObjectManager $manager): void
     {
+        $this->truncate();
+
         $faker = Factory::create('fr_FR');
         $faker->addProvider(new DateTimeImmutableFaker($faker));
 
