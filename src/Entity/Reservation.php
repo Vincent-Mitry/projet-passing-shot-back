@@ -28,7 +28,7 @@ class Reservation
     private $endDatetime;
 
     /**
-     * @ORM\Column(type="smallint", options={"default" : 0})
+     * @ORM\Column(type="smallint", options={"default" : 1})
      */
     private $status;
 
