@@ -2,17 +2,19 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Club;
-use App\Entity\Court;
-use App\Entity\Reservation;
-use App\Entity\User;
-use App\Faker\Provider\DateTimeImmutableFaker;
 use DateTime;
-use DateTimeImmutable;
-use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
+use App\Entity\Club;
+use App\Entity\User;
+use App\Entity\Court;
+use DateTimeImmutable;
+use App\Entity\Reservation;
 use Doctrine\DBAL\Connection;
+use Doctrine\Persistence\ObjectManager;
+use Doctrine\Bundle\FixturesBundle\Fixture;
+use App\DataFixtures\Provider\DateTimeImmutableFaker;
+
+
 
 class AppFixtures extends Fixture
 {

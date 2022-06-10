@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Faker\Provider;
+namespace App\DataFixtures\Provider;
 
 use Faker\Generator;
 use Faker\Provider\Base;
