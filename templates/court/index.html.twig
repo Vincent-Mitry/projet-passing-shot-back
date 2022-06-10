@@ -6,7 +6,7 @@
 <div class="container-fluid">
         <div class="card shadow">
             <div class="card-header py-3">
-                <p class="text-danger m-0 fw-bold text-center">Informations des utilisateurs</p>
+                <p class="text-danger m-0 fw-bold text-center">Informations des terrains</p>
             </div>
             <div class="card-body">
                 <div class="row">
@@ -29,39 +29,38 @@
                     <tr>
                         <th>#</th>
                         <th>Photo</th>
-                        <th>Prénom</th>
                         <th>Nom</th>
-                        <th>Adresse mail</th>
-                        <th>Age</th>
-                        <th>Genre</th>
-                        <th>Level</th>
-                        <th>Téléphone</th>
-                        <th>Mot de passe</th>
-                        <th>Rôle</th>
+                        <th>Club</th>
+                        <th>Surface</th>
+                        <th>Éclairé</th>
+                        <th>Type</th>
+                        <th>Heure d'ouverture</th>
+                        <th>Heure de fermeture</th>
+                        <th>Carte</th>
+                        <th>Note</th>
+                        <th>Date de rénovation</th>
                         <th>Date de création</th>
                         <th>Date de modification</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                {% for user in users %}
+                {% for court in courts %}
                         <tr>
-                            <td>{{ user.id }}</td>
-                            <td><img class="rounded-circle me-2" width="30" height="30" src="{{ user.picture }}"></td></td>
-                            <td>{{ user.firstname }}</td>
-                            <td>{{ user.lastname }}</td>
-                            <td>{{ user.email }}</td>
-                            <td>{{ user.birthdate|date('d-m-Y')}}</td>
-                            <td>{{ user.gender }}</td>
-                            <td>{{ user.level }}</td>
-                            <td>{{ user.phone }}</td>
-                            <td>{{ user.password }}</td>
-                            <td> 
-                            {% for role in user.roles %}
-                            {{ role }}
-                            {% endfor %}</td>
-                            <td>{{ user.createdAt|date('d-m-Y')}}</td>
-                            <td>{{ user.updatedAt|date('d-m-Y')}}</td>
+                            <td>{{ court.id }}</td>
+                            <td><img class="rounded-circle me-2" width="30" height="30" src="{{ court.picture }}"></td></td>
+                            <td>{{ court.name }}</td>
+                            <td>{{ court.club.name }}</td>
+                            <td>{{ court.surface }}</td>
+                            <td>{{ court.lightning }}</td>
+                            <td>{{ court.type}}</td>
+                            <td>{{ court.startTime|date('H:i') }}</td>
+                            <td>{{ court.endTime|date('H:i') }}</td>
+                            <td>{{ court.detailledMap }}</td>
+                            <td>{{ court.ratingAvg }}</td>
+                            <td>{{ court.renovatedAt|date('d-m-Y') }}</td>
+                            <td>{{ court.createdAt|date('d-m-Y')}}</td>
+                            <td>{{ court.updatedAt|date('d-m-Y')}}</td>
                             <td>
                                 <a href="#" class="btn btn-sm btn-primary"><i class="bi bi-search"></i></a>
                                 <a href="#" class="btn btn-sm btn-success"><i class="bi bi-pencil-square"></i></a>

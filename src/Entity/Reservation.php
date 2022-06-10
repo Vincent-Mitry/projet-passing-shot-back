@@ -28,12 +28,12 @@ class Reservation
     private $endDatetime;
 
     /**
-     * @ORM\Column(type="smallint")
+     * @ORM\Column(type="smallint", options={"default" : 1})
      */
     private $status;
 
     /**
-     * @ORM\Column(type="string", length=15, nullable=true)
+     * @ORM\Column(type="string", length=19, nullable=true)
      */
     private $score;
 
