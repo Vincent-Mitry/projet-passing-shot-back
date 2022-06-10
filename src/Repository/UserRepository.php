@@ -44,18 +44,14 @@ class UserRepository extends ServiceEntityRepository
     */
     public function findLastThree()
     {
-        // L'EM est nécessaire pour créer une requête
         $entityManager = $this->getEntityManager();
 
-        // On crée une erquête depuis l'EM
-        // En Doctrine Query Language (DQL)
         $query = $entityManager->createQuery(
             'SELECT u
             FROM App\Entity\User u
             ORDER BY u.id DESC'
         )->setMaxResults(3);
 
-        // returns an array of Reservation objects
         return $query->getResult();
     }
 

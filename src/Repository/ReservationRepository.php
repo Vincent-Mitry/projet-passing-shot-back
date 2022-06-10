@@ -44,18 +44,14 @@ class ReservationRepository extends ServiceEntityRepository
     */
     public function findLastThree()
     {
-        // L'EM est nécessaire pour créer une requête
         $entityManager = $this->getEntityManager();
 
-        // On crée une erquête depuis l'EM
-        // En Doctrine Query Language (DQL)
         $query = $entityManager->createQuery(
             'SELECT r
             FROM App\Entity\Reservation r
             ORDER BY r.id DESC'
         )->setMaxResults(3);
 
-        // returns an array of Reservation objects
         return $query->getResult();
     }
 
