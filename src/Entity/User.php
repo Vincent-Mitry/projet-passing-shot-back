@@ -13,6 +13,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -30,12 +31,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="string", length=64)
      * @Assert\NotBlank
+     * 
+     * @Groups({"reservations_get_item"})
      */
     private $lastname;
 
     /**
      * @ORM\Column(type="string", length=64)
      * @Assert\NotBlank
+     * 
+     * @Groups({"reservations_get_item"})
      */
     private $firstname;
 
@@ -43,6 +48,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="string", length=180)
      * @Assert\NotBlank
      * @Assert\Email
+     * 
+     * @Groups({"reservations_get_item"})
      */
     private $email;
 

@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=CourtRepository::class)
@@ -27,6 +28,8 @@ class Court
     /**
      * @ORM\Column(type="string", length=64)
      * @Assert\NotBlank
+     * 
+     * @Groups({"reservations_get_item"})
      */
     private $name;
 
