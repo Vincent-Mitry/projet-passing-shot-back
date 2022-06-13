@@ -3,6 +3,7 @@
 namespace App\Controller\Api;
 
 use App\Entity\Reservation;
+use App\Repository\CourtRepository;
 use App\Repository\ReservationRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
@@ -149,10 +150,46 @@ class ReservationController extends AbstractController
      * 
      * @return JsonResponse JSON data
      */
-    public function availableCourtsCollection($date, ReservationRepository $reservationRepository): Response
+    public function availableCourtsCollection($date, ReservationRepository $reservationRepository, CourtRepository $courtRepository): Response
     {
-        $reservationsByDate = $reservationRepository->getAllReservationsByDate($date);
+        
+        // dd($reservationsByDate);
 
-        return $this->json($reservationsByDate, Response::HTTP_OK, []);
+        $courtList = $courtRepository->findAll();
+
+       
+        // dd($timeSlotsByCourt);
+        
+        foreach ($courtList as $court) {
+
+            $startHour = date_format($court->getStartTime(),'H');
+            $endHour = date_format($court->getEndTime(),'H');
+
+            $availabletimeSlots = [];
+            
+            for ($i = $startHour; $i < $endHour; $i++) {
+                $availabletimeSlots[] = $i;
+            }
+
+            $reservationList = $reservationRepository->getAllReservationsByDateAndCourt($date, $court);
+            
+            foreach ($reservationList as $reservation) {
+                $reservationStartHour = date_format($reservation->getStartDatetime(), 'H');
+                $reservationEndHour = date_format($reservation->getEndDatetime(), 'H');
+
+                if (($key = array_search($reservationStartHour, $availabletimeSlots)) !== false){
+                    unset($availabletimeSlots[$key]);
+                }
+            }
+
+            dd($availabletimeSlots);
+
+            // Comparer les réservations eu terrain avec les horaires d'ouverture du terrain
+
+        }
+
+        // dd($availabletimeSlots);
+
+        return $this->json([], Response::HTTP_OK, []);
     }
 }
