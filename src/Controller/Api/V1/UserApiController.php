@@ -10,10 +10,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Validator\ConstraintViolation;
 
 /**
  * User class 
@@ -117,7 +118,7 @@ class UserApiController extends AbstractController
         $data = $request->getContent();
 
         //
-        $contentToUpdate = $serializer->deserialize($data, User::class, 'json', ["user" => $user->getId()]);
+        $contentToUpdate = $serializer->deserialize($data, User::class, 'json', [AbstractNormalizer::OBJECT_TO_POPULATE => $user]);
 
         $errors = $validator->validate($contentToUpdate, null, ['groups' => 'user_update']);
 
