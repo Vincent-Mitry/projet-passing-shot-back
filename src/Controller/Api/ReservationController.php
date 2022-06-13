@@ -3,7 +3,6 @@
 namespace App\Controller\Api;
 
 use App\Entity\Reservation;
-use App\Repository\ReservationRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -82,8 +81,7 @@ class ReservationController extends AbstractController
         Request $request,
         SerializerInterface $serializer,
         ManagerRegistry $doctrine,
-        ValidatorInterface $validator,
-        ReservationRepository $reservationRepository
+        ValidatorInterface $validator
     ): Response
     {
         if ($reservation === null) {
@@ -91,8 +89,6 @@ class ReservationController extends AbstractController
                 'Réservation non trouvée'
             );
         }
-
-        $reservation = $reservationRepository->findOneById($reservation->getId());
 
         $jsonContent = $request->getContent();
 
@@ -124,5 +120,26 @@ class ReservationController extends AbstractController
         $em->flush();
 
         return $this->json(['reservation' => $reservationNew], Response::HTTP_OK);
+    }
+
+    /**
+     * @Route("/reservations/{id}", name="reservations_delete", methods={"DELETE"})
+     */
+    public function reservationsDeleteItem(
+        Reservation $reservation = null,
+        ManagerRegistry $doctrine
+    ): Response
+    {
+        if ($reservation === null) {
+            throw $this->createNotFoundException(
+                'Réservation non trouvée'
+            );
+        }
+
+        $em = $doctrine->getManager();
+        $em->remove($reservation);
+        $em->flush();
+
+        return $this->json(null, Response::HTTP_NO_CONTENT);
     }
 }
