@@ -3,6 +3,7 @@
 namespace App\Controller\Api;
 
 use App\Entity\Reservation;
+use App\Repository\ReservationRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -141,5 +142,17 @@ class ReservationController extends AbstractController
         $em->flush();
 
         return $this->json(null, Response::HTTP_NO_CONTENT);
+    }
+
+    /**
+     * @Route("/reservations/available-courts/{date}", name="available_courts_collection", methods={"GET"})
+     * 
+     * @return JsonResponse JSON data
+     */
+    public function availableCourtsCollection($date, ReservationRepository $reservationRepository): Response
+    {
+        $reservationsByDate = $reservationRepository->getAllReservationsByDate($date);
+
+        return $this->json($reservationsByDate, Response::HTTP_OK, []);
     }
 }

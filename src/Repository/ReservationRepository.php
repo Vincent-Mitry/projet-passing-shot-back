@@ -39,6 +39,16 @@ class ReservationRepository extends ServiceEntityRepository
         }
     }
 
+    public function getAllReservationsByDate($date)
+    {
+        return $this->createQueryBuilder('r')
+            ->where('CAST(r.startDatetime as DATE) = :date')
+            ->setParameter('date', $date)
+            ->getQuery()            
+            ->getResult()
+        ;
+    }
+
 //    /**
 //     * @return Reservation[] Returns an array of Reservation objects
 //     */
