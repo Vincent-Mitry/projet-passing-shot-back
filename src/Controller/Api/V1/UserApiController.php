@@ -104,7 +104,7 @@ class UserApiController extends AbstractController
 
 
     /**
-     * @Route ("/user/{id}", name="user_update", methods={"PUT"}, requirements={"id"="\d+"})
+     * @Route ("/user/{id}/edit", name="user_update", methods={"PUT"}, requirements={"id"="\d+"})
      * @return JsonResponse Json data
      */
     public function userUpdate(UserRepository $userRepository, Request $request, SerializerInterface $serializer, ManagerRegistry $doctrine, ValidatorInterface $validator, User $user) {
@@ -113,17 +113,13 @@ class UserApiController extends AbstractController
         if ($userRepository === null) {
             return $this->json(['error' => 'Membre introuvable'], Response::HTTP_NOT_FOUND);
         }
-
+        //we collect all data from the id in Json format
         $data = $request->getContent();
 
-        
+        //
+        $contentToUpdate = $serializer->deserialize($data, User::class, 'json', ["user" => $user->getId()]);
 
-        $contentToUpdate = $this->$serializer->deserialize($data, User::class, 'json', ["user" => $user]);
-
-        dd($contentToUpdate);
-
-
-        $errors = $validator->validate($contentToUpdate);
+        $errors = $validator->validate($contentToUpdate, null, ['groups' => 'user_update']);
 
         //This will gather any error encountered and place in a array
         if (count($errors) > 0) {

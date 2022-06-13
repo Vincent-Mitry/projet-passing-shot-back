@@ -33,14 +33,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="string", length=64)
      * @Assert\NotBlank
-     * @Groups ({"user_list", "user_detail"})
+     * @Groups ({"user_list", "user_detail", "user_update"})
      */
     private $lastname;
 
     /**
      * @ORM\Column(type="string", length=64)
      * @Assert\NotBlank
-     * @Groups ({"user_list", "user_detail"})
+     * @Groups ({"user_list", "user_detail", "user_update"})
      */
     private $firstname;
 
@@ -48,14 +48,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="string", length=180)
      * @Assert\NotBlank
      * @Assert\Email
-     * @Groups ({"user_list", "user_detail"})
+     * @Groups ({"user_list", "user_detail", "user_update"})
      */
     private $email;
 
     /**
      * @ORM\Column(type="smallint")
      * @Assert\NotBlank
-     * @Groups ({"user_list", "user_detail"})
+     * @Groups ({"user_list", "user_detail", "user_update"})
      */
     private $gender;
 
@@ -63,7 +63,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="smallint")
      * @Assert\NotBlank
      * @Assert\Choice(choices = {1, 2, 3})
-     * @Groups ({"user_list", "user_detail"})
+     * @Groups ({"user_list", "user_detail", "user_update"})
      */
     private $level;
 
@@ -74,46 +74,46 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      *      min = 10,
      *      max = 10,
      * )
-     * @Groups ({"user_list", "user_detail"})
+     * @Groups ({"user_list", "user_detail", "user_update"})
      */
     private $phone;
 
     /**
      * @ORM\Column(type="string", length=100)
      * @Assert\NotBlank
-     * @Groups ({"user_list", "user_detail"})
+     * @Groups ({"user_list", "user_detail", "user_update"})
      */
     private $password;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups ({"user_list", "user_detail"})
+     * @Groups ({"user_list", "user_detail", "user_update"})
      */
     private $picture;
 
     /**
      * @ORM\Column(type="json")
      * @Assert\Choice({"ROLE_MEMBER", "ROLE_ADMIN", "ROLE_SUPER_ADMIN"}, multiple=true)
-     * @Groups ({"user_list", "user_detail"})
+     * @Groups ({"user_list", "user_detail", "user_update"})
      */
     private $roles = [];
 
     /**
      * @ORM\Column(type="datetime_immutable")
-     * @Groups ({"user_list", "user_detail"})
+     * @Groups ({"user_list", "user_detail", "user_update"})
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime_immutable", nullable=true)
-     * @Groups ({"user_list", "user_detail"})
+     * @Groups ({"user_list", "user_detail", "user_update"})
      */
     private $updatedAt;
 
     /**
      * @ORM\Column(type="datetime_immutable")
      * @Assert\NotBlank
-     * @Groups ({"user_list", "user_detail"})
+     * @Groups ({"user_list", "user_detail", "user_update"})
      */
     private $birthdate;
 
