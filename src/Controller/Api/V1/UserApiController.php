@@ -1,9 +1,11 @@
 <?php
+
 namespace App\Controller\Api\V1;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use phpDocumentor\Reflection\Types\Null_;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -28,7 +30,7 @@ class UserApiController extends AbstractController
         $usersList = $userRepository->findAll();
 
         //expecting a json format response grouping "User_List" collection tag
-        return $this->json($usersList, Response::HTTP_OK, [], ['groups' => 'user_list'], );
+        return $this->json($usersList, Response::HTTP_OK, [], ['groups' => 'user_list'],);
     }
 
     /**
@@ -46,8 +48,8 @@ class UserApiController extends AbstractController
     }
 
     /**
-    * @Route("/user", name="user_post", methods={"POST"})
-    */
+     * @Route("/user", name="user_post", methods={"POST"})
+     */
     public function userPost(
         Request $request,
         SerializerInterface $serializer,
@@ -56,8 +58,8 @@ class UserApiController extends AbstractController
     ) {
         // Gathering Json content from $request
         $jsonContent = $request->getContent();
-        
-        
+
+
         // We deserialize Json content in $user variable
         $user = $serializer->deserialize($jsonContent, User::class, 'json');
 
@@ -80,14 +82,14 @@ class UserApiController extends AbstractController
             return $this->json($cleanErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        
+
 
         // we save it in DB
         $em = $doctrine->getManager();
         $em->persist($user);
         $em->flush();
 
-        
+
 
         return $this->json(
             //ID of created User
@@ -99,28 +101,31 @@ class UserApiController extends AbstractController
             ]
         );
     }
-    
-    
+
+
     /**
      * @Route ("/user/{id}", name="user_update", methods={"PUT"}, requirements={"id"="\d+"})
      * @return JsonResponse Json data
      */
-    public function userUpdate(User $user, Request $request, SerializerInterface $serializer,
-    ManagerRegistry $doctrine,
-    ValidatorInterface $validator) {
+    public function userUpdate(UserRepository $userRepository, Request $request, SerializerInterface $serializer, ManagerRegistry $doctrine, ValidatorInterface $validator, User $user) {
 
         // creating 404 responses
-        if ($user === null) {
+        if ($userRepository === null) {
             return $this->json(['error' => 'Membre introuvable'], Response::HTTP_NOT_FOUND);
         }
 
-            $data = $request->getContent();
+        $data = $request->getContent();
 
-           $this->$serializer->deserialize($data, User::class, 'json', ['' => $user]);
+        
 
-            $errors = $validator->validate($user);
+        $contentToUpdate = $this->$serializer->deserialize($data, User::class, 'json', ["user" => $user]);
 
-            //This will gather any error encountered and place in a array
+        dd($contentToUpdate);
+
+
+        $errors = $validator->validate($contentToUpdate);
+
+        //This will gather any error encountered and place in a array
         if (count($errors) > 0) {
             $cleanErrors = [];
 
@@ -128,17 +133,16 @@ class UserApiController extends AbstractController
             foreach ($errors as $error) {
                 $property = $error->getPropertyPath(); // 'title'
                 $message = $error->getMessage(); // 'This value is already used.'
-
                 $cleanErrors[$property][] = $message;
             }
 
             return $this->json($cleanErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
         }
-         // we save it in DB
-         $em = $doctrine->getManager();
-         $em->persist($user);
-         $em->flush();
+        // we save it in DB
+        $em = $doctrine->getManager();
+        $em->persist($contentToUpdate);
+        $em->flush();
 
-         return $this->json(Response::HTTP_OK);
+        return $this->json(Response::HTTP_OK);
     }
 }
