@@ -55,7 +55,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="smallint")
-     * @Assert\NotBlank
+     * @Assert\Count(min=1, minMessage="Vous devez sélectionner au moins un niveau.")
      * @Assert\Choice(choices = {1, 2, 3})
      */
     private $level;
@@ -83,6 +83,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="json")
+     * @Assert\Count(min=1, minMessage="Vous devez sélectionner au moins un rôle.")
      * @Assert\Choice({"ROLE_MEMBER", "ROLE_ADMIN", "ROLE_SUPER_ADMIN"}, multiple=true)
      */
     private $roles = [];

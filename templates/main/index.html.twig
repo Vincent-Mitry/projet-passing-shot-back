@@ -27,10 +27,8 @@
                                 <td>{{ reservation.createdAt|date('d-m-Y')}}</td>
                                 <td>{{ reservation.court.id }}</td>
                                 <td>{{ reservation.startDateTime|date('d-m-Y-H:i') }}</td>
-                                <td class="text-end">
-                                <a href="#" class="btn btn-sm btn-primary"><i class="bi bi-search"></i></a>
-                                    <a href="#" class="btn btn-sm btn-success"><i class="bi bi-pencil-square"></i></a>
-                                    <a href="#" class="btn btn-sm btn-danger"><i class="bi bi-trash"></i></a>
+                                <td>
+                                <a href="{{ path('app_reservation_show', {'id': reservation.id})}}" class="btn btn-sm btn-primary"><i class="bi bi-search"></i></a>
                                 </td>
                             </tr>
                         {% endfor %}
@@ -68,10 +66,8 @@
                                 <td>{{ court.ratingAvg}}</td>
                                 <td>{{ court.lightning}}</td>
                                 <td>{{ court.type}}</td>
-                                <td class="text-end">
-                                <a href="#" class="btn btn-sm btn-primary"><i class="bi bi-search"></i></a>
-                                    <a href="#" class="btn btn-sm btn-success"><i class="bi bi-pencil-square"></i></a>
-                                    <a href="#" class="btn btn-sm btn-danger"><i class="bi bi-trash"></i></a>
+                                <td>
+                                <a href="{{ path('app_court_show', {'id': court.id})}}" class="btn btn-sm btn-primary"><i class="bi bi-search"></i></a>
                                 </td>
                             </tr>
                         {% endfor %}
@@ -96,7 +92,7 @@
                                 <th scope="col">#</th>
                                 <th scope="col">Prénom</th>
                                 <th scope="col">Nom</th>
-                                <th scope="col">Âge</th>
+                                <th scope="col">Date de naissance</th>
                                 <th scope="col"></th>
                             </tr>
                         </thead>
@@ -107,10 +103,8 @@
                                 <td>{{ user.firstname}}</td>
                                 <td>{{ user.lastname }}</td>
                                 <td>{{ user.birthdate|date('d-m-Y')}}</td>
-                                <td class="text-end">
-                                <a href="#" class="btn btn-sm btn-primary"><i class="bi bi-search"></i></a>
-                                    <a href="#" class="btn btn-sm btn-success"><i class="bi bi-pencil-square"></i></a>
-                                    <a href="#" class="btn btn-sm btn-danger"><i class="bi bi-trash"></i></a>
+                                <td>
+                                <a href="{{ path('app_user_show', {'id': user.id})}}" class="btn btn-sm btn-primary"><i class="bi bi-search"></i></a>
                                 </td>
                             </tr>
                         {% endfor %}
@@ -141,11 +135,9 @@
                             <tr>
                                 <th scope="row">{{ club.id }}</th>
                                 <td>{{ club.name }}</td>
-                                <th>{{ club.user.firstname}} {{ club.user.lastname}}</th>
-                                <td class="text-end">
-                                <a href="#" class="btn btn-sm btn-primary"><i class="bi bi-search"></i></a>
-                                    <a href="#" class="btn btn-sm btn-success"><i class="bi bi-pencil-square"></i></a>
-                                    <a href="#" class="btn btn-sm btn-danger"><i class="bi bi-trash"></i></a>
+                                <td>{{ club.user.firstname}} {{ club.user.lastname}}</td>
+                                <td>
+                                <a href="{{ path('app_club_show', {'id': club.id})}}" class="btn btn-sm btn-primary"><i class="bi bi-search"></i></a>
                                 </td>
                             </tr>
                         {% endfor %}

@@ -1,11 +1,23 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New User{% endblock %}
+{% block title %}Modification de l'utilisateur{% endblock %}
 
 {% block body %}
-    <h1>Create new User</h1>
+<div class="container-fluid">
+    <div class=" d-flex justify-content-center">
+        <a href="{{ path('app_user') }}" class="btn btn-warning m-3">Retour</a>
+    </div>
+        <div class="card shadow">
+            <div class="card-header py-3">
+                <p class="text-danger m-0 fw-bold text-center">Création d'un utilisateur</p>
+            </div>
+            <div class="card-body">
+        <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
+            <table class="table table-striped table-hover my-0" id="dataTable ">
+                <tbody>
+                    {{ include('user/_form.html.twig', {'button_label': 'Enregistrer'}) }}
+                </tbody>
+            </table>
+        </div>
 
-    {{ include('user/_form.html.twig') }}
-
-    <a href="{{ path('app_user_index') }}">back to list</a>
 {% endblock %}
