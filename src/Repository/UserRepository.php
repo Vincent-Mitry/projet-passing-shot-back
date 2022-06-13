@@ -39,6 +39,22 @@ class UserRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+    * Find last three users for home
+    */
+    public function findLastThree()
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT u
+            FROM App\Entity\User u
+            ORDER BY u.id DESC'
+        )->setMaxResults(3);
+
+        return $query->getResult();
+    }
+
 //    /**
 //     * @return User[] Returns an array of User objects
 //     */
