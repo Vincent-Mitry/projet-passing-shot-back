@@ -46,6 +46,7 @@ class ReservationController extends AbstractController
         /** @var Reservation */
         $reservation = $serializer->deserialize($jsonContent, Reservation::class, 'json');
 
+        // Get error messages from constraints
         $errors = $validator->validate($reservation);
 
         if (count($errors) > 0) { 
@@ -67,7 +68,7 @@ class ReservationController extends AbstractController
         $em->persist($reservation);
         $em->flush();
 
-        $location = $this->generateUrl('api_v1_movies_get_item', ['id' => $reservation->getId()]);
+        $location = $this->generateUrl('api_v1_reservations_get_item', ['id' => $reservation->getId()]);
 
         return $this->json(['movie' => $reservation], Response::HTTP_CREATED, ['Location' => $location], ['groups' => 'reservations_get_item']);
     }

@@ -26,7 +26,7 @@ class Reservation
 
     /**
      * @ORM\Column(type="datetime_immutable")
-     * 
+     * @Assert\Type("\DateTimeInterface")
      * @Assert\NotBlank
      * 
      * @Groups({"reservations_get_item"})
@@ -35,7 +35,7 @@ class Reservation
 
     /**
      * @ORM\Column(type="datetime_immutable")
-     * 
+     * @Assert\Type("\DateTimeInterface")
      * @Assert\NotBlank
      * 
      * @Groups({"reservations_get_item"})
@@ -77,7 +77,7 @@ class Reservation
 
     /**
      * @ORM\Column(type="datetime_immutable")
-     * @Assert\DateTime
+     * @Assert\Type("\DateTimeInterface")
      */
     private $createdAt;
 
