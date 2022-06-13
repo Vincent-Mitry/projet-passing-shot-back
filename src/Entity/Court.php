@@ -2,13 +2,14 @@
 
 namespace App\Entity;
 
-use App\Repository\CourtRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\CourtRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\Ignore;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=CourtRepository::class)
@@ -106,12 +107,14 @@ class Court
 
     /**
      * @ORM\OneToMany(targetEntity=Reservation::class, mappedBy="court")
+     * @Ignore()
      */
     private $reservations;
 
     /**
      * @ORM\ManyToOne(targetEntity=Club::class, inversedBy="courts")
      * @ORM\JoinColumn(nullable=false)
+     * @Ignore()
      */
     private $club;
 

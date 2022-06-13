@@ -21,6 +21,7 @@ class Reservation
      * @ORM\Column(type="integer")
      * 
      * @Groups({"reservations_get_item"})
+     * @Groups({"reservations_put_item"})
      */
     private $id;
 
@@ -30,6 +31,7 @@ class Reservation
      * @Assert\NotBlank
      * 
      * @Groups({"reservations_get_item"})
+     * @Groups({"reservations_put_item"})
      */
     private $startDatetime;
 
@@ -39,6 +41,7 @@ class Reservation
      * @Assert\NotBlank
      * 
      * @Groups({"reservations_get_item"})
+     * @Groups({"reservations_put_item"})
      */
     private $endDatetime;
 
@@ -47,6 +50,7 @@ class Reservation
      * @Assert\NotBlank
      * 
      * @Groups({"reservations_get_item"})
+     * @Groups({"reservations_put_item"})
      */
     private $status;
 
@@ -54,6 +58,7 @@ class Reservation
      * @ORM\Column(type="string", length=19, nullable=true)
      * 
      * @Groups({"reservations_get_item"})
+     * @Groups({"reservations_put_item"})
      */
     private $score;
 
@@ -63,6 +68,7 @@ class Reservation
      * @Assert\GreaterThan(0)
      * 
      * @Groups({"reservations_get_item"})
+     * @Groups({"reservations_put_item"})
      */
     private $courtRating;
 
@@ -72,18 +78,21 @@ class Reservation
      * @Assert\Choice(choices = {2, 3, 4})
      * 
      * @Groups({"reservations_get_item"})
+     * @Groups({"reservations_put_item"})
      */
     private $countPlayers;
 
     /**
      * @ORM\Column(type="datetime_immutable")
      * @Assert\Type("\DateTimeInterface")
+     * @Groups({"reservations_put_item"})
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime_immutable", nullable=true)
-     * @Assert\DateTime
+     * @Assert\Type("\DateTimeInterface")
+     * @Groups({"reservations_put_item"})
      */
     private $updatedAt;
 
