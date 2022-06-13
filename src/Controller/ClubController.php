@@ -14,7 +14,7 @@ class ClubController extends AbstractController
      */
     public function list(ClubRepository $clubRepository): Response
     {
-        return $this->render('club/index.html.twig', [
+        return $this->render('club1/index.html.twig', [
             'clubs' => $clubRepository->findAll(),
         ]);
     }
