@@ -13,6 +13,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 
 /**
@@ -25,18 +26,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups ({"user_list", "user_detail"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=64)
      * @Assert\NotBlank
+     * @Groups ({"user_list", "user_detail"})
      */
     private $lastname;
 
     /**
      * @ORM\Column(type="string", length=64)
      * @Assert\NotBlank
+     * @Groups ({"user_list", "user_detail"})
      */
     private $firstname;
 
@@ -44,13 +48,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="string", length=180)
      * @Assert\NotBlank
      * @Assert\Email
+     * @Groups ({"user_list", "user_detail"})
      */
     private $email;
 
     /**
      * @ORM\Column(type="smallint")
      * @Assert\NotBlank
-     * @Assert\Choice(choices = {1, 2, 3})
+     * @Groups ({"user_list", "user_detail"})
      */
     private $gender;
 
@@ -58,6 +63,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="smallint")
      * @Assert\NotBlank
      * @Assert\Choice(choices = {1, 2, 3})
+     * @Groups ({"user_list", "user_detail"})
      */
     private $level;
 
@@ -68,42 +74,46 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      *      min = 10,
      *      max = 10,
      * )
+     * @Groups ({"user_list", "user_detail"})
      */
     private $phone;
 
     /**
      * @ORM\Column(type="string", length=100)
      * @Assert\NotBlank
+     * @Groups ({"user_list", "user_detail"})
      */
     private $password;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups ({"user_list", "user_detail"})
      */
     private $picture;
 
     /**
      * @ORM\Column(type="json")
      * @Assert\Choice({"ROLE_MEMBER", "ROLE_ADMIN", "ROLE_SUPER_ADMIN"}, multiple=true)
+     * @Groups ({"user_list", "user_detail"})
      */
     private $roles = [];
 
     /**
      * @ORM\Column(type="datetime_immutable")
-     * @Assert\DateTime
+     * @Groups ({"user_list", "user_detail"})
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime_immutable", nullable=true)
-     * @Assert\DateTime
+     * @Groups ({"user_list", "user_detail"})
      */
     private $updatedAt;
 
     /**
      * @ORM\Column(type="datetime_immutable")
-     * @Assert\DateTime
      * @Assert\NotBlank
+     * @Groups ({"user_list", "user_detail"})
      */
     private $birthdate;
 
