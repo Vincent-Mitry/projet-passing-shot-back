@@ -136,7 +136,6 @@ class UserApiController extends AbstractController
         }
         // we save it in DB
         $em = $doctrine->getManager();
-        $em->persist($contentToUpdate);
         $em->flush();
 
         return $this->json(Response::HTTP_OK);
