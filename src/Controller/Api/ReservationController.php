@@ -151,14 +151,10 @@ class ReservationController extends AbstractController
      * 
      * @return JsonResponse JSON data
      */
-    public function availableCourtsCollection($date, AvailableTimeslots $availableTimeslots, CourtRepository $courtRepository): Response
+    public function availableCourtsCollection($date, AvailableTimeslots $availableTimeslots): Response
     {
-        $court = $courtRepository->findOneById(8);
-
-        $courtTimeslots = $availableTimeslots->setAvailableTimeslots($court, $date);
-
-        dd($courtTimeslots);
+        $availableTimeslotsByCourt = $availableTimeslots->getAllAvailableTimeslots($date);
         
-        return $this->json([], Response::HTTP_OK, []);
+        return $this->json([$availableTimeslotsByCourt], Response::HTTP_OK, []);
     }
 }
