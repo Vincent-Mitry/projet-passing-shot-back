@@ -9,12 +9,12 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
-
+use Symfony\Component\Serializer\Annotation\Ignore;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -33,13 +33,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="string", length=64)
      * @Assert\NotBlank
+     * @Groups({"reservations_get_item"})
      * @Groups ({"user_list", "user_detail", "user_update"})
      */
     private $lastname;
 
     /**
      * @ORM\Column(type="string", length=64)
-     * @Assert\NotBlank
+     * @Assert\NotBlank 
+     * @Groups({"reservations_get_item"})
      * @Groups ({"user_list", "user_detail", "user_update"})
      */
     private $firstname;
@@ -48,6 +50,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="string", length=180)
      * @Assert\NotBlank
      * @Assert\Email
+     * @Groups({"reservations_get_item"})
      * @Groups ({"user_list", "user_detail", "user_update"})
      */
     private $email;
@@ -122,6 +125,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\OneToMany(targetEntity=Reservation::class, mappedBy="user")
+     * @Ignore()
      */
     private $reservations;
 
