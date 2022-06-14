@@ -23,7 +23,7 @@ class AvailableTimeslots
      * Inserts available time-slots for each court on a given date
      *
      * @param string $date Date format (yyyy-mm-dd)
-     * @return array Array (the index represents the court's id) containing all courts' available time-slots
+     * @return array Array (the index represents the court's id) containing available time-slots for all courts
      */
     public function getAllAvailableTimeslots($date) : array
     {
