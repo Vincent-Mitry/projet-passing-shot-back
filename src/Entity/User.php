@@ -13,6 +13,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
+
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -24,18 +26,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups ({"user_list", "user_detail"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=64)
      * @Assert\NotBlank
+     * @Groups ({"user_list", "user_detail", "user_update"})
      */
     private $lastname;
 
     /**
      * @ORM\Column(type="string", length=64)
      * @Assert\NotBlank
+     * @Groups ({"user_list", "user_detail", "user_update"})
      */
     private $firstname;
 
@@ -43,13 +48,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="string", length=180)
      * @Assert\NotBlank
      * @Assert\Email
+     * @Groups ({"user_list", "user_detail", "user_update"})
      */
     private $email;
 
     /**
      * @ORM\Column(type="smallint")
      * @Assert\NotBlank
-     * @Assert\Choice(choices = {1, 2, 3})
+     * @Groups ({"user_list", "user_detail", "user_update"})
      */
     private $gender;
 
@@ -57,6 +63,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="smallint")
      * @Assert\NotBlank
      * @Assert\Choice(choices = {1, 2, 3})
+     * @Groups ({"user_list", "user_detail", "user_update"})
      */
     private $level;
 
@@ -67,42 +74,46 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      *      min = 10,
      *      max = 10,
      * )
+     * @Groups ({"user_list", "user_detail", "user_update"})
      */
     private $phone;
 
     /**
      * @ORM\Column(type="string", length=100)
      * @Assert\NotBlank
+     * @Groups ({"user_list", "user_detail", "user_update"})
      */
     private $password;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups ({"user_list", "user_detail", "user_update"})
      */
     private $picture;
 
     /**
      * @ORM\Column(type="json")
      * @Assert\Choice({"ROLE_MEMBER", "ROLE_ADMIN", "ROLE_SUPER_ADMIN"}, multiple=true)
+     * @Groups ({"user_list", "user_detail", "user_update"})
      */
     private $roles = [];
 
     /**
      * @ORM\Column(type="datetime_immutable")
-     * @Assert\DateTime
+     * @Groups ({"user_list", "user_detail", "user_update"})
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime_immutable", nullable=true)
-     * @Assert\DateTime
+     * @Groups ({"user_list", "user_detail", "user_update"})
      */
     private $updatedAt;
 
     /**
      * @ORM\Column(type="datetime_immutable")
-     * @Assert\DateTime
      * @Assert\NotBlank
+     * @Groups ({"user_list", "user_detail", "user_update"})
      */
     private $birthdate;
 
@@ -398,4 +409,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
     }
+
+    //     public function __toString()
+    // {
+    //     return $this->id;
+    // }
 }
