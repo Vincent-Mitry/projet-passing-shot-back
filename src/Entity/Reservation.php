@@ -4,9 +4,13 @@ namespace App\Entity;
 
 use App\Repository\ReservationRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=ReservationRepository::class)
+ * 
+ * @UniqueEntity(fields={"startDatetime", "court"})
  */
 class Reservation
 {
@@ -19,53 +23,66 @@ class Reservation
 
     /**
      * @ORM\Column(type="datetime_immutable")
+     * @Assert\DateTime
+     * @Assert\NotBlank
      */
     private $startDatetime;
 
     /**
      * @ORM\Column(type="datetime_immutable")
+     * @Assert\DateTime
+     * @Assert\NotBlank
      */
     private $endDatetime;
 
     /**
-     * @ORM\Column(type="smallint")
+     * @ORM\Column(type="smallint", options={"default" : 1})
+     * @Assert\NotBlank
      */
     private $status;
 
     /**
-     * @ORM\Column(type="string", length=15, nullable=true)
+     * @ORM\Column(type="string", length=19, nullable=true)
      */
     private $score;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Assert\LessThan(6)
+     * @Assert\GreaterThan(0)
      */
     private $courtRating;
 
     /**
      * @ORM\Column(type="smallint")
+     * @Assert\NotBlank
+     * @Assert\Choice(choices = {2, 3, 4})
      */
     private $countPlayers;
 
     /**
      * @ORM\Column(type="datetime_immutable")
+     * @Assert\DateTime
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime_immutable", nullable=true)
+     * @Assert\DateTime
      */
     private $updatedAt;
 
     /**
      * @ORM\ManyToOne(targetEntity=Court::class, inversedBy="reservations")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank
      */
     private $court;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="reservations")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank
      */
     private $user;
 

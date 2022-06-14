@@ -6,76 +6,114 @@ use App\Repository\CourtRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
+
 
 /**
  * @ORM\Entity(repositoryClass=CourtRepository::class)
+ * 
+ * @UniqueEntity(fields={"name"})
  */
 class Court
 {
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups ({"court_list"}) 
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=64)
+     * @Assert\NotBlank
+     * @Groups ({"court_list"}) 
      */
     private $name;
 
     /**
      * @ORM\Column(type="smallint")
+     * @Assert\NotBlank
+     * @Groups ({"court_list"}) 
      */
     private $surface;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Assert\NotBlank
+     * @Groups ({"court_list"}) 
      */
     private $lightning;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Assert\NotBlank
+     * @Groups ({"court_list"}) 
      */
     private $type;
 
     /**
      * @ORM\Column(type="time")
+     * @Assert\NotBlank
+     * @Assert\Time
+     * @Groups ({"court_list"}) 
      */
     private $startTime;
 
     /**
      * @ORM\Column(type="time")
+     * @Assert\NotBlank
+     * @Assert\Time
+     * @Groups({"court_list"}) 
      */
     private $endTime;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"court_list"}) 
      */
     private $picture;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"court_list"}) 
      */
     private $detailled_map;
 
     /**
-     * @ORM\Column(type="decimal", precision=3, scale=2, nullable=true)
+     * @ORM\Column(type="decimal", precision=2, scale=1, nullable=true)
+     * @Groups({"court_list"}) 
      */
     private $ratingAvg;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
+     * @Groups({"court_list"}) 
+     */
+    private $slug;
+
+    /**
      * @ORM\Column(type="datetime_immutable", nullable=true)
+     * @Assert\DateTime
+     * @Groups({"court_list"}) 
      */
     private $renovatedAt;
 
     /**
      * @ORM\Column(type="datetime_immutable")
+     * @Assert\DateTime
+     * @Groups({"court_list"}) 
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime_immutable", nullable=true)
+     * @Assert\DateTime
+     * @Groups({"court_list"}) 
      */
     private $updatedAt;
 
@@ -100,6 +138,7 @@ class Court
         $this->reservations = new ArrayCollection();
         $this->blockedCourts = new ArrayCollection();
     }
+
 
     public function getId(): ?int
     {
@@ -210,6 +249,18 @@ class Court
     public function setRatingAvg(?string $ratingAvg): self
     {
         $this->ratingAvg = $ratingAvg;
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }

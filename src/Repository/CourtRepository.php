@@ -39,6 +39,22 @@ class CourtRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+    * Find last three courts for home
+    */
+    public function findLastThree()
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT c
+            FROM App\Entity\Court c
+            ORDER BY c.id DESC'
+        )->setMaxResults(3);
+
+        return $query->getResult();
+    }
+
 //    /**
 //     * @return Court[] Returns an array of Court objects
 //     */

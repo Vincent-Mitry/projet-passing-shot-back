@@ -31,13 +31,16 @@
                       <a class="nav-link active" aria-current="page" href="{{ path('app_home') }}">Accueil</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Réservations</a>
+                        <a class="nav-link" href="{{ path('app_club') }}">Club</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Terrains</a>
+                        <a class="nav-link" href="{{ path('app_reservation') }}">Réservation</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_user') }}">Utilisateurs</a>
+                        <a class="nav-link" href="{{ path('app_court') }}">Terrain</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_user') }}">Utilisateur</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav flex-nowrap ms-auto">
@@ -59,5 +62,10 @@
         </nav>
         {% block body %}{% endblock %}
 
+        <footer class="bg-white sticky-footer">
+            <div class="container my-auto">
+                <div class="text-center my-auto copyright"><span>Copyright © Passing ShO't 2022</span></div>
+            </div>
+        </footer>
     </body>
 </html>
