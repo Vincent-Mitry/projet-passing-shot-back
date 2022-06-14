@@ -79,8 +79,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $phone;
 
     /**
+
+     * @var string The hashed password
      * @ORM\Column(type="string", length=100)
-     * @Assert\NotBlank
      * @Groups ({"user_list", "user_detail", "user_update"})
      */
     private $password;
@@ -100,12 +101,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="datetime_immutable")
+     * @Assert\Type("\DateTimeInterface")
      * @Groups ({"user_list", "user_detail", "user_update"})
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime_immutable", nullable=true)
+     * @Assert\Type("\DateTimeInterface")
      * @Groups ({"user_list", "user_detail", "user_update"})
      */
     private $updatedAt;
