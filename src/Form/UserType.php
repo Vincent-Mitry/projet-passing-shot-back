@@ -70,6 +70,7 @@ class UserType extends AbstractType
                 'label' => 'Téléphone :',
                 'constraints' => [
                     new NotBlank(),
+                    // Regex pour numéro de téléphone (10 chiffres)
                     new Regex("/^(?=.*[0-9]).{10,10}$/")
                 ],
                 'attr' => [
@@ -101,6 +102,7 @@ class UserType extends AbstractType
                         'label' => 'Mot de passe :',
                         'constraints' => [
                             new NotBlank(),
+                            // REgex pour le mot de passe
                             new Regex("/^(?=.*[0-9])(?=.*[a-z])(?=.*['_', '-' , '|', '%', '&', '*', '=', '@', '$']).{6,}$/")
                         ],
                         'help' => 'Au moins 6 caractères,
