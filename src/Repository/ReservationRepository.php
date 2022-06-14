@@ -39,6 +39,18 @@ class ReservationRepository extends ServiceEntityRepository
         }
     }
 
+    public function getAllReservationsByDateAndCourt($date, $court)
+    {
+        return $this->createQueryBuilder('r')
+            ->where('CAST(r.startDatetime as DATE) = :date')
+            ->andWhere('r.court = :court')
+            ->setParameter('date', $date)
+            ->setParameter('court', $court)
+            ->getQuery()            
+            ->getResult()
+        ;
+    }
+  
     /**
     * Find last three reservations for home
     */

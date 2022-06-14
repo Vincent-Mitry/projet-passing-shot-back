@@ -6,6 +6,7 @@ use App\Repository\ReservationRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=ReservationRepository::class)
@@ -18,31 +19,46 @@ class Reservation
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * 
+     * @Groups({"reservations_get_item"})
+     * @Groups({"reservations_put_item"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="datetime_immutable")
-     * @Assert\DateTime
+     * @Assert\Type("\DateTimeInterface")
      * @Assert\NotBlank
+     * 
+     * @Groups({"reservations_get_item"})
+     * @Groups({"reservations_put_item"})
      */
     private $startDatetime;
 
     /**
      * @ORM\Column(type="datetime_immutable")
-     * @Assert\DateTime
+     * @Assert\Type("\DateTimeInterface")
      * @Assert\NotBlank
+     * 
+     * @Groups({"reservations_get_item"})
+     * @Groups({"reservations_put_item"})
      */
     private $endDatetime;
 
     /**
      * @ORM\Column(type="smallint", options={"default" : 1})
      * @Assert\NotBlank
+     * 
+     * @Groups({"reservations_get_item"})
+     * @Groups({"reservations_put_item"})
      */
     private $status;
 
     /**
      * @ORM\Column(type="string", length=19, nullable=true)
+     * 
+     * @Groups({"reservations_get_item"})
+     * @Groups({"reservations_put_item"})
      */
     private $score;
 
@@ -50,6 +66,9 @@ class Reservation
      * @ORM\Column(type="integer", nullable=true)
      * @Assert\LessThan(6)
      * @Assert\GreaterThan(0)
+     * 
+     * @Groups({"reservations_get_item"})
+     * @Groups({"reservations_put_item"})
      */
     private $courtRating;
 
@@ -57,18 +76,23 @@ class Reservation
      * @ORM\Column(type="smallint")
      * @Assert\NotBlank
      * @Assert\Choice(choices = {2, 3, 4})
+     * 
+     * @Groups({"reservations_get_item"})
+     * @Groups({"reservations_put_item"})
      */
     private $countPlayers;
 
     /**
      * @ORM\Column(type="datetime_immutable")
-     * @Assert\DateTime
+     * @Assert\Type("\DateTimeInterface")
+     * @Groups({"reservations_put_item"})
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime_immutable", nullable=true)
-     * @Assert\DateTime
+     * @Assert\Type("\DateTimeInterface")
+     * @Groups({"reservations_put_item"})
      */
     private $updatedAt;
 
@@ -76,6 +100,8 @@ class Reservation
      * @ORM\ManyToOne(targetEntity=Court::class, inversedBy="reservations")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank
+     * 
+     * @Groups({"reservations_get_item"})
      */
     private $court;
 
@@ -83,6 +109,8 @@ class Reservation
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="reservations")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank
+     * 
+     * @Groups({"reservations_get_item"})
      */
     private $user;
 
