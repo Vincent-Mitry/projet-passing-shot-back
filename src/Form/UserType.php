@@ -49,9 +49,9 @@ class UserType extends AbstractType
             ->add('gender', ChoiceType::class, [
                 'label' => 'Genre :',
                 'choices' => [
-                    'Femme' => '1',
-                    'Homme' => '2',
-                    'Neutre' => '3',
+                    'Femme' => 1,
+                    'Homme' => 2,
+                    'Neutre' => 3,
                 ],
                 'multiple' => false,
                 'expanded' => true,
@@ -59,9 +59,9 @@ class UserType extends AbstractType
             ->add('level', ChoiceType::class, [
                 'label' => 'Niveau :',
                 'choices' => [
-                    'Débutant' => '1',
-                    'Intermédiaire' => '2',
-                    'Confirmé' => '3',
+                    'Débutant' => 1,
+                    'Intermédiaire' => 2,
+                    'Confirmé' => 3,
                 ],
                 'multiple' => false,
                 'expanded' => true,
@@ -78,7 +78,7 @@ class UserType extends AbstractType
                 ],
             ])
             ->add('roles', ChoiceType::class, [
-                'label' => 'Rôle :',
+                'label' => 'Rôles :',
                 'choices' => [
                     'Membre' => 'ROLE_USER',
                     'Gérant' => 'ROLE_ADMIN',
@@ -102,8 +102,8 @@ class UserType extends AbstractType
                         'label' => 'Mot de passe :',
                         'constraints' => [
                             new NotBlank(),
-                            // REgex pour le mot de passe
-                            new Regex("/^(?=.*[0-9])(?=.*[a-z])(?=.*['_', '-' , '|', '%', '&', '*', '=', '@', '$']).{6,}$/")
+                            // Regex pour le mot de passe
+                            new Regex("/^(?=.*[0-9])(?=.*[a-z])(?=.*['_' , '|', '%', '&', '*', '=', '@', '$', -]).{6,}$/")
                         ],
                         'help' => 'Au moins 6 caractères,
                             au moins une majuscule,
@@ -153,6 +153,9 @@ class UserType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => User::class,
+            'attr' => [
+                'novalidate' => 'novalidate'
+            ]
         ]);
     }
 }

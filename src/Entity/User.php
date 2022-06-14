@@ -49,13 +49,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="smallint")
      * @Assert\NotBlank
-     * @Assert\Choice(choices = {1, 2, 3})
      */
     private $gender;
 
     /**
      * @ORM\Column(type="smallint")
-     * @Assert\Count(min=1, minMessage="Vous devez sélectionner au moins un niveau.")
+     * @Assert\NotBlank
      * @Assert\Choice(choices = {1, 2, 3})
      */
     private $level;
@@ -71,8 +70,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $phone;
 
     /**
-     * @ORM\Column(type="string", length=100)
-     * @Assert\NotBlank
+     * @var string The hashed password
+     * @ORM\Column(type="string")
      */
     private $password;
 
@@ -83,26 +82,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="json")
-     * @Assert\Count(min=1, minMessage="Vous devez sélectionner au moins un rôle.")
-     * @Assert\Choice({"ROLE_MEMBER", "ROLE_ADMIN", "ROLE_SUPER_ADMIN"}, multiple=true)
+     * @Assert\Choice({"ROLE_USER", "ROLE_ADMIN", "ROLE_SUPER_ADMIN"}, multiple=true)
      */
     private $roles = [];
 
     /**
      * @ORM\Column(type="datetime_immutable")
-     * @Assert\DateTime
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime_immutable", nullable=true)
-     * @Assert\DateTime
      */
     private $updatedAt;
 
     /**
      * @ORM\Column(type="datetime_immutable")
-     * @Assert\DateTime
      * @Assert\NotBlank
      */
     private $birthdate;
