@@ -39,6 +39,21 @@ class ClubRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+    * Find last three clubs for home
+    */
+    public function findLastThree()
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT c
+            FROM App\Entity\Club c
+            ORDER BY c.id DESC'
+        )->setMaxResults(3);
+
+        return $query->getResult();
+    }
 //    /**
 //     * @return Club[] Returns an array of Club objects
 //     */
