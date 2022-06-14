@@ -21,22 +21,39 @@ class UserRepository extends ServiceEntityRepository
         parent::__construct($registry, User::class);
     }
 
-    public function add(User $entity, bool $flush = false): void
+
+    public function add(User $entity, bool $flush = true): void
     {
-        $this->getEntityManager()->persist($entity);
+        $this->_em->persist($entity);
 
         if ($flush) {
             $this->getEntityManager()->flush();
         }
     }
 
-    public function remove(User $entity, bool $flush = false): void
+    public function remove(User $entity, bool $flush = true): void
     {
         $this->getEntityManager()->remove($entity);
 
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    /**
+    * Find last three users for home
+    */
+    public function findLastThree()
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT u
+            FROM App\Entity\User u
+            ORDER BY u.id DESC'
+        )->setMaxResults(3);
+
+        return $query->getResult();
     }
 
 //    /**

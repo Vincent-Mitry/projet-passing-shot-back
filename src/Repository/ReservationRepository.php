@@ -50,6 +50,22 @@ class ReservationRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+  
+    /**
+    * Find last three reservations for home
+    */
+    public function findLastThree()
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT r
+            FROM App\Entity\Reservation r
+            ORDER BY r.id DESC'
+        )->setMaxResults(3);
+
+        return $query->getResult();
+    }
 
 //    /**
 //     * @return Reservation[] Returns an array of Reservation objects

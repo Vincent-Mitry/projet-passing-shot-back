@@ -26,22 +26,23 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups ({"user_list", "user_detail"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=64)
      * @Assert\NotBlank
-     * 
      * @Groups({"reservations_get_item"})
+     * @Groups ({"user_list", "user_detail", "user_update"})
      */
     private $lastname;
 
     /**
      * @ORM\Column(type="string", length=64)
-     * @Assert\NotBlank
-     * 
+     * @Assert\NotBlank 
      * @Groups({"reservations_get_item"})
+     * @Groups ({"user_list", "user_detail", "user_update"})
      */
     private $firstname;
 
@@ -49,15 +50,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="string", length=180)
      * @Assert\NotBlank
      * @Assert\Email
-     * 
      * @Groups({"reservations_get_item"})
+     * @Groups ({"user_list", "user_detail", "user_update"})
      */
     private $email;
 
     /**
      * @ORM\Column(type="smallint")
      * @Assert\NotBlank
-     * @Assert\Choice(choices = {1, 2, 3})
+     * @Groups ({"user_list", "user_detail", "user_update"})
      */
     private $gender;
 
@@ -65,6 +66,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="smallint")
      * @Assert\NotBlank
      * @Assert\Choice(choices = {1, 2, 3})
+     * @Groups ({"user_list", "user_detail", "user_update"})
      */
     private $level;
 
@@ -75,42 +77,49 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      *      min = 10,
      *      max = 10,
      * )
+     * @Groups ({"user_list", "user_detail", "user_update"})
      */
     private $phone;
 
     /**
+
+     * @var string The hashed password
      * @ORM\Column(type="string", length=100)
-     * @Assert\NotBlank
+     * @Groups ({"user_list", "user_detail", "user_update"})
      */
     private $password;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups ({"user_list", "user_detail", "user_update"})
      */
     private $picture;
 
     /**
      * @ORM\Column(type="json")
      * @Assert\Choice({"ROLE_MEMBER", "ROLE_ADMIN", "ROLE_SUPER_ADMIN"}, multiple=true)
+     * @Groups ({"user_list", "user_detail", "user_update"})
      */
     private $roles = [];
 
     /**
      * @ORM\Column(type="datetime_immutable")
-     * @Assert\DateTime
+     * @Assert\Type("\DateTimeInterface")
+     * @Groups ({"user_list", "user_detail", "user_update"})
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime_immutable", nullable=true)
-     * @Assert\DateTime
+     * @Assert\Type("\DateTimeInterface")
+     * @Groups ({"user_list", "user_detail", "user_update"})
      */
     private $updatedAt;
 
     /**
      * @ORM\Column(type="datetime_immutable")
-     * @Assert\DateTime
      * @Assert\NotBlank
+     * @Groups ({"user_list", "user_detail", "user_update"})
      */
     private $birthdate;
 
@@ -407,4 +416,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
     }
+
+    //     public function __toString()
+    // {
+    //     return $this->id;
+    // }
 }
