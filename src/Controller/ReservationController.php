@@ -50,12 +50,9 @@ class ReservationController extends AbstractController
     /**
      * @Route("/{id}", name="app_reservation_show", methods={"GET"})
      */
-    public function show(Reservation $reservation, ReservationRepository $reservationRepository, User $user): Response
+    public function show(Reservation $reservation): Response
     {
-        $test = $reservationRepository->upcomingReservationsByUser($user);
-
-        dd($test);
-        
+                
         return $this->render('reservation/show.html.twig', [
             'reservation' => $reservation,
         ]);

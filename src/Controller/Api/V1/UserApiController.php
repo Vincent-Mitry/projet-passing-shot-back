@@ -3,6 +3,7 @@
 namespace App\Controller\Api\V1;
 
 use App\Entity\User;
+use App\Repository\ReservationRepository;
 use App\Repository\UserRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use phpDocumentor\Reflection\Types\Null_;
@@ -38,20 +39,26 @@ class UserApiController extends AbstractController
      * @Route ("/users/{id}", name="user_detail", methods={"GET"}, requirements={"id"="\d+"})
      * @return JsonResponse Json data
      */
-    public function userDetail(User $user = null, UserRepository $userRepository): JsonResponse
+    public function userDetail(User $user = null, ReservationRepository $reservationRepository): JsonResponse
     {
         // creating 404 responses
         if ($user === null) {
             return $this->json(['error' => 'Membre introuvable'], Response::HTTP_NOT_FOUND);
         }
-
+        //will display upcoming reservations
         $userFutureRes = $reservationRepository->upcomingReservationsByUser($user);
+        //will display 5 last reservations
+        $userLastRes = $reservationRepository->fiveLastReservationByUser($user);
 
-        //expecting a json format response grouping "User_detail" collection tag
+        //expecting a json format response grouping "User_detail" and User_see_reservations collection tag
         return $this->json([
-            'user' => $user
-            'userFutureRes' =>
-    ], Response::HTTP_OK, [], ['groups' => 'user_detail']);
+            'user' => $user,
+            'userFutureRes' => $userFutureRes,
+            'userLastRes' => $userLastRes
+    ], Response::HTTP_OK, [], [
+        'groups' => 'user_detail',
+        'groups' => 'user_see_reservations'
+    ]);
     }
 
     /**

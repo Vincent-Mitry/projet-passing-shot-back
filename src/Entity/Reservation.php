@@ -32,6 +32,7 @@ class Reservation
      * 
      * @Groups({"reservations_get_item"})
      * @Groups({"reservations_put_item"})
+     * @Groups({"user_see_reservations"})
      */
     private $startDatetime;
 
@@ -42,6 +43,7 @@ class Reservation
      * 
      * @Groups({"reservations_get_item"})
      * @Groups({"reservations_put_item"})
+     * @Groups({"user_see_reservations"})
      */
     private $endDatetime;
 
@@ -79,6 +81,7 @@ class Reservation
      * 
      * @Groups({"reservations_get_item"})
      * @Groups({"reservations_put_item"})
+     * @Groups({"user_see_reservations"})
      */
     private $countPlayers;
 

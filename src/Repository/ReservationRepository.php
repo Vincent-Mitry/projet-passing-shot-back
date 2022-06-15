@@ -68,30 +68,45 @@ class ReservationRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
-    public function upcomingReservationsByUser1(User $user)
-    {
-        $entityManager = $this->getEntityManager();
-        $query = $entityManager->createQuery(
-            'SELECT u.lastname, u.firstname, r.startDatetime, u.id
-            FROM App\Entity\User u 
-            INNER JOIN App\Entity\Reservation r 
-            INNER JOIN --u.id = r.user_id
-            WHERE (CAST(r.startDatetime as DATE) ) > CURRENT_TIMESTAMP()
-            AND u.id = :user
-            ORDER BY r.startDatetime ASC'
-            ) -> setParameter('user', $user);
-            
-            return $query->getResult();
-    }
+    /**
+     * Find the upcoming reservation by users
+     */
 
     public function upcomingReservationsByUser(User $user)
     {
+        //we are looking in the reservations entity (r)
        return $this->createQueryBuilder('r')
+                //join user table ('u')
                 ->innerJoin('r.user', 'u')
+                //comparing reservation date is > to current date
                 ->where('(CAST(r.startDatetime as DATE) ) > CURRENT_TIMESTAMP()')
+                //get reservations by user
                 ->andWhere('u.id = :user')
+                //displaying reservations by ascending dates
                 ->orderBy('r.startDatetime', 'ASC')
+                //value of user is defined
                 ->setParameter('user', $user)
+                ->getQuery()            
+                ->getResult();
+
+    }
+
+    public function fiveLastReservationByUser(User $user)
+    {
+        //we are looking in the reservations entity (r)
+       return $this->createQueryBuilder('r')
+                    //join user table ('u')
+                ->innerJoin('r.user', 'u')
+                //comparing reservation date is < to current date
+                ->where('(CAST(r.startDatetime as DATE) ) < CURRENT_TIMESTAMP()')
+                //get reservations by user
+                ->andWhere('u.id = :user')
+                //displaying reservations by ascending dates
+                ->orderBy('r.startDatetime', 'ASC')
+                //value of user is defined
+                ->setParameter('user', $user)
+                //limit the number of results by 5
+                ->setMaxResults(5)
                 ->getQuery()            
                 ->getResult();
 
