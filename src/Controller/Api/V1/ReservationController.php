@@ -5,12 +5,14 @@ namespace App\Controller\Api\V1;
 use App\Entity\Reservation;
 use App\Service\AvailableTimeslots;
 use Doctrine\Persistence\ManagerRegistry;
+use Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 
 /**
@@ -51,7 +53,7 @@ class ReservationController extends AbstractController
         $checkAvailability = $availableTimeslots->isAvailableForReservation($reservation);
 
         if (!$checkAvailability) {
-            return $this->json('error', Response::HTTP_UNPROCESSABLE_ENTITY);
+            throw new UnprocessableEntityHttpException('Le créneau horaire choisi pour ce court n\'est plus disponible à la réservation.');
         }
 
         // Get error messages from constraints
