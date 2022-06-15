@@ -27,7 +27,7 @@ class CourtApiController extends AbstractController
     {
         $courtList = $courtRepository->findAll();
 
-        return $this->json($courtList, Response::HTTP_OK, [], ['groups' => 'court_list'],);
+        return $this->json(['courtList' => $courtList], Response::HTTP_OK, [], ['groups' => 'court_list'],);
     }
 
     /**
@@ -41,6 +41,6 @@ class CourtApiController extends AbstractController
             return $this->json(['error' => 'Terrain introuvable'], Response::HTTP_NOT_FOUND);
         }
         //expecting a json format response grouping "court_detail" collection tag
-        return $this->json($court, Response::HTTP_OK, [], ['groups' => 'court_list']);
+        return $this->json(['court' => $court], Response::HTTP_OK, [], ['groups' => 'court_list']);
     }
 }
