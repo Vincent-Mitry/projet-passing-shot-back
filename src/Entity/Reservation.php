@@ -33,6 +33,7 @@ class Reservation
      * @Groups({"reservations_get_item"})
      * @Groups({"reservations_put_item"})
      * @Groups({"user_see_reservations"})
+     * @Groups({"past_user_reservations"})
      */
     private $startDatetime;
 
@@ -44,6 +45,7 @@ class Reservation
      * @Groups({"reservations_get_item"})
      * @Groups({"reservations_put_item"})
      * @Groups({"user_see_reservations"})
+     * @Groups({"past_user_reservations"})
      */
     private $endDatetime;
 
@@ -61,6 +63,7 @@ class Reservation
      * 
      * @Groups({"reservations_get_item"})
      * @Groups({"reservations_put_item"})
+     * @Groups({"past_user_reservations"})
      */
     private $score;
 
@@ -71,6 +74,7 @@ class Reservation
      * 
      * @Groups({"reservations_get_item"})
      * @Groups({"reservations_put_item"})
+     * @Groups({"past_user_reservations"})
      */
     private $courtRating;
 
@@ -81,7 +85,7 @@ class Reservation
      * 
      * @Groups({"reservations_get_item"})
      * @Groups({"reservations_put_item"})
-     * @Groups({"user_see_reservations"})
+     * @Groups({"past_user_reservations"})
      */
     private $countPlayers;
 

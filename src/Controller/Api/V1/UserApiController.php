@@ -56,8 +56,8 @@ class UserApiController extends AbstractController
             'userFutureRes' => $userFutureRes,
             'userLastRes' => $userLastRes
     ], Response::HTTP_OK, [], [
-        'groups' => 'user_detail',
-        'groups' => 'user_see_reservations'
+        'groups' => ['user_detail','user_see_reservations', 'past_user_reservations']
+        
     ]);
     }
 
