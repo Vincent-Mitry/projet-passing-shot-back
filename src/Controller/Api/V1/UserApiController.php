@@ -31,7 +31,7 @@ class UserApiController extends AbstractController
         $usersList = $userRepository->findAll();
 
         //expecting a json format response grouping "User_List" collection tag
-        return $this->json($usersList, Response::HTTP_OK, [], ['groups' => 'user_list'],);
+        return $this->json(['usersList' => $usersList], Response::HTTP_OK, [], ['groups' => 'user_list'],);
     }
 
     /**
@@ -45,7 +45,7 @@ class UserApiController extends AbstractController
             return $this->json(['error' => 'Membre introuvable'], Response::HTTP_NOT_FOUND);
         }
         //expecting a json format response grouping "User_detail" collection tag
-        return $this->json($user, Response::HTTP_OK, [], ['groups' => 'user_detail']);
+        return $this->json(['user' => $user], Response::HTTP_OK, [], ['groups' => 'user_detail']);
     }
 
     /**

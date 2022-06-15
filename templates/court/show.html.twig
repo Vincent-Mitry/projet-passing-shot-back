@@ -3,9 +3,20 @@
 {% block title %}Court{% endblock %}
 
 {% block body %}
-    <h1>Court</h1>
-
-    <table class="table">
+<div class="container-fluid">
+    <div class=" d-flex justify-content-center">
+        <a href="{{ path('app_court') }}" class="btn btn-warning m-3">Retour</a>
+        <a href="{{ path('app_court_edit', {'id': court.id}) }}" class="btn btn-warning m-3">Modifier</a>
+        {{ include('court/_delete_form.html.twig') }}
+    </div>
+        <div class="card shadow">
+            <div class="card-header py-3">
+                <p class="text-danger m-0 fw-bold text-center">Information sur le terrain {{ court.name }}</p>
+            </div>
+            <div class="card-body">
+        <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
+            <table class="table table-striped table-hover my-0" id="dataTable ">
+                <tbody>
         <tbody>
             <tr>
                 <th>Id</th>
@@ -29,11 +40,11 @@
             </tr>
             <tr>
                 <th>StartTime</th>
-                <td>{{ court.startTime ? court.startTime|date('H:i:s') : '' }}</td>
+                <td>{{ court.startTime ? court.startTime|date('H:i') : '' }}</td>
             </tr>
             <tr>
                 <th>EndTime</th>
-                <td>{{ court.endTime ? court.endTime|date('H:i:s') : '' }}</td>
+                <td>{{ court.endTime ? court.endTime|date('H:i') : '' }}</td>
             </tr>
             <tr>
                 <th>Picture</th>
@@ -53,7 +64,7 @@
             </tr>
             <tr>
                 <th>RenovatedAt</th>
-                <td>{{ court.renovatedAt ? court.renovatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ court.renovatedAt ? court.renovatedAt|date('Y-m-d') : '' }}</td>
             </tr>
             <tr>
                 <th>CreatedAt</th>
@@ -65,10 +76,6 @@
             </tr>
         </tbody>
     </table>
+</div> 
 
-    <a href="{{ path('app_court_index') }}">back to list</a>
-
-    <a href="{{ path('app_court_edit', {'id': court.id}) }}">edit</a>
-
-    {{ include('court/_delete_form.html.twig') }}
 {% endblock %}
