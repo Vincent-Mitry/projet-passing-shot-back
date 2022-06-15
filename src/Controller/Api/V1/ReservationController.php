@@ -39,13 +39,20 @@ class ReservationController extends AbstractController
         Request $request,
         SerializerInterface $serializer,
         ManagerRegistry $doctrine,
-        ValidatorInterface $validator
+        ValidatorInterface $validator,
+        AvailableTimeslots $availableTimeslots
     ): Response
     {
         $jsonContent = $request->getContent();
 
         /** @var Reservation */
         $reservation = $serializer->deserialize($jsonContent, Reservation::class, 'json');
+
+        $checkAvailability = $availableTimeslots->isAvailableForReservation($reservation);
+
+        if (!$checkAvailability) {
+            return $this->json('error', Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
 
         // Get error messages from constraints
         $errors = $validator->validate($reservation);

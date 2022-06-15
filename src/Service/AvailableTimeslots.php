@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Court;
+use App\Entity\Reservation;
 use App\Repository\CourtRepository;
 use App\Repository\ReservationRepository;
 
@@ -78,5 +79,23 @@ class AvailableTimeslots
         }
 
         return $availabletimeSlots;
+    }
+
+    public function isAvailableForReservation(Reservation $reservation)
+    {
+        $date = date_format($reservation->getStartDatetime(), 'Y-m-d');
+        $court = $reservation->getCourt();
+        $startHour = (int) date_format($reservation->getStartDatetime(), 'H');
+        $endHour = (int) date_format($reservation->getEndDatetime(), 'H');
+
+        $courtAvailableTimeslots = $this->setAvailableTimeslots($court, $date);
+
+        for ($i= $startHour; $i < $endHour; $i++) { 
+            if ((array_search($i, $courtAvailableTimeslots)) === false){
+                return false;
+            } 
+        }
+
+        return true;
     }
 }
