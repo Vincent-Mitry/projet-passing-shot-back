@@ -2,6 +2,8 @@
 
 namespace App\Controller\Api\V1;
 
+use App\Api\ApiProblem;
+use App\Api\ApiProblemException;
 use App\Entity\Reservation;
 use App\Service\AvailableTimeslots;
 use Doctrine\Persistence\ManagerRegistry;
@@ -53,7 +55,9 @@ class ReservationController extends AbstractController
         $checkAvailability = $availableTimeslots->isAvailableForReservation($reservation);
 
         if (!$checkAvailability) {
-            throw new UnprocessableEntityHttpException('Le créneau horaire choisi pour ce court n\'est plus disponible à la réservation.');
+            $apiProblem = new ApiProblem(Response::HTTP_GONE, ApiProblem::TYPE_RESERVATION_ERROR);
+
+            throw new ApiProblemException($apiProblem);
         }
 
         // Get error messages from constraints
