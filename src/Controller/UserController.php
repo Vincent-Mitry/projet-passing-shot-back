@@ -43,8 +43,6 @@ class UserController extends AbstractController
             // On l'écrase dans le $user
             $user->setPassword($hashedPassword);
             
-            $user->setCreatedAt(new DateTimeImmutable());
-            
             $userRepository->add($user, true);
 
             $this->addFlash('success', 'Utilisateur ajouté');
@@ -87,8 +85,6 @@ class UserController extends AbstractController
                 // On l'écrase dans le $user
                 $user->setPassword($hashedPassword);
             }
-
-            $user->setUpdatedAt(new DateTimeImmutable());
 
             $userRepository->add($user, true);
 
