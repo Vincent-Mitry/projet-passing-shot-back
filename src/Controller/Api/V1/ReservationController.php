@@ -7,21 +7,19 @@ use App\Api\ApiProblemException;
 use App\Entity\Reservation;
 use App\Service\AvailableTimeslots;
 use Doctrine\Persistence\ManagerRegistry;
-use Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 
 /**
  * @Route("api/v1", name="api_v1_")
  */
 class ReservationController extends AbstractController
-{ 
+{     
     /**
      * @Route("/reservations/{id}", name="reservations_get_item", methods={"GET"}, requirements={"id"="\d+"})
      * 
@@ -30,7 +28,8 @@ class ReservationController extends AbstractController
     public function reservationsGetItem(Reservation $reservation = null): Response
     {
         if ($reservation === null) {
-            return $this->json(['error' => 'No reservation found'], Response::HTTP_NOT_FOUND);
+            $apiProblem = new ApiProblem(Response::HTTP_NOT_FOUND, ApiProblem::TYPE_RESERVATION_NOT_FOUND);
+            throw new ApiProblemException($apiProblem);
         }
 
         return $this->json(['reservation' => $reservation], Response::HTTP_OK, [], ['groups' => 'reservations_get_item']);
@@ -52,11 +51,12 @@ class ReservationController extends AbstractController
         /** @var Reservation */
         $reservation = $serializer->deserialize($jsonContent, Reservation::class, 'json');
 
+        // Check if the new reservation's timeslots are available
         $checkAvailability = $availableTimeslots->isAvailableForReservation($reservation);
 
+        // If false ==> exception + error message
         if (!$checkAvailability) {
             $apiProblem = new ApiProblem(Response::HTTP_GONE, ApiProblem::TYPE_RESERVATION_ERROR);
-
             throw new ApiProblemException($apiProblem);
         }
 
@@ -75,7 +75,8 @@ class ReservationController extends AbstractController
                 $cleanErrors[$property][] = $message;
             }
 
-            return $this->json([$cleanErrors], Response::HTTP_UNPROCESSABLE_ENTITY);
+            $apiProblem = new ApiProblem(Response::HTTP_UNPROCESSABLE_ENTITY, ApiProblem::TYPE_VALIDATION_ERROR, $cleanErrors);
+            throw new ApiProblemException($apiProblem);
         }
 
         $em = $doctrine->getManager();
@@ -127,7 +128,8 @@ class ReservationController extends AbstractController
                 $cleanErrors[$property][] = $message;
             }
 
-            return $this->json([$cleanErrors], Response::HTTP_UNPROCESSABLE_ENTITY);
+            $apiProblem = new ApiProblem(Response::HTTP_UNPROCESSABLE_ENTITY, ApiProblem::TYPE_VALIDATION_ERROR, $cleanErrors);
+            throw new ApiProblemException($apiProblem);
         }
 
         $em = $doctrine->getManager();
@@ -145,9 +147,8 @@ class ReservationController extends AbstractController
     ): Response
     {
         if ($reservation === null) {
-            throw $this->createNotFoundException(
-                'Réservation non trouvée'
-            );
+            $apiProblem = new ApiProblem(Response::HTTP_NOT_FOUND, ApiProblem::TYPE_RESERVATION_NOT_FOUND);
+            throw new ApiProblemException($apiProblem);
         }
 
         $em = $doctrine->getManager();
