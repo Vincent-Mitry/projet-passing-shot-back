@@ -1,10 +1,8 @@
 <?php
 
-namespace App\Controller\Api;
+namespace App\Controller\Api\V1;
 
 use App\Entity\Reservation;
-use App\Repository\CourtRepository;
-use App\Repository\ReservationRepository;
 use App\Service\AvailableTimeslots;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
@@ -122,7 +120,7 @@ class ReservationController extends AbstractController
         $em = $doctrine->getManager();
         $em->flush();
 
-        return $this->json(['reservation' => $reservationNew], Response::HTTP_OK);
+        return $this->json(null, Response::HTTP_OK);
     }
 
     /**

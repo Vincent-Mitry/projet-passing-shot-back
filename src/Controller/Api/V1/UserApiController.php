@@ -139,6 +139,6 @@ class UserApiController extends AbstractController
         $em = $doctrine->getManager();
         $em->flush();
 
-        return $this->json(Response::HTTP_OK);
+        return $this->json([], Response::HTTP_OK);
     }
 }
