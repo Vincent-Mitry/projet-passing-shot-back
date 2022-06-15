@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/terrain")
+ * @Route("/terrains")
  */
 class CourtController extends AbstractController
 {
@@ -26,7 +26,7 @@ class CourtController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="app_court_new", methods={"GET", "POST"})
+     * @Route("/ajout", name="app_court_new", methods={"GET", "POST"})
      */
     public function new(Request $request, CourtRepository $courtRepository): Response
     {
@@ -57,7 +57,7 @@ class CourtController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="app_court_edit", methods={"GET", "POST"})
+     * @Route("/{id}/modification", name="app_court_edit", methods={"GET", "POST"})
      */
     public function edit(Request $request, Court $court, CourtRepository $courtRepository): Response
     {
