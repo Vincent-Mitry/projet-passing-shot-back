@@ -21,7 +21,7 @@ use Symfony\Component\Validator\ConstraintViolation;
 class CourtApiController extends AbstractController
 {
     /**
-     * @Route ("/court", name="court_list", methods={"GET"}, requirements={"id"="\d+"})
+     * @Route ("/courts", name="court_list", methods={"GET"}, requirements={"id"="\d+"})
      */
     public function courtList(CourtRepository $courtRepository): Response
     {
@@ -31,7 +31,7 @@ class CourtApiController extends AbstractController
     }
 
     /**
-     * @Route ("/court/{id}", name="court_detail", methods={"GET"}, requirements={"id"="\d+"})
+     * @Route ("/courts/{id}", name="court_detail", methods={"GET"}, requirements={"id"="\d+"})
      * @return JsonResponse Json data
      */
     public function courtDetail(Court $court = null): JsonResponse

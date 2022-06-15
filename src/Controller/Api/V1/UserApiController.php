@@ -3,6 +3,7 @@
 namespace App\Controller\Api\V1;
 
 use App\Entity\User;
+use App\Repository\ReservationRepository;
 use App\Repository\UserRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use phpDocumentor\Reflection\Types\Null_;
@@ -23,7 +24,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class UserApiController extends AbstractController
 {
     /**
-     * @Route("/user", name="user_list", methods={"GET"}, requirements={"id"="\d+"})
+     * @Route("/users", name="user_list", methods={"GET"}, requirements={"id"="\d+"})
      */
     public function userList(UserRepository $userRepository): Response
     {
@@ -35,21 +36,33 @@ class UserApiController extends AbstractController
     }
 
     /**
-     * @Route ("/user/{id}", name="user_detail", methods={"GET"}, requirements={"id"="\d+"})
+     * @Route ("/users/{id}", name="user_detail", methods={"GET"}, requirements={"id"="\d+"})
      * @return JsonResponse Json data
      */
-    public function userDetail(User $user = null): JsonResponse
+    public function userDetail(User $user = null, ReservationRepository $reservationRepository): JsonResponse
     {
         // creating 404 responses
         if ($user === null) {
             return $this->json(['error' => 'Membre introuvable'], Response::HTTP_NOT_FOUND);
         }
-        //expecting a json format response grouping "User_detail" collection tag
-        return $this->json(['user' => $user], Response::HTTP_OK, [], ['groups' => 'user_detail']);
+        //will display upcoming reservations
+        $userFutureRes = $reservationRepository->upcomingReservationsByUser($user);
+        //will display 5 last reservations
+        $userLastRes = $reservationRepository->fiveLastReservationByUser($user);
+
+        //expecting a json format response grouping "User_detail" and User_see_reservations collection tag
+        return $this->json([
+            'user' => $user,
+            'userFutureRes' => $userFutureRes,
+            'userLastRes' => $userLastRes
+    ], Response::HTTP_OK, [], [
+        'groups' => ['user_detail','user_see_reservations', 'past_user_reservations']
+        
+    ]);
     }
 
     /**
-     * @Route("/user", name="user_post", methods={"POST"})
+     * @Route("/users", name="user_post", methods={"POST"})
      */
     public function userPost(
         Request $request,
@@ -105,7 +118,7 @@ class UserApiController extends AbstractController
 
 
     /**
-     * @Route ("/user/{id}/edit", name="user_update", methods={"PUT"}, requirements={"id"="\d+"})
+     * @Route ("/users/{id}", name="user_update", methods={"PUT"}, requirements={"id"="\d+"})
      * @return JsonResponse Json data
      */
     public function userUpdate(UserRepository $userRepository, Request $request, SerializerInterface $serializer, ManagerRegistry $doctrine, ValidatorInterface $validator, User $user) {

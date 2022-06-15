@@ -2,9 +2,10 @@
 
 namespace App\Repository;
 
+use App\Entity\User;
 use App\Entity\Reservation;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Reservation>
@@ -65,6 +66,50 @@ class ReservationRepository extends ServiceEntityRepository
         )->setMaxResults(3);
 
         return $query->getResult();
+    }
+
+    /**
+     * Find the upcoming reservation by users
+     */
+
+    public function upcomingReservationsByUser(User $user)
+    {
+        //we are looking in the reservations entity (r)
+       return $this->createQueryBuilder('r')
+                //join user table ('u')
+                ->innerJoin('r.user', 'u')
+                //comparing reservation date is > to current date
+                ->where('(CAST(r.startDatetime as DATE) ) > CURRENT_TIMESTAMP()')
+                //get reservations by user
+                ->andWhere('u.id = :user')
+                //displaying reservations by ascending dates
+                ->orderBy('r.startDatetime', 'ASC')
+                //value of user is defined
+                ->setParameter('user', $user)
+                ->getQuery()            
+                ->getResult();
+
+    }
+
+    public function fiveLastReservationByUser(User $user)
+    {
+        //we are looking in the reservations entity (r)
+       return $this->createQueryBuilder('r')
+                    //join user table ('u')
+                ->innerJoin('r.user', 'u')
+                //comparing reservation date is < to current date
+                ->where('(CAST(r.startDatetime as DATE) ) < CURRENT_TIMESTAMP()')
+                //get reservations by user
+                ->andWhere('u.id = :user')
+                //displaying reservations by ascending dates
+                ->orderBy('r.startDatetime', 'ASC')
+                //value of user is defined
+                ->setParameter('user', $user)
+                //limit the number of results by 5
+                ->setMaxResults(5)
+                ->getQuery()            
+                ->getResult();
+
     }
 
 //    /**

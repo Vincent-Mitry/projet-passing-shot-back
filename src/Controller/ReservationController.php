@@ -2,13 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Entity\Reservation;
 use App\Form\ReservationType;
 use App\Repository\ReservationRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/reservations")
@@ -51,6 +52,7 @@ class ReservationController extends AbstractController
      */
     public function show(Reservation $reservation): Response
     {
+                
         return $this->render('reservation/show.html.twig', [
             'reservation' => $reservation,
         ]);
