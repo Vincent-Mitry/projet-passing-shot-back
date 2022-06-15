@@ -10,6 +10,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * @ORM\Entity(repositoryClass=BlockedCourtRepository::class)
  * @UniqueEntity(fields={"startDatetime", "endDatetime"})
+ * 
+ * @ORM\HasLifecycleCallbacks()
  */
 class BlockedCourt
 {
@@ -148,5 +150,21 @@ class BlockedCourt
         $this->user = $user;
 
         return $this;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function setCreatedAtValue(): void
+    {
+        $this->createdAt = new \DateTimeImmutable();
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function setUpdatedAtValue(): void
+    {
+        $this->updatedAt = new \DateTimeImmutable();
     }
 }

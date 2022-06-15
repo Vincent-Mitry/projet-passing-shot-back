@@ -10,6 +10,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=ReservationRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  * 
  * @UniqueEntity(fields={"startDatetime", "court"})
  */
@@ -85,14 +86,12 @@ class Reservation
     /**
      * @ORM\Column(type="datetime_immutable")
      * @Assert\Type("\DateTimeInterface")
-     * @Groups({"reservations_put_item"})
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime_immutable", nullable=true)
      * @Assert\Type("\DateTimeInterface")
-     * @Groups({"reservations_put_item"})
      */
     private $updatedAt;
 
@@ -237,5 +236,21 @@ class Reservation
         $this->user = $user;
 
         return $this;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function setCreatedAtValue(): void
+    {
+        $this->createdAt = new \DateTimeImmutable();
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function setUpdatedAtValue(): void
+    {
+        $this->updatedAt = new \DateTimeImmutable();
     }
 }
