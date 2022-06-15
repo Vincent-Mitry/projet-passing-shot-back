@@ -1,5 +1,7 @@
 <?php
 
+// https://symfonycasts.com/screencast/symfony-rest2/api-problem-exception#play
+
 namespace App\Api;
 
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -18,5 +20,13 @@ class ApiProblemException extends HttpException
         $message = $apiProblem->getTitle();
 
         parent::__construct($statusCode, $message, $previous, $headers, $code);
+    }
+
+    /**
+     * Get the value of apiProblem
+     */ 
+    public function getApiProblem()
+    {
+        return $this->apiProblem;
     }
 }

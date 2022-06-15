@@ -39,6 +39,7 @@ class ApiProblem
         $this->title = self::$titles[$type];
     }
 
+    // Inserts status, type and title in Array
     public function toArray()
     {
         return array_merge(
