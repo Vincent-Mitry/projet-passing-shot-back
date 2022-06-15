@@ -23,7 +23,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class UserApiController extends AbstractController
 {
     /**
-     * @Route("/user", name="user_list", methods={"GET"}, requirements={"id"="\d+"})
+     * @Route("/users", name="user_list", methods={"GET"}, requirements={"id"="\d+"})
      */
     public function userList(UserRepository $userRepository): Response
     {
@@ -35,21 +35,27 @@ class UserApiController extends AbstractController
     }
 
     /**
-     * @Route ("/user/{id}", name="user_detail", methods={"GET"}, requirements={"id"="\d+"})
+     * @Route ("/users/{id}", name="user_detail", methods={"GET"}, requirements={"id"="\d+"})
      * @return JsonResponse Json data
      */
-    public function userDetail(User $user = null): JsonResponse
+    public function userDetail(User $user = null, UserRepository $userRepository): JsonResponse
     {
         // creating 404 responses
         if ($user === null) {
             return $this->json(['error' => 'Membre introuvable'], Response::HTTP_NOT_FOUND);
         }
+
+        $userFutureRes = $reservationRepository->upcomingReservationsByUser($user);
+
         //expecting a json format response grouping "User_detail" collection tag
-        return $this->json(['user' => $user], Response::HTTP_OK, [], ['groups' => 'user_detail']);
+        return $this->json([
+            'user' => $user
+            'userFutureRes' =>
+    ], Response::HTTP_OK, [], ['groups' => 'user_detail']);
     }
 
     /**
-     * @Route("/user", name="user_post", methods={"POST"})
+     * @Route("/users", name="user_post", methods={"POST"})
      */
     public function userPost(
         Request $request,
@@ -105,7 +111,7 @@ class UserApiController extends AbstractController
 
 
     /**
-     * @Route ("/user/{id}/edit", name="user_update", methods={"PUT"}, requirements={"id"="\d+"})
+     * @Route ("/users/{id}", name="user_update", methods={"PUT"}, requirements={"id"="\d+"})
      * @return JsonResponse Json data
      */
     public function userUpdate(UserRepository $userRepository, Request $request, SerializerInterface $serializer, ManagerRegistry $doctrine, ValidatorInterface $validator, User $user) {

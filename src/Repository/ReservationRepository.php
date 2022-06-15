@@ -2,9 +2,10 @@
 
 namespace App\Repository;
 
+use App\Entity\User;
 use App\Entity\Reservation;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Reservation>
@@ -65,6 +66,35 @@ class ReservationRepository extends ServiceEntityRepository
         )->setMaxResults(3);
 
         return $query->getResult();
+    }
+
+    public function upcomingReservationsByUser1(User $user)
+    {
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery(
+            'SELECT u.lastname, u.firstname, r.startDatetime, u.id
+            FROM App\Entity\User u 
+            INNER JOIN App\Entity\Reservation r 
+            INNER JOIN --u.id = r.user_id
+            WHERE (CAST(r.startDatetime as DATE) ) > CURRENT_TIMESTAMP()
+            AND u.id = :user
+            ORDER BY r.startDatetime ASC'
+            ) -> setParameter('user', $user);
+            
+            return $query->getResult();
+    }
+
+    public function upcomingReservationsByUser(User $user)
+    {
+       return $this->createQueryBuilder('r')
+                ->innerJoin('r.user', 'u')
+                ->where('(CAST(r.startDatetime as DATE) ) > CURRENT_TIMESTAMP()')
+                ->andWhere('u.id = :user')
+                ->orderBy('r.startDatetime', 'ASC')
+                ->setParameter('user', $user)
+                ->getQuery()            
+                ->getResult();
+
     }
 
 //    /**
