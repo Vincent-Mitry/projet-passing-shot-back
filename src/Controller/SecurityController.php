@@ -2,13 +2,17 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
 class SecurityController extends AbstractController
 {
-
+    /**
+     * @Route("/connexion", name="app_security_login", methods={"GET"})
+     */
+    public function login()
+    {
+        return $this->render('security/login.html.twig');
+    }
 }
