@@ -138,6 +138,11 @@ class Court
      */
     private $blockedCourts;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $RatingCount;
+
     public function __construct()
     {
         $this->reservations = new ArrayCollection();
@@ -392,5 +397,17 @@ class Court
     public function setUpdatedAtValue(): void
     {
         $this->updatedAt = new \DateTimeImmutable();
+    }
+
+    public function getRatingCount(): ?int
+    {
+        return $this->RatingCount;
+    }
+
+    public function setRatingCount(?int $RatingCount): self
+    {
+        $this->RatingCount = $RatingCount;
+
+        return $this;
     }
 }
