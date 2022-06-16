@@ -4,7 +4,7 @@
 
 namespace App\EventListener;
 
-use App\Api\ApiProblemException;
+use App\Service\Api\ApiProblemException;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
@@ -15,6 +15,12 @@ use Symfony\Component\HttpKernel\KernelEvents;
  */
 class ApiExceptionSubscriber implements EventSubscriberInterface
 {
+    /**
+     * Listens to the Exception Event and intercepts an ApiProblemException 
+     *
+     * @param ExceptionEvent $event
+     * @return void
+     */
     public function onKernelException(ExceptionEvent $event)
     {   
         // Gets the exception from the event
@@ -33,6 +39,7 @@ class ApiExceptionSubscriber implements EventSubscriberInterface
             $apiProblem->getStatusCode()
         );
 
+        // Sets response headers
         $response->headers->set('Content-Type', 'application/problem+json');
 
         // Sets to response to the event => this response will be sent to the client

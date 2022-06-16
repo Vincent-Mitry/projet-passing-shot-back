@@ -2,7 +2,7 @@
 
 // https://symfonycasts.com/screencast/symfony-rest2/api-problem-exception#play
 
-namespace App\Api;
+namespace App\Service\Api;
 
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
