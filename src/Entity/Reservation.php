@@ -120,6 +120,7 @@ class Reservation
      */
     private $user;
 
+    
     public function getId(): ?int
     {
         return $this->id;

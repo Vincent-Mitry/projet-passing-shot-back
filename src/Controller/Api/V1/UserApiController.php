@@ -131,7 +131,7 @@ class UserApiController extends AbstractController
         $data = $request->getContent();
 
         //
-        $contentToUpdate = $serializer->deserialize($data, User::class, 'json', [AbstractNormalizer::OBJECT_TO_POPULATE => $user]);
+        $contentToUpdate = $serializer->deserialize($data, User::class, 'json', [AbstractNormalizer::OBJECT_TO_POPULATE => $user, ['groups' => 'user_update']]);
 
         $errors = $validator->validate($contentToUpdate, null, ['groups' => 'user_update']);
 
