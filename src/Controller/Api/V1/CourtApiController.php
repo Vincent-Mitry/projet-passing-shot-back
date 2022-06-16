@@ -2,7 +2,9 @@
 namespace App\Controller\Api\V1;
 
 use App\Entity\Court;
+use App\Entity\Reservation;
 use App\Repository\CourtRepository;
+use App\Service\RatingAverage;
 use Doctrine\Persistence\ManagerRegistry;
 use phpDocumentor\Reflection\Types\Null_;
 use Symfony\Component\HttpFoundation\Request;
@@ -40,6 +42,7 @@ class CourtApiController extends AbstractController
         if ($court === null) {
             return $this->json(['error' => 'Terrain introuvable'], Response::HTTP_NOT_FOUND);
         }
+
         //expecting a json format response grouping "court_detail" collection tag
         return $this->json(['court' => $court], Response::HTTP_OK, [], ['groups' => 'court_list']);
     }
