@@ -14,9 +14,7 @@ use Doctrine\DBAL\Connection;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use App\DataFixtures\Provider\DateTimeImmutableFaker;
-
-
-
+use App\Entity\Surface;
 
 class AppFixtures extends Fixture
 {
@@ -118,13 +116,26 @@ class AppFixtures extends Fixture
 
         $manager->persist($club);
 
+        // Surface 
+        $clay = new Surface();
+        $clay->setName('Terre battue')
+             ->setCreatedAt(new DateTimeImmutable());
+
+        $manager->persist($clay);
+
+        $greenset = new Surface();
+        $greenset->setName('Greenset')
+                 ->setCreatedAt(new DateTimeImmutable());
+                 
+         $manager->persist($greenset);
+
         // Courts
         $courtList = [];
 
         for ($i=1; $i <11 ; $i++) { 
             $court = new Court();
             $court->setName('Terrain'.$i)
-                  ->setSurface($faker->numberBetween(1,2))
+                  ->setSurface($faker->randomElement([$clay, $greenset]))
                   ->setLightning($faker->boolean())
                   ->setIndoor($faker->boolean())
                   ->setStartTime(new DateTime('12:00'))
