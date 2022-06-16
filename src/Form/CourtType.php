@@ -107,6 +107,8 @@ class CourtType extends AbstractType
                         'format' => 'dd MM yyyy',
                         'input' => 'datetime_immutable'
                     ]);
+                } else {
+                    
                 }
             });
     }
