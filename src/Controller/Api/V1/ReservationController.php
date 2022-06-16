@@ -84,7 +84,7 @@ class ReservationController extends AbstractController
         Request $request,
         SerializerInterface $serializer,
         ManagerRegistry $doctrine,
-        ApiConstraintErrors $apiConstraintErrors
+        ApiConstraintErrors $apiConstraintErrors,
         RatingAverage $ratingAverage
     ): Response
      {
