@@ -2,22 +2,25 @@
 
 namespace App\Controller\Api\V1;
 
+use App\Service\Api\ApiProblem;
+use App\Service\Api\ApiProblemException;
 use App\Entity\Reservation;
+use App\Service\Api\ApiConstraintErrors;
 use App\Service\AvailableTimeslots;
+use App\Service\RatingAverage;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("api/v1", name="api_v1_")
  */
 class ReservationController extends AbstractController
-{ 
+{
     /**
      * @Route("/reservations/{id}", name="reservations_get_item", methods={"GET"}, requirements={"id"="\d+"})
      * 
@@ -26,7 +29,8 @@ class ReservationController extends AbstractController
     public function reservationsGetItem(Reservation $reservation = null): Response
     {
         if ($reservation === null) {
-            return $this->json(['error' => 'No reservation found'], Response::HTTP_NOT_FOUND);
+            $apiProblem = new ApiProblem(Response::HTTP_NOT_FOUND, ApiProblem::TYPE_RESERVATION_NOT_FOUND);
+            throw new ApiProblemException($apiProblem);
         }
 
         return $this->json(['reservation' => $reservation], Response::HTTP_OK, [], ['groups' => 'reservations_get_item']);
@@ -39,30 +43,28 @@ class ReservationController extends AbstractController
         Request $request,
         SerializerInterface $serializer,
         ManagerRegistry $doctrine,
-        ValidatorInterface $validator
+        ApiConstraintErrors $apiConstraintErrors,
+        AvailableTimeslots $availableTimeslots
     ): Response
-    {
+     {
         $jsonContent = $request->getContent();
 
         /** @var Reservation */
         $reservation = $serializer->deserialize($jsonContent, Reservation::class, 'json');
 
-        // Get error messages from constraints
-        $errors = $validator->validate($reservation);
+        // Check if the new reservation's timeslots are available
+        $checkAvailability = $availableTimeslots->isAvailableForReservation($reservation);
+        // If false ==> exception + error message
+        if (!$checkAvailability) {  
+            $apiProblem = new ApiProblem(Response::HTTP_NOT_FOUND, ApiProblem::TYPE_RESERVATION_UNAVAILABLE_SLOT);
+            throw new ApiProblemException($apiProblem);
+        }
 
-        if (count($errors) > 0) { 
-            // Errors List returned to front
-            $cleanErrors = [];
-
-            /** @var ConstraintViolation $error */
-            foreach ($errors as $error) {
-                $property = $error->getPropertyPath();
-                $message = $error->getMessage();
-
-                $cleanErrors[$property][] = $message;
-            }
-
-            return $this->json([$cleanErrors], Response::HTTP_UNPROCESSABLE_ENTITY);
+        // Check Validation Constraint Errors
+        $constraintErrors = $apiConstraintErrors->constraintErrorsList($reservation);
+        if ($constraintErrors !== null) {
+            $apiProblem = new ApiProblem(Response::HTTP_UNPROCESSABLE_ENTITY, ApiProblem::TYPE_VALIDATION_ERROR, $constraintErrors);
+            throw new ApiProblemException($apiProblem);
         }
 
         $em = $doctrine->getManager();
@@ -71,7 +73,7 @@ class ReservationController extends AbstractController
 
         $location = $this->generateUrl('api_v1_reservations_get_item', ['id' => $reservation->getId()]);
 
-        return $this->json(['reservation' => $reservation], Response::HTTP_CREATED, ['Location' => $location], ['groups' => 'reservations_get_item']);
+        return $this->json(['id' => $reservation->getId()], Response::HTTP_CREATED, ['Location' => $location], ['groups' => 'reservations_get_item']);
     }
 
     /**
@@ -82,43 +84,35 @@ class ReservationController extends AbstractController
         Request $request,
         SerializerInterface $serializer,
         ManagerRegistry $doctrine,
-        ValidatorInterface $validator
+        ApiConstraintErrors $apiConstraintErrors,
+        RatingAverage $ratingAverage
     ): Response
-    {
+     {
         if ($reservation === null) {
-            throw $this->createNotFoundException(
-                'Réservation non trouvée'
-            );
+            $apiProblem = new ApiProblem(Response::HTTP_NOT_FOUND, ApiProblem::TYPE_RESERVATION_NOT_FOUND);
+            throw new ApiProblemException($apiProblem);
         }
 
         $jsonContent = $request->getContent();
 
         /** @var Reservation */
-        $reservationNew = $serializer->deserialize($jsonContent, Reservation::class, 'json', [
+        $reservation = $serializer->deserialize($jsonContent, Reservation::class, 'json', [
             AbstractNormalizer::OBJECT_TO_POPULATE => $reservation,
             ['groups' => 'reservations_put_item']
         ]);
 
-        // Get error messages from constraints
-        $errors = $validator->validate($reservation);
-
-        if (count($errors) > 0) { 
-            // Errors List returned to front
-            $cleanErrors = [];
-
-            /** @var ConstraintViolation $error */
-            foreach ($errors as $error) {
-                $property = $error->getPropertyPath();
-                $message = $error->getMessage();
-
-                $cleanErrors[$property][] = $message;
-            }
-
-            return $this->json([$cleanErrors], Response::HTTP_UNPROCESSABLE_ENTITY);
+        // Check Validation Constraint Errors
+        $constraintErrors = $apiConstraintErrors->constraintErrorsList($reservation);
+        if ($constraintErrors !== null) {
+            $apiProblem = new ApiProblem(Response::HTTP_UNPROCESSABLE_ENTITY, ApiProblem::TYPE_VALIDATION_ERROR, $constraintErrors);
+            throw new ApiProblemException($apiProblem);
         }
 
         $em = $doctrine->getManager();
         $em->flush();
+
+        //adding Rating from Reservation to total court rating
+        $ratingAverage->setRatingAverage($reservation->getCourt(), $reservation->getCourtRating());
 
         return $this->json(null, Response::HTTP_OK);
     }
@@ -129,12 +123,10 @@ class ReservationController extends AbstractController
     public function reservationsDeleteItem(
         Reservation $reservation = null,
         ManagerRegistry $doctrine
-    ): Response
-    {
+    ): Response {
         if ($reservation === null) {
-            throw $this->createNotFoundException(
-                'Réservation non trouvée'
-            );
+            $apiProblem = new ApiProblem(Response::HTTP_NOT_FOUND, ApiProblem::TYPE_RESERVATION_NOT_FOUND);
+            throw new ApiProblemException($apiProblem);
         }
 
         $em = $doctrine->getManager();
@@ -152,7 +144,7 @@ class ReservationController extends AbstractController
     public function availableCourtsCollection($date, AvailableTimeslots $availableTimeslots): Response
     {
         $availableTimeslotsByCourt = $availableTimeslots->getAllAvailableTimeslots($date);
-        
+
         return $this->json(['availableTimeslotsByCourt' => $availableTimeslotsByCourt], Response::HTTP_OK, []);
     }
 }

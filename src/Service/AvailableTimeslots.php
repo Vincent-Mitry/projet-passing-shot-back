@@ -3,11 +3,12 @@
 namespace App\Service;
 
 use App\Entity\Court;
+use App\Entity\Reservation;
 use App\Repository\CourtRepository;
 use App\Repository\ReservationRepository;
 
 /**
- * Manages the available time-slots for all courts on a given date 
+ * Manages the available time-slots for courts and reservations 
  */
 class AvailableTimeslots
 {
@@ -78,5 +79,30 @@ class AvailableTimeslots
         }
 
         return $availabletimeSlots;
+    }
+
+    /**
+     * Checks if the timeslot for a new reservation is available  
+     *
+     * @param Reservation $reservation
+     * @return boolean true if available for reservation, false if not available
+     */
+    public function isAvailableForReservation(Reservation $reservation)
+    {
+        $date = date_format($reservation->getStartDatetime(), 'Y-m-d');
+        $court = $reservation->getCourt();
+        $startHour = (int) date_format($reservation->getStartDatetime(), 'H');
+        $endHour = (int) date_format($reservation->getEndDatetime(), 'H');
+
+        $availableTimeslots = $this->setAvailableTimeslots($court, $date);
+
+        // If the reservation hours are not inside the available time slots ==> return false
+        for ($i= $startHour; $i < $endHour; $i++) { 
+            if ((array_search($i, $availableTimeslots)) === false){
+                return false;
+            } 
+        }
+
+        return true;
     }
 }
