@@ -86,7 +86,6 @@ class ReservationController extends AbstractController
         SerializerInterface $serializer,
         ManagerRegistry $doctrine,
         ValidatorInterface $validator,
-        Court $court,
         RatingAverage $ratingAverage
     ): Response
      {
@@ -126,8 +125,7 @@ class ReservationController extends AbstractController
         $em->flush();
 
         //adding Rating from Reservation to total court rating
-        $ratingAverage->setRatingAverage($court, $reservation->getCourtRating());
-
+        $ratingAverage->setRatingAverage($reservation->getCourt(), $reservation->getCourtRating());
 
         return $this->json(null, Response::HTTP_OK);
     }
