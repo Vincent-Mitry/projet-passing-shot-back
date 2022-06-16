@@ -60,13 +60,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="smallint")
      * @Assert\NotBlank
-     * @Groups ({"user_list", "user_detail", "user_update"})
-     */
-    private $gender;
-
-    /**
-     * @ORM\Column(type="smallint")
-     * @Assert\NotBlank
      * @Assert\Choice(choices = {1, 2, 3})
      * @Groups ({"user_list", "user_detail", "user_update"})
      */
@@ -141,6 +134,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $blockedCourts;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Gender::class, inversedBy="users")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $gender;
+
     public function __construct()
     {
         $this->reservations = new ArrayCollection();
@@ -204,18 +203,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getUsername(): string
     {
         return (string) $this->email;
-    }
-
-    public function getGender(): ?string
-    {
-        return $this->gender;
-    }
-
-    public function setGender(string $gender): self
-    {
-        $this->gender = $gender;
-
-        return $this;
     }
 
     public function getLevel(): ?int
@@ -433,5 +420,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setUpdatedAtValue(): void
     {
         $this->updatedAt = new \DateTimeImmutable();
+    }
+
+    public function getGender(): ?Gender
+    {
+        return $this->gender;
+    }
+
+    public function setGender(?Gender $gender): self
+    {
+        $this->gender = $gender;
+
+        return $this;
     }
 }
