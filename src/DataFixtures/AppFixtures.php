@@ -126,7 +126,7 @@ class AppFixtures extends Fixture
             $court->setName('Terrain'.$i)
                   ->setSurface($faker->numberBetween(1,2))
                   ->setLightning($faker->boolean())
-                  ->setType($faker->boolean())
+                  ->setIndoor($faker->boolean())
                   ->setStartTime(new DateTime('12:00'))
                   ->setEndTime(new DateTime('20:00'))
                   ->setClub($club)
