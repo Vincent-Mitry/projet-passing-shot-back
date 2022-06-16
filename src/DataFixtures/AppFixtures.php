@@ -14,6 +14,7 @@ use Doctrine\DBAL\Connection;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use App\DataFixtures\Provider\DateTimeImmutableFaker;
+use App\Entity\Gender;
 use App\Entity\Surface;
 
 class AppFixtures extends Fixture
@@ -53,13 +54,33 @@ class AppFixtures extends Fixture
         $faker = Factory::create('fr_FR');
         $faker->addProvider(new DateTimeImmutableFaker($faker));
 
+        // Gender
+        $male = new Gender();
+        $male->setType('Homme')
+             ->setCreatedAt(new DateTimeImmutable());
+        
+        $manager->persist($male);
+
+        $female = new Gender();
+        $female->setType('Femme')
+             ->setCreatedAt(new DateTimeImmutable());
+        
+        $manager->persist($female);
+
+        $neutral = new Gender();
+        $neutral->setType('Neutre')
+             ->setCreatedAt(new DateTimeImmutable());
+        
+        $manager->persist($neutral);
+
+
         //User
         // Creates super_admin
         $superAdmin = new User();
         $superAdmin->setLastname($faker->lastName())
                    ->setFirstname($faker->firstName())
                    ->setEmail('superadmin@superadmin.com')
-                   ->setGender($faker->numberBetween(1,3))
+                   ->setGender($faker->randomElement([$male, $female, $neutral]))
                    ->setLevel($faker->numberBetween(1,3))
                    ->setPhone('0123456789')
                    ->setPassword('superadmin')
@@ -74,7 +95,7 @@ class AppFixtures extends Fixture
         $admin->setLastname($faker->lastName())
                    ->setFirstname($faker->firstName())
                    ->setEmail('admin@admin.com')
-                   ->setGender($faker->numberBetween(1,3))
+                   ->setGender($faker->randomElement([$male, $female, $neutral]))
                    ->setLevel($faker->numberBetween(1,3))
                    ->setPhone('0123456789')
                    ->setPassword('admin')
@@ -92,7 +113,7 @@ class AppFixtures extends Fixture
             $member->setLastname($faker->lastName())
                     ->setFirstname($faker->firstName())
                     ->setEmail('member'.$i.'@member.com')
-                    ->setGender($faker->numberBetween(1,3))
+                    ->setGender($faker->randomElement([$male, $female, $neutral]))
                     ->setLevel($faker->numberBetween(1,3))
                     ->setPhone('0123456789')
                     ->setPassword('member')
