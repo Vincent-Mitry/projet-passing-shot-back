@@ -57,7 +57,7 @@ class Court
      * @Assert\Choice(choices = {true, false})
      * @Groups ({"court_list"}) 
      */
-    private $type;
+    private $indoor;
 
     /**
      * @ORM\Column(type="time")
@@ -192,14 +192,14 @@ class Court
         return $this;
     }
 
-    public function isType(): ?bool
+    public function isIndoor(): ?bool
     {
-        return $this->type;
+        return $this->indoor;
     }
 
-    public function setType(bool $type): self
+    public function setIndoor(bool $indoor): self
     {
-        $this->type = $type;
+        $this->indoor = $indoor;
 
         return $this;
     }
