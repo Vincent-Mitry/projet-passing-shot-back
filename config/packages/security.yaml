@@ -53,6 +53,7 @@ security:
         - { path: ^/api,       roles: IS_AUTHENTICATED_FULLY }
 
         #Back Office routes
+        - { path: ^/connexion, roles: PUBLIC_ACCESS }
         - { path: ^/clubs, roles: ROLE_SUPER_ADMIN }
         - { path: ^/terrains/ajout, roles: ROLE_SUPER_ADMIN }
         - { path: ^/, roles: ROLE_ADMIN }
