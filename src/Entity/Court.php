@@ -38,14 +38,6 @@ class Court
     private $name;
 
     /**
-     * @ORM\Column(type="smallint")
-     * @Assert\NotBlank
-     * @Assert\Choice(choices = {1, 2, 3})
-     * @Groups ({"court_list"}) 
-     */
-    private $surface;
-
-    /**
      * @ORM\Column(type="boolean")
      * @Assert\Choice(choices = {true, false})
      * @Groups ({"court_list"}) 
@@ -144,6 +136,11 @@ class Court
      */
     private $RatingCount;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Surface::class, inversedBy="courts")
+     */
+    private $surface;
+
     public function __construct()
     {
         $this->reservations = new ArrayCollection();
@@ -164,18 +161,6 @@ class Court
     public function setName(string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    public function getSurface(): ?int
-    {
-        return $this->surface;
-    }
-
-    public function setSurface(int $surface): self
-    {
-        $this->surface = $surface;
 
         return $this;
     }
@@ -408,6 +393,18 @@ class Court
     public function setRatingCount(?int $RatingCount): self
     {
         $this->RatingCount = $RatingCount;
+
+        return $this;
+    }
+
+    public function getSurface(): ?Surface
+    {
+        return $this->surface;
+    }
+
+    public function setSurface(?Surface $surface): self
+    {
+        $this->surface = $surface;
 
         return $this;
     }
