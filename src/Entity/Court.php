@@ -85,7 +85,7 @@ class Court
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Groups({"court_list"}) 
      */
-    private $detailled_map;
+    private $detailed_map;
 
     /**
      * @ORM\Column(type="decimal", precision=2, scale=1, nullable=true)
@@ -240,14 +240,14 @@ class Court
         return $this;
     }
 
-    public function getDetailledMap(): ?string
+    public function getDetailedMap(): ?string
     {
-        return $this->detailled_map;
+        return $this->detailed_map;
     }
 
-    public function setDetailledMap(string $detailled_map): self
+    public function setDetailedMap(string $detailed_map): self
     {
-        $this->detailled_map = $detailled_map;
+        $this->detailed_map = $detailed_map;
 
         return $this;
     }

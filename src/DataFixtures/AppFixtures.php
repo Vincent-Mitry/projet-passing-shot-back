@@ -131,7 +131,7 @@ class AppFixtures extends Fixture
                   ->setEndTime(new DateTime('20:00'))
                   ->setClub($club)
                   ->setPicture('https://picsum.photos/200/300')
-                  ->setDetailledMap('https://picsum.photos/200/300')
+                  ->setDetailedMap('https://picsum.photos/200/300')
                   ->setSlug('terrain'.$i)
                   ->setCreatedAt(new DateTimeImmutable());
 
