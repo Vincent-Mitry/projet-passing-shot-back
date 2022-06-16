@@ -100,14 +100,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="datetime_immutable")
      * @Assert\Type("\DateTimeInterface")
-     * @Groups ({"user_list", "user_detail", "user_update"})
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime_immutable", nullable=true)
      * @Assert\Type("\DateTimeInterface")
-     * @Groups ({"user_list", "user_detail", "user_update"})
      */
     private $updatedAt;
 
@@ -137,6 +135,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\ManyToOne(targetEntity=Gender::class, inversedBy="users")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups ({"user_list", "user_detail", "user_update"})
      */
     private $gender;
 

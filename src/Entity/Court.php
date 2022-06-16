@@ -102,14 +102,12 @@ class Court
     /**
      * @ORM\Column(type="datetime_immutable")
      * @Assert\Type("\DateTimeInterface")
-     * @Groups({"court_list"}) 
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime_immutable", nullable=true)
      * @Assert\Type("\DateTimeInterface")
-     * @Groups({"court_list"}) 
      */
     private $updatedAt;
 
@@ -139,6 +137,7 @@ class Court
     /**
      * @ORM\ManyToOne(targetEntity=Surface::class, inversedBy="courts")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups ({"court_list"})
      */
     private $surface;
 

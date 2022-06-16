@@ -6,6 +6,7 @@ use App\Repository\GenderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=GenderRepository::class)
@@ -23,6 +24,7 @@ class Gender
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Groups ({"user_list", "user_detail", "user_update"})
      */
     private $type;
 
