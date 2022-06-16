@@ -138,6 +138,7 @@ class Court
 
     /**
      * @ORM\ManyToOne(targetEntity=Surface::class, inversedBy="courts")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $surface;
 
