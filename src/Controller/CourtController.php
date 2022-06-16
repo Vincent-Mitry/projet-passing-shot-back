@@ -37,7 +37,9 @@ class CourtController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $courtRepository->add($court, true);
 
-            return $this->redirectToRoute('app_court_index', [], Response::HTTP_SEE_OTHER);
+            $this->addFlash('success', 'Terrain ajouté');
+
+            return $this->redirectToRoute('app_court', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('court/new.html.twig', [
@@ -67,7 +69,9 @@ class CourtController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $courtRepository->add($court, true);
 
-            return $this->redirectToRoute('app_court_index', [], Response::HTTP_SEE_OTHER);
+            $this->addFlash('success', 'Terrain modifé');
+
+            return $this->redirectToRoute('app_court', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('court/edit.html.twig', [
@@ -85,6 +89,8 @@ class CourtController extends AbstractController
             $courtRepository->remove($court, true);
         }
 
-        return $this->redirectToRoute('app_court_index', [], Response::HTTP_SEE_OTHER);
+        $this->addFlash('success', 'Terrain supprimé');
+
+        return $this->redirectToRoute('app_court', [], Response::HTTP_SEE_OTHER);
     }
 }
