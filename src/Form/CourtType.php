@@ -4,6 +4,9 @@ namespace App\Form;
 
 use App\Entity\Club;
 use App\Entity\Court;
+use App\Repository\ClubRepository;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -77,18 +80,19 @@ class CourtType extends AbstractType
                 'format' => 'dd MM yyyy',
                 'input' => 'datetime_immutable',
             ])
-            ->add('club', EntityType::class, [
-                'label' => 'Club :',
-                'class' => Club::class,
-                'choice_label' => 'name',
-                'multiple' => false,
-                'expanded' => true,
-                'help' => 'Sélectionner au moins un club.',
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('c')
-                        ->orderBy('c.name', 'ASC');
-                },
-            ])
+            //->add('club', EntityType::class, [
+            //    'label' => 'Club :',
+            //    'class' => Club::class,
+            //    'choice_label' => 'name',
+            //    'multiple' => false,
+            //    'expanded' => true,
+            //    'help' => 'Sélectionner au moins un club.',
+            //    'query_builder' => function (EntityRepository $er) {
+            //        return $er->createQueryBuilder('c')
+            //            ->orderBy('c.name', 'ASC');
+            //    },
+            //    'data' => $this->container->get('doctrine.orm.entity_manager')->getReference(Club::class, 1)
+            //])
             // renovatedAt just for edit
             ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
                 // court is here

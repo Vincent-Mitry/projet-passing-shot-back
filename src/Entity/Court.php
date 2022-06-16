@@ -129,7 +129,6 @@ class Court
 
     /**
      * @ORM\ManyToOne(targetEntity=Club::class, inversedBy="courts")
-     * @Assert\Count(min=1, minMessage="Vous devez sélectionner au moins 1 club.")
      * @ORM\JoinColumn(nullable=false)
      * @Ignore()
      */

@@ -63,7 +63,7 @@
                             {{ role }}
                             {% endfor %}</td>
                             <td>{{ user.createdAt|date('d-m-Y')}}</td>
-                            <td>{{ user.updatedAt|date('d-m-Y')}}</td>
+                            <td>{{ user.updatedAt ? user.updatedAt|date('Y-m-d') : '' }}</td>
                             <td>
                                 <a href="{{ path('app_user_show', {'id': user.id})}}" class="btn btn-sm btn-primary"><i class="bi bi-search"></i></a>
                                 <a href="{{ path('app_user_edit', {'id': user.id})}}" class="btn btn-sm btn-success"><i class="bi bi-pencil-square"></i></a>
