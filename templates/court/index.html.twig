@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Terrain {% endblock %}
+{% block title %}Terrains{% endblock %}
 
 {% block body %}
 <div class="container-fluid">
@@ -52,7 +52,7 @@
                 {% for court in courts %}
                         <tr>
                             <td>{{ court.id }}</td>
-                            <td><img class="rounded-circle me-2" width="30" height="30" src="{{ court.picture }}"></td></td>
+                            <td><img class="rounded-circle me-2" width="30" height="30" src="{{ court.picture }}"></td>
                             <td>{{ court.name }}</td>
                             <td>{{ court.club.name }}</td>
                             <td>{{ court.surface.name }}</td>

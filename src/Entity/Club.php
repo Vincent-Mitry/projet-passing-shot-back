@@ -58,7 +58,7 @@ class Club
 
     /**
      * @ORM\Column(type="datetime_immutable")
-     * @Assert\DateTime
+     * @Assert\Type("\DateTimeInterface")
      */
     private $createdAt;
 
