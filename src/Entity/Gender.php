@@ -24,6 +24,11 @@ class Gender
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Assert\NotBlank(message="Veuillez renseigner le type du genre")
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 50,
+     * )
      * @Groups ({"user_list", "user_detail", "user_update"})
      */
     private $type;

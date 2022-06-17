@@ -24,6 +24,13 @@ class Surface
 
     /**
      * @ORM\Column(type="string", length=50)
+     * 
+     * @Assert\NotBlank(message="Veuillez renseigner le nom de la surface")
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 50,
+     * )
+     * 
      * @Groups ({"court_list"})
      */
     private $name;

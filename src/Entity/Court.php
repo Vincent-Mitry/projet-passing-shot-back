@@ -20,7 +20,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  */
 class Court
 {
-
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -32,6 +31,11 @@ class Court
     /**
      * @ORM\Column(type="string", length=64)
      * @Assert\NotBlank
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 64,
+     * )
+     * 
      * @Groups({"reservations_get_item"})
      * @Groups ({"court_list"}) 
      */
@@ -40,6 +44,7 @@ class Court
     /**
      * @ORM\Column(type="boolean")
      * @Assert\Choice(choices = {true, false})
+     * 
      * @Groups ({"court_list"}) 
      */
     private $lightning;
@@ -47,6 +52,7 @@ class Court
     /**
      * @ORM\Column(type="boolean")
      * @Assert\Choice(choices = {true, false})
+     * 
      * @Groups ({"court_list"}) 
      */
     private $indoor;
@@ -55,6 +61,7 @@ class Court
      * @ORM\Column(type="time")
      * @Assert\NotBlank(message="Veuillez ajouter un horaire d'ouverture pour le terrain")
      * @Assert\Type("\DateTimeInterface")
+     * 
      * @Groups ({"court_list"}) 
      */
     private $startTime;
@@ -63,6 +70,7 @@ class Court
      * @ORM\Column(type="time")
      * @Assert\NotBlank(message="Veuillez ajouter un horaire de fermeture pour le terrain")
      * @Assert\Type("\DateTimeInterface")
+     * 
      * @Groups({"court_list"}) 
      */
     private $endTime;
@@ -88,6 +96,11 @@ class Court
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 255,
+     * )
+     * 
      * @Groups({"court_list"}) 
      */
     private $slug;
@@ -95,6 +108,7 @@ class Court
     /**
      * @ORM\Column(type="datetime_immutable", nullable=true)
      * @Assert\Type("\DateTimeInterface")
+     * 
      * @Groups({"court_list"}) 
      */
     private $renovatedAt;
@@ -121,6 +135,7 @@ class Court
      * @ORM\ManyToOne(targetEntity=Club::class, inversedBy="courts")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank(message="Veuillez associer un club au terrain")
+     * 
      * @Ignore()
      */
     private $club;
@@ -139,6 +154,7 @@ class Court
      * @ORM\ManyToOne(targetEntity=Surface::class, inversedBy="courts")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank(message = "Veuillez sélectionner un terrain")
+     * 
      * @Groups ({"court_list"})
      */
     private $surface;
