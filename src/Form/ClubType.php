@@ -39,17 +39,19 @@ class ClubType extends AbstractType
                 'format' => 'dd MM yyyy',
                 'input' => 'datetime_immutable',
             ])
-            ->add('user', EntityType::class, [
+            ->add('user', EntityType::class, array(
                 'label' => 'Nom du propriétaire :',
                 'class' => User::class,
                 'choice_label' => 'type',
                 'multiple' => false,
                 'expanded' => true,
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('u');
-                        // ->orderBy('u.roles', 'ASC')
-                }
-            ])
+                'query_builder' => function (EntityRepository $pr) {
+                    return $pr->createQueryBuilder('u')
+                            ->select(['u.lastname', 'u.lastname'])
+                             ->where('u.roles = :roles')
+                            ->setParameter('roles', '["ROLE_SUPER_ADMIN"]');
+                })
+            )
         ;
     }
 
