@@ -16,6 +16,7 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use App\DataFixtures\Provider\DateTimeImmutableFaker;
 use App\Entity\Gender;
 use App\Entity\Surface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AppFixtures extends Fixture
 {
@@ -23,11 +24,13 @@ class AppFixtures extends Fixture
      * Connection from database
      */
     private $connection;
+    private $passwordHasher;
 
-    public function __construct(Connection $connection)
+    public function __construct(Connection $connection, UserPasswordHasherInterface $passwordHasher)
     {
         // Get connexion from database (DBAL ~= PDO)
         $this->connection = $connection;
+        $this->passwordHasher = $passwordHasher;
     }
     
     /**
@@ -77,13 +80,14 @@ class AppFixtures extends Fixture
         //User
         // Creates super_admin
         $superAdmin = new User();
+        $hashedPassword = $this->passwordHasher->hashPassword($superAdmin, 'superadmin');
         $superAdmin->setLastname($faker->lastName())
                    ->setFirstname($faker->firstName())
                    ->setEmail('superadmin@superadmin.com')
                    ->setGender($faker->randomElement([$male, $female, $neutral]))
                    ->setLevel($faker->numberBetween(1,3))
                    ->setPhone('0123456789')
-                   ->setPassword('superadmin')
+                   ->setPassword($hashedPassword)
                    ->setRoles(['ROLE_SUPER_ADMIN'])
                    ->setCreatedAt(new DateTimeImmutable('now'))
                    ->setBirthdate($faker->immutableDateTimeBetween('-60 years', '-30 years'));
@@ -92,13 +96,14 @@ class AppFixtures extends Fixture
 
         // Creates admin 
         $admin = new User();
+        $hashedPassword = $this->passwordHasher->hashPassword($admin, 'admin');
         $admin->setLastname($faker->lastName())
                    ->setFirstname($faker->firstName())
                    ->setEmail('admin@admin.com')
                    ->setGender($faker->randomElement([$male, $female, $neutral]))
                    ->setLevel($faker->numberBetween(1,3))
                    ->setPhone('0123456789')
-                   ->setPassword('admin')
+                   ->setPassword($hashedPassword)
                    ->setRoles(['ROLE_ADMIN'])
                    ->setCreatedAt(new DateTimeImmutable('now'))
                    ->setBirthdate($faker->immutableDateTimeBetween('-50 years', '-30 years'));
@@ -110,13 +115,14 @@ class AppFixtures extends Fixture
 
         for ($i=1; $i < 11; $i++) { 
             $member = new User();
+            $hashedPassword = $this->passwordHasher->hashPassword($member, 'member');
             $member->setLastname($faker->lastName())
                     ->setFirstname($faker->firstName())
                     ->setEmail('member'.$i.'@member.com')
                     ->setGender($faker->randomElement([$male, $female, $neutral]))
                     ->setLevel($faker->numberBetween(1,3))
                     ->setPhone('0123456789')
-                    ->setPassword('member')
+                    ->setPassword($hashedPassword)
                     ->setRoles(['ROLE_MEMBER'])
                     ->setCreatedAt(new DateTimeImmutable('now'))
                     ->setBirthdate($faker->immutableDateTimeBetween('-60 years', '-15 years'));
