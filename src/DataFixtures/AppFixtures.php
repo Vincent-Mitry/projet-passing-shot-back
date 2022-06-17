@@ -16,6 +16,7 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use App\DataFixtures\Provider\DateTimeImmutableFaker;
 use App\Entity\Gender;
 use App\Entity\Surface;
+use Proxies\__CG__\App\Entity\Surface as EntitySurface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AppFixtures extends Fixture
@@ -42,6 +43,8 @@ class AppFixtures extends Fixture
         // Disable constraint check on FKs
         $this->connection->executeQuery('SET foreign_key_checks = 0');
         // Truncate tables
+        $this->connection->executeQuery('TRUNCATE TABLE surface');
+        $this->connection->executeQuery('TRUNCATE TABLE gender');
         $this->connection->executeQuery('TRUNCATE TABLE court');
         $this->connection->executeQuery('TRUNCATE TABLE user');
         $this->connection->executeQuery('TRUNCATE TABLE reservation');
