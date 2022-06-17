@@ -16,7 +16,9 @@ class ApiProblem
     const TYPE_VALIDATION_ERROR = 'validation_error';
     const TYPE_INVALID_REQUEST_BODY_FORMAT = 'invalid_body_format';
     const TYPE_RESERVATION_UNAVAILABLE_SLOT = 'reservation_unavailable_slot'; 
-    const TYPE_RESERVATION_NOT_FOUND = 'reservation_not_found'; 
+    const TYPE_RESERVATION_NOT_FOUND = 'reservation_not_found';
+    const TYPE_USER_NOT_FOUND = 'user_not_found';
+    const TYPE_COURT_NOT_FOUND = 'court_not_found'; 
 
     // List of custom Error Messages
     private static $messages = [
@@ -24,6 +26,8 @@ class ApiProblem
         self::TYPE_INVALID_REQUEST_BODY_FORMAT => 'Invalid JSON format sent',
         self::TYPE_RESERVATION_UNAVAILABLE_SLOT => 'Une erreur s\'est produite lors de la réservation, le créneau sélectionné n\'est malheureusement plus disponible ou se trouve en dehors des horaires d\ouverture du terrain.',
         self::TYPE_RESERVATION_NOT_FOUND => 'Réservation non trouvée',
+        self::TYPE_USER_NOT_FOUND => 'Le membre demandé n\'a pas été trouvé',
+        self::TYPE_COURT_NOT_FOUND => 'le terrain demandé n\'a pas été trouvé'
     ];
 
     private $statusCode;
