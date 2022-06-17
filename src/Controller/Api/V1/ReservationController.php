@@ -95,10 +95,50 @@ class ReservationController extends AbstractController
 
         $jsonContent = $request->getContent();
 
-        /** @var Reservation */
+                /** @var Reservation */
         $reservation = $serializer->deserialize($jsonContent, Reservation::class, 'json', [
             AbstractNormalizer::OBJECT_TO_POPULATE => $reservation,
             ['groups' => 'reservations_put_item']
+        ]);
+
+        // Check Validation Constraint Errors
+        $constraintErrors = $apiConstraintErrors->constraintErrorsList($reservation);
+        if ($constraintErrors !== null) {
+            $apiProblem = new ApiProblem(Response::HTTP_UNPROCESSABLE_ENTITY, ApiProblem::TYPE_VALIDATION_ERROR, $constraintErrors);
+            throw new ApiProblemException($apiProblem);
+        }
+
+        $em = $doctrine->getManager();
+        $em->flush();
+
+       
+
+        return $this->json(null, Response::HTTP_OK);
+    }
+
+    /**
+     * @Route("/reservations/{id}", name="reservations_patch", methods={"PATCH"})
+     */
+    public function reservationsPatchItem(
+        Reservation $reservation = null,
+        Request $request,
+        SerializerInterface $serializer,
+        ManagerRegistry $doctrine,
+        ApiConstraintErrors $apiConstraintErrors,
+        RatingAverage $ratingAverage
+    ): Response
+     {
+        if ($reservation === null) {
+            $apiProblem = new ApiProblem(Response::HTTP_NOT_FOUND, ApiProblem::TYPE_RESERVATION_NOT_FOUND);
+            throw new ApiProblemException($apiProblem);
+        }
+
+        $jsonContent = $request->getContent();
+
+        /** @var Reservation */
+        $reservation = $serializer->deserialize($jsonContent, Reservation::class, 'json', [
+            AbstractNormalizer::OBJECT_TO_POPULATE => $reservation,
+            ['groups' => 'reservations_patch_item']
         ]);
 
         // Check Validation Constraint Errors
@@ -135,6 +175,8 @@ class ReservationController extends AbstractController
 
         return $this->json(null, Response::HTTP_NO_CONTENT);
     }
+
+    
 
     /**
      * @Route("/reservations/available-courts/{date}", name="available_courts_collection", methods={"GET"})

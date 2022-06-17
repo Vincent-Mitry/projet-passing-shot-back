@@ -63,7 +63,7 @@ class Reservation
      * @ORM\Column(type="string", length=19, nullable=true)
      * 
      * @Groups({"reservations_get_item"})
-     * @Groups({"reservations_put_item"})
+     * @Groups({"reservations_patch_item"})
      * @Groups({"past_user_reservations"})
      */
     private $score;
@@ -74,7 +74,7 @@ class Reservation
      * @Assert\GreaterThan(0)
      * 
      * @Groups({"reservations_get_item"})
-     * @Groups({"reservations_put_item"})
+     * @Groups({"reservations_patch_item"})
      * @Groups({"past_user_reservations"})
      */
     private $courtRating;
