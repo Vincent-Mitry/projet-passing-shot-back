@@ -59,7 +59,7 @@ class AvailableTimeslots
 
         // Inclusion of all time slots in array 
         for ($i = $startHour; $i < $endHour; $i++) {
-            $availabletimeSlots[$i] = $i;
+            $availabletimeSlots[] = $i;
         }
 
         // Retrieval of all current court's reservations for the day
@@ -75,8 +75,11 @@ class AvailableTimeslots
                 if (($key = array_search($i, $availabletimeSlots)) !== false){
                     unset($availabletimeSlots[$key]);
                 }
-            }
+            } 
         }
+
+        // return clean data "removing" keys and keeping values
+        $availabletimeSlots = array_values($availabletimeSlots);
 
         return $availabletimeSlots;
     }

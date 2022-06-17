@@ -33,7 +33,7 @@ class ReservationController extends AbstractController
             throw new ApiProblemException($apiProblem);
         }
 
-        return $this->json(['reservation' => $reservation], Response::HTTP_OK, [], ['groups' => 'reservations_get_item']);
+        return $this->json($reservation, Response::HTTP_OK, [], ['groups' => 'reservations_get_item']);
     }
 
     /**
@@ -187,6 +187,6 @@ class ReservationController extends AbstractController
     {
         $availableTimeslotsByCourt = $availableTimeslots->getAllAvailableTimeslots($date);
 
-        return $this->json(['availableTimeslotsByCourt' => $availableTimeslotsByCourt], Response::HTTP_OK, []);
+        return $this->json($availableTimeslotsByCourt, Response::HTTP_OK, []);
     }
 }

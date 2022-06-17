@@ -57,9 +57,9 @@ class UserApiController extends AbstractController
             'user' => $user,
             'userFutureRes' => $userFutureRes,
             'userLastRes' => $userLastRes
-        ], Response::HTTP_OK, [], [
-            'groups' => ['user_detail', 'user_see_reservations', 'past_user_reservations']
-
+        ], 
+            Response::HTTP_OK, [], [
+            'groups' => ['user_detail','user_see_reservations', 'past_user_reservations']
         ]);
     }
 
@@ -75,7 +75,6 @@ class UserApiController extends AbstractController
         // Gathering Json content from $request
         $jsonContent = $request->getContent();
 
-
         // We deserialize Json content in $user variable
         $user = $serializer->deserialize($jsonContent, User::class, 'json');
 
@@ -85,6 +84,7 @@ class UserApiController extends AbstractController
             $apiProblem = new ApiProblem(Response::HTTP_UNPROCESSABLE_ENTITY, ApiProblem::TYPE_VALIDATION_ERROR, $constraintErrors);
             throw new ApiProblemException($apiProblem);
         }
+      
         // we save it in DB
         $em = $doctrine->getManager();
         $em->persist($user);
@@ -101,7 +101,6 @@ class UserApiController extends AbstractController
         );
     }
 
-
     /**
      * @Route ("/users/{id}", name="user_update", methods={"PUT"}, requirements={"id"="\d+"})
      * @return JsonResponse Json data
@@ -114,7 +113,6 @@ class UserApiController extends AbstractController
         ValidatorInterface $validator,
         User $user)
     {
-
         // 404 (not found) personalized response
         if ($user === null) {
             $apiProblem = new ApiProblem(Response::HTTP_NOT_FOUND, ApiProblem::TYPE_USER_NOT_FOUND);
