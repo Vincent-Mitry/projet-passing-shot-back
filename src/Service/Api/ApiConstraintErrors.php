@@ -2,6 +2,7 @@
 
 namespace App\Service\Api;
 
+use App\Entity\User;
 use App\Entity\Reservation;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -45,4 +46,35 @@ class ApiConstraintErrors
 
         return $cleanErrors;
     }
+
+    /**
+     * Returns an array of validation constraints errors (null if no errors)
+     *
+     * @param User $user
+     * @return null|array
+     */
+    public function constraintErrorsListUser(User $user) : ?array
+    {
+        // Get error messages from constraints
+        $errors = $this->validator->validate($user);
+    
+        if (count($errors) === 0) { 
+            return null;
+        }
+        
+        // Errors List returned to front
+        $cleanErrors = [];
+    
+        /** @var ConstraintViolation $error */
+        foreach ($errors as $error) {
+            $property = $error->getPropertyPath();
+            $message = $error->getMessage();
+
+            $cleanErrors[$property][] = $message;
+        }
+
+        return $cleanErrors;
+    }
+
+    
 }

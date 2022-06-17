@@ -44,23 +44,22 @@
                     </li>
                 </ul>
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-            
-                    <ul class="navbar-nav flex-nowrap ms-auto">
-                        <div class="shadow"></div>
-                        <div class="d-none d-sm-block topbar-divider"></div>
-                            <li class="nav-item no-arrow">
-                                <div class="nav-item  no-arrow">
-                                    <a class="nav-link" aria-expanded="false" href="#">
-                                        <span class="d-none d-lg-inline me-2 text-gray-600 small"> {{ app.user.firstname}} {{ app.user.lastname}}</span>
-                                            <img class="rounded-circle me-2" width="50" height="50" src="{{ app.user.picture}}">
-                                    </a>
-                                </div>
-                            </li>
-                    </ul>
+                <ul class="navbar-nav flex-nowrap ms-auto">
+                    <div class="shadow"></div>
+                    <div class="d-none d-sm-block topbar-divider"></div>
+                        <li class="nav-item no-arrow">
+                            <div class="nav-item  no-arrow">
+                                <a class="nav-link" aria-expanded="false" href="#">
+                                    <span class="d-none d-lg-inline me-2 text-gray-600 small">{{ app.user.firstname }} {{ app.user.lastname }}</span>
+                                        <img class="rounded-circle me-2" width="50" height="50" src="{{ app.user.picture }}">
+                                </a>
+                            </div>
+                        </li>
+                </ul>
                     <a href="{{ path('logout') }}">
-                                <button type="button" class="btn btn-warning m-3">Déconnexion</button>
-                            </a>
-                {% endif %}        
+                        <button type="button" class="btn btn-warning m-3">Deconnexion</button>
+                    </a>
+                {% endif %}
             </div>
         </nav>
         {% block body %}{% endblock %}
