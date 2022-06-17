@@ -4,12 +4,13 @@ namespace App\Form;
 
 use App\Entity\Club;
 use App\Entity\Court;
-use App\Repository\ClubRepository;
+use App\Entity\Surface;
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\ClubRepository;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -30,18 +31,19 @@ class CourtType extends AbstractType
             ->add('name', TextType::class, [
                 'label' => 'Nom :',
             ])
-            ->add('surface', ChoiceType::class, [
+            ->add('surface', EntityType::class, [
                 'label' => 'Surface :',
-                'choices' => [
-                    'Terre battue' => 1,
-                    'Greenset' => 2
-                ],
+                'class' => Surface::class,
+                'choice_label' => 'name',
                 'multiple' => false,
                 'expanded' => true,
-                'required' => true,
+                'help' => 'Sélectionner au moins une surface.',
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('s')
+                        ->orderBy('s.name', 'ASC');
+                },
             ])
-            
-            ->add('type', CheckboxType::class, [
+            ->add('indoor', CheckboxType::class, [
                 'label' => 'Couvert',
                 'attr' => ['class' => 'form-row p-0'],
                 'required' => false,
@@ -63,7 +65,7 @@ class CourtType extends AbstractType
                     'placeholder' => 'Champ non obligatoire'
                 ],
             ])
-            ->add('detailled_map', UrlType::class, [
+            ->add('detailed_map', UrlType::class, [
                 'label' => 'Plan :',
                 'attr' => [
                     'placeholder' => 'Champ non obligatoire'
@@ -80,41 +82,20 @@ class CourtType extends AbstractType
                 'format' => 'dd MM yyyy',
                 'input' => 'datetime_immutable',
             ])
-            //->add('club', EntityType::class, [
-            //    'label' => 'Club :',
-            //    'class' => Club::class,
-            //    'choice_label' => 'name',
-            //    'multiple' => false,
-            //    'expanded' => true,
-            //    'help' => 'Sélectionner au moins un club.',
-            //    'query_builder' => function (EntityRepository $er) {
-            //        return $er->createQueryBuilder('c')
-            //            ->orderBy('c.name', 'ASC');
-            //    },
-            //    'data' => $this->container->get('doctrine.orm.entity_manager')->getReference(Club::class, 1)
-            //])
-            // renovatedAt just for edit
-            ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
-                // court is here
-                $court = $event->getData();
-                // Form is here
-                $form = $event->getForm();
-
-                // Edit 
-                if ($court->getId() !== null) {
-                    // Edit
-                    $form->add('renovatedAt', DateType::class, [
-                        'label' => 'Date de rénovation :',
-                        'placeholder' => [
-                        'Année' => 'Year', 'Mois' => 'Month', 'Jour' => 'Day',
-                        ],
-                        'format' => 'dd MM yyyy',
-                        'input' => 'datetime_immutable'
-                    ]);
-                } else {
-                    
-                }
-            });
+        
+            ->add('club', EntityType::class, [
+                'label' => 'Club :',
+                'class' => Club::class,
+                'choice_label' => 'name',
+                'multiple' => false,
+                'expanded' => true,
+                'help' => 'Sélectionner au moins un club.',
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('c')
+                        ->orderBy('c.name', 'ASC');
+                },
+            ]);
+            
     }
     public function configureOptions(OptionsResolver $resolver): void
     {
