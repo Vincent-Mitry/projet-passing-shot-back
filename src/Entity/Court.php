@@ -59,7 +59,7 @@ class Court
 
     /**
      * @ORM\Column(type="time")
-     * @Assert\NotBlank(message="Veuillez ajouter un horaire d'ouverture pour le terrain")
+     * @Assert\NotBlank(message="Veuillez ajouter un horaire d'ouverture pour le terrain.")
      * @Assert\Type("\DateTimeInterface")
      * 
      * @Groups ({"court_list"}) 
@@ -68,7 +68,7 @@ class Court
 
     /**
      * @ORM\Column(type="time")
-     * @Assert\NotBlank(message="Veuillez ajouter un horaire de fermeture pour le terrain")
+     * @Assert\NotBlank(message="Veuillez ajouter un horaire de fermeture pour le terrain.")
      * @Assert\Type("\DateTimeInterface")
      * 
      * @Groups({"court_list"}) 
@@ -134,7 +134,7 @@ class Court
     /**
      * @ORM\ManyToOne(targetEntity=Club::class, inversedBy="courts")
      * @ORM\JoinColumn(nullable=false)
-     * @Assert\NotBlank(message="Veuillez associer un club au terrain")
+     * @Assert\NotBlank(message="Veuillez associer un club au terrain.")
      * 
      * @Ignore()
      */
@@ -153,7 +153,7 @@ class Court
     /**
      * @ORM\ManyToOne(targetEntity=Surface::class, inversedBy="courts")
      * @ORM\JoinColumn(nullable=false)
-     * @Assert\NotBlank(message = "Veuillez sélectionner un terrain")
+     * @Assert\NotBlank(message = "Veuillez sélectionner un terrain.")
      * 
      * @Groups ({"court_list"})
      */

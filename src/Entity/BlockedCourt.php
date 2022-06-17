@@ -23,38 +23,43 @@ class BlockedCourt
     private $id;
 
     /**
-     * @ORM\Column(type="time")
-     * @Assert\DateTime
+     * @ORM\Column(type="datetime_immutable")
+     * @Assert\Type("\DateTimeInterface")
      */
     private $startDatetime;
 
     /**
-     * @ORM\Column(type="time")
-     * @Assert\DateTime
+     * @ORM\Column(type="datetime_immutable")
+     * @Assert\Type("\DateTimeInterface")
      */
     private $endDatetime;
 
     /**
      * @ORM\Column(type="string", length=200)
-     * @Assert\NotBlank
+     * @Assert\NotBlank(message = "Veuillez indiquer la raison du blocage du terrain.")
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 200,
+     * )
      */
     private $blockedReason;
 
     /**
      * @ORM\Column(type="datetime_immutable")
-     * @Assert\DateTime
+     * @Assert\Type("\DateTimeInterface")
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime_immutable", nullable=true)
-     * @Assert\DateTime
+     * @Assert\Type("\DateTimeInterface")
      */
     private $updatedAt;
 
     /**
      * @ORM\ManyToOne(targetEntity=Court::class, inversedBy="blockedCourts")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotNull(message = "Veuillez associer le terrain bloqué.")
      */
     private $court;
 

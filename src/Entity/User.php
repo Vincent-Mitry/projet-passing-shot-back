@@ -34,7 +34,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=64)
-     * @Assert\NotBlank(message = "Veuillez renseigner le nom de l'utilisateur")
+     * @Assert\NotBlank(message = "Veuillez renseigner le nom de l'utilisateur.")
      * @Assert\Length(
      *      min = 2,
      *      max = 64,
@@ -134,7 +134,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="datetime_immutable")
      * @Assert\Type("\DateTimeInterface")
-     * @Assert\NotNull(message = "Veuillez ajouter votre date de naissance")
+     * @Assert\NotNull(message = "Veuillez ajouter votre date de naissance.")
      * 
      * @Groups ({"user_list", "user_detail", "user_update"})
      */
@@ -159,7 +159,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\ManyToOne(targetEntity=Gender::class, inversedBy="users")
      * @ORM\JoinColumn(nullable=false)
-     * @Assert\NotNull(message = "Veuillez sélectionner un genre")
+     * @Assert\NotNull(message = "Veuillez sélectionner un genre.")
      * 
      * @Groups ({"user_list", "user_detail", "user_update"})
      */

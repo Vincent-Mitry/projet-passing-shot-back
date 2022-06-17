@@ -29,7 +29,7 @@ class Reservation
     /**
      * @ORM\Column(type="datetime_immutable")
      * @Assert\Type("\DateTimeInterface")
-     * @Assert\NotNull(message="Veuillez sélectionner un horaire de début pour la réservation")
+     * @Assert\NotNull(message="Veuillez sélectionner un horaire de début pour la réservation.")
      * 
      * @Groups({"reservations_get_item"})
      * @Groups({"reservations_put_item"})
@@ -41,7 +41,7 @@ class Reservation
     /**
      * @ORM\Column(type="datetime_immutable")
      * @Assert\Type("\DateTimeInterface")
-     * @Assert\NotNull(message="Veuillez sélectionner un horaire de fin pour la réservation")
+     * @Assert\NotNull(message="Veuillez sélectionner un horaire de fin pour la réservation.")
      * 
      * @Groups({"reservations_get_item"})
      * @Groups({"reservations_put_item"})
@@ -74,7 +74,7 @@ class Reservation
      * @Assert\Range(
      *      min = 1,
      *      max = 5,
-     *      notInRangeMessage = "Veuillez attribuer une note entre {{ min }} et {{ max }}",
+     *      notInRangeMessage = "Veuillez attribuer une note entre {{ min }} et {{ max }}.",
      * )
      * 
      * @Groups({"reservations_get_item"})
@@ -89,7 +89,7 @@ class Reservation
      * @Assert\Range(
      *      min = 2,
      *      max = 4,
-     *      notInRangeMessage = "Le nombre de joueur sélectionnés doit se situer entre {{ min }} et {{ max }}",
+     *      notInRangeMessage = "Le nombre de joueur sélectionnés doit se situer entre {{ min }} et {{ max }}.",
      * )
      * 
      * @Groups({"reservations_get_item"})
@@ -122,7 +122,7 @@ class Reservation
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="reservations")
      * @ORM\JoinColumn(nullable=false)
-     * @Assert\NotNull(message = "Une réservation doit être reliée à un membre")
+     * @Assert\NotNull(message = "Une réservation doit être reliée à un membre.")
      * 
      * @Groups({"reservations_get_item"})
      */
