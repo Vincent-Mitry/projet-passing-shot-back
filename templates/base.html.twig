@@ -43,6 +43,7 @@
                         <a class="nav-link" href="{{ path('app_user') }}">Utilisateur</a>
                     </li>
                 </ul>
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                 <ul class="navbar-nav flex-nowrap ms-auto">
                     <div class="shadow"></div>
                     <div class="d-none d-sm-block topbar-divider"></div>
@@ -57,6 +58,7 @@
                 </ul>
                     <a href="{{ path('login') }}">
                         <button type="button" class="btn btn-warning m-3">Connexion</button>
+                    {% endif %}
                     </a>
             </div>
         </nav>
