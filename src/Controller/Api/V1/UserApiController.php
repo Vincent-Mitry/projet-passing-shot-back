@@ -3,15 +3,16 @@
 namespace App\Controller\Api\V1;
 
 use App\Entity\User;
-use App\Repository\ReservationRepository;
+use App\Service\Api\ApiProblem;
 use App\Repository\UserRepository;
+use App\Service\Api\ApiConstraintErrors;
+use App\Service\Api\ApiProblemException;
+use App\Repository\ReservationRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use phpDocumentor\Reflection\Types\Null_;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
@@ -41,9 +42,10 @@ class UserApiController extends AbstractController
      */
     public function userDetail(User $user = null, ReservationRepository $reservationRepository): JsonResponse
     {
-        // creating 404 responses
+        // 404 (not found) personalized response
         if ($user === null) {
-            return $this->json(['error' => 'Membre introuvable'], Response::HTTP_NOT_FOUND);
+            $apiProblem = new ApiProblem(Response::HTTP_NOT_FOUND, ApiProblem::TYPE_USER_NOT_FOUND);
+            throw new ApiProblemException($apiProblem);
         }
         //will display upcoming reservations
         $userFutureRes = $reservationRepository->upcomingReservationsByUser($user);
@@ -55,10 +57,10 @@ class UserApiController extends AbstractController
             'user' => $user,
             'userFutureRes' => $userFutureRes,
             'userLastRes' => $userLastRes
-    ], Response::HTTP_OK, [], [
-        'groups' => ['user_detail','user_see_reservations', 'past_user_reservations']
-        
-    ]);
+        ], Response::HTTP_OK, [], [
+            'groups' => ['user_detail', 'user_see_reservations', 'past_user_reservations']
+
+        ]);
     }
 
     /**
@@ -68,7 +70,7 @@ class UserApiController extends AbstractController
         Request $request,
         SerializerInterface $serializer,
         ManagerRegistry $doctrine,
-        ValidatorInterface $validator
+        ApiConstraintErrors $apiConstraintErrors
     ) {
         // Gathering Json content from $request
         $jsonContent = $request->getContent();
@@ -77,33 +79,16 @@ class UserApiController extends AbstractController
         // We deserialize Json content in $user variable
         $user = $serializer->deserialize($jsonContent, User::class, 'json');
 
-        // Entity Validation
-        // @link https://symfony.com/doc/current/validation.html#using-the-validator-service
-        $errors = $validator->validate($user);
-
-        //This will gather any error encountered and place in a array
-        if (count($errors) > 0) {
-            $cleanErrors = [];
-
-            /** @var ConstraintViolation $error */
-            foreach ($errors as $error) {
-                $property = $error->getPropertyPath(); // 'title'
-                $message = $error->getMessage(); // 'This value is already used.'
-
-                $cleanErrors[$property][] = $message;
-            }
-
-            return $this->json($cleanErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
+        // Check Validation Constraint Errors
+        $constraintErrors = $apiConstraintErrors->constraintErrorsListUser($user);
+        if ($constraintErrors !== null) {
+            $apiProblem = new ApiProblem(Response::HTTP_UNPROCESSABLE_ENTITY, ApiProblem::TYPE_VALIDATION_ERROR, $constraintErrors);
+            throw new ApiProblemException($apiProblem);
         }
-
-
-
         // we save it in DB
         $em = $doctrine->getManager();
         $em->persist($user);
         $em->flush();
-
-
 
         return $this->json(
             //ID of created User
@@ -121,11 +106,19 @@ class UserApiController extends AbstractController
      * @Route ("/users/{id}", name="user_update", methods={"PUT"}, requirements={"id"="\d+"})
      * @return JsonResponse Json data
      */
-    public function userUpdate(UserRepository $userRepository, Request $request, SerializerInterface $serializer, ManagerRegistry $doctrine, ValidatorInterface $validator, User $user) {
+    public function userUpdate(
+        ApiConstraintErrors $apiConstraintErrors,
+        Request $request,
+        SerializerInterface $serializer,
+        ManagerRegistry $doctrine,
+        ValidatorInterface $validator,
+        User $user)
+    {
 
-        // creating 404 responses
-        if ($userRepository === null) {
-            return $this->json(['error' => 'Membre introuvable'], Response::HTTP_NOT_FOUND);
+        // 404 (not found) personalized response
+        if ($user === null) {
+            $apiProblem = new ApiProblem(Response::HTTP_NOT_FOUND, ApiProblem::TYPE_USER_NOT_FOUND);
+            throw new ApiProblemException($apiProblem);
         }
         //we collect all data from the id in Json format
         $data = $request->getContent();
@@ -133,21 +126,13 @@ class UserApiController extends AbstractController
         //
         $contentToUpdate = $serializer->deserialize($data, User::class, 'json', [AbstractNormalizer::OBJECT_TO_POPULATE => $user, ['groups' => 'user_update']]);
 
-        $errors = $validator->validate($contentToUpdate, null, ['groups' => 'user_update']);
-
-        //This will gather any error encountered and place in a array
-        if (count($errors) > 0) {
-            $cleanErrors = [];
-
-            /** @var ConstraintViolation $error */
-            foreach ($errors as $error) {
-                $property = $error->getPropertyPath(); // 'title'
-                $message = $error->getMessage(); // 'This value is already used.'
-                $cleanErrors[$property][] = $message;
-            }
-
-            return $this->json($cleanErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
+        // Check Validation Constraint Errors
+        $constraintErrors = $apiConstraintErrors->constraintErrorsListUser($user);
+        if ($constraintErrors !== null) {
+            $apiProblem = new ApiProblem(Response::HTTP_UNPROCESSABLE_ENTITY, ApiProblem::TYPE_VALIDATION_ERROR, $constraintErrors);
+            throw new ApiProblemException($apiProblem);
         }
+        
         // we save it in DB
         $em = $doctrine->getManager();
         $em->flush();
