@@ -3,11 +3,14 @@
 namespace App\Form;
 
 use App\Entity\User;
+use App\Entity\Gender;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -46,15 +49,17 @@ class UserType extends AbstractType
             ->add('email', EmailType::class, [
                 'label' => 'Adresse mail :',
             ])
-            ->add('gender', ChoiceType::class, [
+            ->add('gender', EntityType::class, [
                 'label' => 'Genre :',
-                'choices' => [
-                    'Femme' => 1,
-                    'Homme' => 2,
-                    'Neutre' => 3,
-                ],
+                'class' => Gender::class,
+                'choice_label' => 'type',
                 'multiple' => false,
                 'expanded' => true,
+                'help' => 'Sélectionner au moins un genre.',
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('g')
+                        ->orderBy('g.type', 'ASC');
+                }
             ])
             ->add('level', ChoiceType::class, [
                 'label' => 'Niveau :',
@@ -65,6 +70,7 @@ class UserType extends AbstractType
                 ],
                 'multiple' => false,
                 'expanded' => true,
+                'help' => 'Sélectionner au moins un niveau.',
             ])
             ->add('phone', TextType::class, [
                 'label' => 'Téléphone :',
@@ -84,7 +90,7 @@ class UserType extends AbstractType
                     'Gérant' => 'ROLE_ADMIN',
                     'Propriétaire' => 'ROLE_SUPER_ADMIN',
                 ],
-
+                'help' => 'Sélectionner au moins un rôle.',
                 'multiple' => false,
                 'expanded' => true,
 	        ])

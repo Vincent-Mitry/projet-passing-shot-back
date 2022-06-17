@@ -36,9 +36,9 @@ class CourtController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
-            $club = $clubRepository->findOneById(1);
-            $court->setClub($club);
+            // default id for the club is 1
+            // $club = $clubRepository->findOneById(1);
+            // $court->setClub($club);
 
             $courtRepository->add($court, true);
 
