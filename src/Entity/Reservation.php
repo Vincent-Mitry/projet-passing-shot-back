@@ -29,7 +29,7 @@ class Reservation
     /**
      * @ORM\Column(type="datetime_immutable")
      * @Assert\Type("\DateTimeInterface")
-     * @Assert\NotBlank
+     * @Assert\NotNull(message="Veuillez sélectionner un horaire de début pour la réservation")
      * 
      * @Groups({"reservations_get_item"})
      * @Groups({"reservations_put_item"})
@@ -41,7 +41,7 @@ class Reservation
     /**
      * @ORM\Column(type="datetime_immutable")
      * @Assert\Type("\DateTimeInterface")
-     * @Assert\NotBlank
+     * @Assert\NotNull(message="Veuillez sélectionner un horaire de fin pour la réservation")
      * 
      * @Groups({"reservations_get_item"})
      * @Groups({"reservations_put_item"})
@@ -52,7 +52,7 @@ class Reservation
 
     /**
      * @ORM\Column(type="smallint", options={"default" : 1})
-     * @Assert\NotBlank
+     * @Assert\NotNull
      * 
      * @Groups({"reservations_get_item"})
      * @Groups({"reservations_put_item"})
@@ -61,6 +61,7 @@ class Reservation
 
     /**
      * @ORM\Column(type="string", length=19, nullable=true)
+     * @Assert\Length(max=19)
      * 
      * @Groups({"reservations_get_item"})
      * @Groups({"reservations_patch_item"})
@@ -70,8 +71,11 @@ class Reservation
 
     /**
      * @ORM\Column(type="integer", nullable=true)
-     * @Assert\LessThan(6)
-     * @Assert\GreaterThan(0)
+     * @Assert\Range(
+     *      min = 1,
+     *      max = 5,
+     *      notInRangeMessage = "Veuillez attribuer une note entre {{ min }} et {{ max }}",
+     * )
      * 
      * @Groups({"reservations_get_item"})
      * @Groups({"reservations_patch_item"})
@@ -82,7 +86,11 @@ class Reservation
     /**
      * @ORM\Column(type="smallint")
      * @Assert\NotBlank
-     * @Assert\Choice(choices = {2, 3, 4})
+     * @Assert\Range(
+     *      min = 2,
+     *      max = 4,
+     *      notInRangeMessage = "Le nombre de joueur sélectionnés doit se situer entre {{ min }} et {{ max }}",
+     * )
      * 
      * @Groups({"reservations_get_item"})
      * @Groups({"reservations_put_item"})
@@ -105,7 +113,7 @@ class Reservation
     /**
      * @ORM\ManyToOne(targetEntity=Court::class, inversedBy="reservations")
      * @ORM\JoinColumn(nullable=false)
-     * @Assert\NotBlank
+     * @Assert\NotNull(message = "Veuillez attribuer un terrain à la réservation")
      * 
      * @Groups({"reservations_get_item"})
      */
@@ -114,7 +122,7 @@ class Reservation
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="reservations")
      * @ORM\JoinColumn(nullable=false)
-     * @Assert\NotBlank
+     * @Assert\NotNull(message = "Une réservation doit être reliée à un membre")
      * 
      * @Groups({"reservations_get_item"})
      */
