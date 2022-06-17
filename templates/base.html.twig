@@ -50,16 +50,16 @@
                         <li class="nav-item no-arrow">
                             <div class="nav-item  no-arrow">
                                 <a class="nav-link" aria-expanded="false" href="#">
-                                    <span class="d-none d-lg-inline me-2 text-gray-600 small">Maxence Caqueret</span>
-                                        <img class="rounded-circle me-2" width="50" height="50" src="https://st3.depositphotos.com/4609399/14992/i/450/depositphotos_149921960-stock-photo-cute-boy-missing-some-front.jpg">
+                                    <span class="d-none d-lg-inline me-2 text-gray-600 small">{{ app.user.firstname }} {{ app.user.lastname }}</span>
+                                        <img class="rounded-circle me-2" width="50" height="50" src="{{ app.user.picture }}">
                                 </a>
                             </div>
                         </li>
                 </ul>
-                    <a href="{{ path('login') }}">
-                        <button type="button" class="btn btn-warning m-3">Connexion</button>
-                    {% endif %}
+                    <a href="{{ path('logout') }}">
+                        <button type="button" class="btn btn-warning m-3">Deconnexion</button>
                     </a>
+                {% endif %}
             </div>
         </nav>
         {% block body %}{% endblock %}
