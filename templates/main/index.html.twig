@@ -62,10 +62,10 @@
                             <tr>
                                 <th scope="row">{{ court.id }}</th>
                                 <td>{{ court.name}}</td>
-                                <td>{{ court.surface }}</td>
+                                <td> {{court.surface.name}} </td>
                                 <td>{{ court.ratingAvg}}</td>
                                 <td>{{ court.lightning}}</td>
-                                <td>{{ court.type}}</td>
+                                <td>{{ court.indoor}}</td>
                                 <td>
                                 <a href="{{ path('app_court_show', {'id': court.id})}}" class="btn btn-sm btn-primary"><i class="bi bi-search"></i></a>
                                 </td>

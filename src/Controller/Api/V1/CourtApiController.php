@@ -2,7 +2,9 @@
 namespace App\Controller\Api\V1;
 
 use App\Entity\Court;
+use App\Service\Api\ApiProblem;
 use App\Repository\CourtRepository;
+use App\Service\Api\ApiProblemException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -28,9 +30,10 @@ class CourtApiController extends AbstractController
      */
     public function courtDetail(Court $court = null): JsonResponse
     {
-        // creating 404 responses
+        // 404 (not found) personalized response
         if ($court === null) {
-            return $this->json(['error' => 'Terrain introuvable'], Response::HTTP_NOT_FOUND);
+            $apiProblem = new ApiProblem(Response::HTTP_NOT_FOUND, ApiProblem::TYPE_COURT_NOT_FOUND);
+            throw new ApiProblemException($apiProblem);
         }
 
         //expecting a json format response grouping "court_detail" collection tag

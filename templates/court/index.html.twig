@@ -55,12 +55,12 @@
                             <td><img class="rounded-circle me-2" width="30" height="30" src="{{ court.picture }}"></td></td>
                             <td>{{ court.name }}</td>
                             <td>{{ court.club.name }}</td>
-                            <td>{{ court.surface }}</td>
+                            <td>{{ court.surface.name }}</td>
                             <td>{{ court.lightning }}</td>
-                            <td>{{ court.type }}</td>
+                            <td>{{ court.indoor }}</td>
                             <td>{{ court.startTime|date('H:i') }}</td>
                             <td>{{ court.endTime|date('H:i') }}</td>
-                            <td>{{ court.detailledMap }}</td>
+                            <td>{{ court.detailedMap }}</td>
                             <td>{{ court.ratingAvg }}</td>
                             <td>{{ court.renovatedAt|date('d-m-Y') }}</td>
                             <td>{{ court.createdAt|date('d-m-Y')}}</td>
