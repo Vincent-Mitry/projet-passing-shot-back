@@ -79,7 +79,8 @@ class CourtType extends AbstractType
                 ],
                 'format' => 'dd MM yyyy',
                 'input' => 'datetime_immutable',
-            ])
+            ]);
+            
             //->add('club', EntityType::class, [
             //    'label' => 'Club :',
             //    'class' => Club::class,
@@ -94,27 +95,7 @@ class CourtType extends AbstractType
             //    'data' => $this->container->get('doctrine.orm.entity_manager')->getReference(Club::class, 1)
             //])
             // renovatedAt just for edit
-            ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
-                // court is here
-                $court = $event->getData();
-                // Form is here
-                $form = $event->getForm();
-
-                // Edit 
-                if ($court->getId() !== null) {
-                    // Edit
-                    $form->add('renovatedAt', DateType::class, [
-                        'label' => 'Date de rénovation :',
-                        'placeholder' => [
-                        'Année' => 'Year', 'Mois' => 'Month', 'Jour' => 'Day',
-                        ],
-                        'format' => 'dd MM yyyy',
-                        'input' => 'datetime_immutable'
-                    ]);
-                } else {
-                    
-                }
-            });
+            
     }
     public function configureOptions(OptionsResolver $resolver): void
     {
