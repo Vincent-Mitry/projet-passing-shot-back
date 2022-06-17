@@ -28,7 +28,7 @@
             </tr>
             <tr>
                 <th>Surface</th>
-                <td>{{ court.surface }}</td>
+                <td>{{ court.surface.name }}</td>
             </tr>
             <tr>
                 <th>Lightning</th>
@@ -36,7 +36,7 @@
             </tr>
             <tr>
                 <th>Type</th>
-                <td>{{ court.type ? 'Yes' : 'No' }}</td>
+                <td>{{ court.indoor ? 'Yes' : 'No' }}</td>
             </tr>
             <tr>
                 <th>StartTime</th>
@@ -52,7 +52,7 @@
             </tr>
             <tr>
                 <th>Detailled_map</th>
-                <td>{{ court.detailledMap }}</td>
+                <td>{{ court.detailedMap }}</td>
             </tr>
             <tr>
                 <th>RatingAvg</th>
