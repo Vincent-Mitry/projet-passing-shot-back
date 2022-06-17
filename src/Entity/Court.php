@@ -38,14 +38,6 @@ class Court
     private $name;
 
     /**
-     * @ORM\Column(type="smallint")
-     * @Assert\NotBlank
-     * @Assert\Choice(choices = {1, 2, 3})
-     * @Groups ({"court_list"}) 
-     */
-    private $surface;
-
-    /**
      * @ORM\Column(type="boolean")
      * @Assert\Choice(choices = {true, false})
      * @Groups ({"court_list"}) 
@@ -57,7 +49,7 @@ class Court
      * @Assert\Choice(choices = {true, false})
      * @Groups ({"court_list"}) 
      */
-    private $type;
+    private $indoor;
 
     /**
      * @ORM\Column(type="time")
@@ -85,7 +77,7 @@ class Court
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Groups({"court_list"}) 
      */
-    private $detailled_map;
+    private $detailed_map;
 
     /**
      * @ORM\Column(type="decimal", precision=2, scale=1, nullable=true)
@@ -110,14 +102,12 @@ class Court
     /**
      * @ORM\Column(type="datetime_immutable")
      * @Assert\Type("\DateTimeInterface")
-     * @Groups({"court_list"}) 
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime_immutable", nullable=true)
      * @Assert\Type("\DateTimeInterface")
-     * @Groups({"court_list"}) 
      */
     private $updatedAt;
 
@@ -144,6 +134,13 @@ class Court
      */
     private $RatingCount;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Surface::class, inversedBy="courts")
+     * @ORM\JoinColumn(nullable=false)
+     * @Groups ({"court_list"})
+     */
+    private $surface;
+
     public function __construct()
     {
         $this->reservations = new ArrayCollection();
@@ -168,18 +165,6 @@ class Court
         return $this;
     }
 
-    public function getSurface(): ?int
-    {
-        return $this->surface;
-    }
-
-    public function setSurface(int $surface): self
-    {
-        $this->surface = $surface;
-
-        return $this;
-    }
-
     public function isLightning(): ?bool
     {
         return $this->lightning;
@@ -192,14 +177,14 @@ class Court
         return $this;
     }
 
-    public function isType(): ?bool
+    public function isIndoor(): ?bool
     {
-        return $this->type;
+        return $this->indoor;
     }
 
-    public function setType(bool $type): self
+    public function setIndoor(bool $indoor): self
     {
-        $this->type = $type;
+        $this->indoor = $indoor;
 
         return $this;
     }
@@ -240,14 +225,14 @@ class Court
         return $this;
     }
 
-    public function getDetailledMap(): ?string
+    public function getDetailedMap(): ?string
     {
-        return $this->detailled_map;
+        return $this->detailed_map;
     }
 
-    public function setDetailledMap(string $detailled_map): self
+    public function setDetailedMap(string $detailed_map): self
     {
-        $this->detailled_map = $detailled_map;
+        $this->detailed_map = $detailed_map;
 
         return $this;
     }
@@ -408,6 +393,18 @@ class Court
     public function setRatingCount(?int $RatingCount): self
     {
         $this->RatingCount = $RatingCount;
+
+        return $this;
+    }
+
+    public function getSurface(): ?Surface
+    {
+        return $this->surface;
+    }
+
+    public function setSurface(?Surface $surface): self
+    {
+        $this->surface = $surface;
 
         return $this;
     }

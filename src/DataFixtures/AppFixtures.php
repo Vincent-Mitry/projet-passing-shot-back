@@ -14,6 +14,8 @@ use Doctrine\DBAL\Connection;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use App\DataFixtures\Provider\DateTimeImmutableFaker;
+use App\Entity\Gender;
+use App\Entity\Surface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AppFixtures extends Fixture
@@ -55,6 +57,26 @@ class AppFixtures extends Fixture
         $faker = Factory::create('fr_FR');
         $faker->addProvider(new DateTimeImmutableFaker($faker));
 
+        // Gender
+        $male = new Gender();
+        $male->setType('Homme')
+             ->setCreatedAt(new DateTimeImmutable());
+        
+        $manager->persist($male);
+
+        $female = new Gender();
+        $female->setType('Femme')
+             ->setCreatedAt(new DateTimeImmutable());
+        
+        $manager->persist($female);
+
+        $neutral = new Gender();
+        $neutral->setType('Neutre')
+             ->setCreatedAt(new DateTimeImmutable());
+        
+        $manager->persist($neutral);
+
+
         //User
         // Creates super_admin
         $superAdmin = new User();
@@ -62,7 +84,7 @@ class AppFixtures extends Fixture
         $superAdmin->setLastname($faker->lastName())
                    ->setFirstname($faker->firstName())
                    ->setEmail('superadmin@superadmin.com')
-                   ->setGender($faker->numberBetween(1,3))
+                   ->setGender($faker->randomElement([$male, $female, $neutral]))
                    ->setLevel($faker->numberBetween(1,3))
                    ->setPhone('0123456789')
                    ->setPassword($hashedPassword)
@@ -78,7 +100,7 @@ class AppFixtures extends Fixture
         $admin->setLastname($faker->lastName())
                    ->setFirstname($faker->firstName())
                    ->setEmail('admin@admin.com')
-                   ->setGender($faker->numberBetween(1,3))
+                   ->setGender($faker->randomElement([$male, $female, $neutral]))
                    ->setLevel($faker->numberBetween(1,3))
                    ->setPhone('0123456789')
                    ->setPassword($hashedPassword)
@@ -97,7 +119,7 @@ class AppFixtures extends Fixture
             $member->setLastname($faker->lastName())
                     ->setFirstname($faker->firstName())
                     ->setEmail('member'.$i.'@member.com')
-                    ->setGender($faker->numberBetween(1,3))
+                    ->setGender($faker->randomElement([$male, $female, $neutral]))
                     ->setLevel($faker->numberBetween(1,3))
                     ->setPhone('0123456789')
                     ->setPassword($hashedPassword)
@@ -121,20 +143,33 @@ class AppFixtures extends Fixture
 
         $manager->persist($club);
 
+        // Surface 
+        $clay = new Surface();
+        $clay->setName('Terre battue')
+             ->setCreatedAt(new DateTimeImmutable());
+
+        $manager->persist($clay);
+
+        $greenset = new Surface();
+        $greenset->setName('Greenset')
+                 ->setCreatedAt(new DateTimeImmutable());
+                 
+         $manager->persist($greenset);
+
         // Courts
         $courtList = [];
 
         for ($i=1; $i <11 ; $i++) { 
             $court = new Court();
             $court->setName('Terrain'.$i)
-                  ->setSurface($faker->numberBetween(1,2))
+                  ->setSurface($faker->randomElement([$clay, $greenset]))
                   ->setLightning($faker->boolean())
-                  ->setType($faker->boolean())
+                  ->setIndoor($faker->boolean())
                   ->setStartTime(new DateTime('12:00'))
                   ->setEndTime(new DateTime('20:00'))
                   ->setClub($club)
                   ->setPicture('https://picsum.photos/200/300')
-                  ->setDetailledMap('https://picsum.photos/200/300')
+                  ->setDetailedMap('https://picsum.photos/200/300')
                   ->setSlug('terrain'.$i)
                   ->setCreatedAt(new DateTimeImmutable());
 
