@@ -120,6 +120,21 @@ class Reservation
      */
     private $user;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class)
+     */
+    private $player2;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class)
+     */
+    private $player3;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class)
+     */
+    private $player4;
+
     
     public function getId(): ?int
     {
@@ -260,5 +275,41 @@ class Reservation
     public function setUpdatedAtValue(): void
     {
         $this->updatedAt = new \DateTimeImmutable();
+    }
+
+    public function getPlayer2(): ?User
+    {
+        return $this->player2;
+    }
+
+    public function setPlayer2(?User $player2): self
+    {
+        $this->player2 = $player2;
+
+        return $this;
+    }
+
+    public function getPlayer3(): ?User
+    {
+        return $this->player3;
+    }
+
+    public function setPlayer3(?User $player3): self
+    {
+        $this->player3 = $player3;
+
+        return $this;
+    }
+
+    public function getPlayer4(): ?User
+    {
+        return $this->player4;
+    }
+
+    public function setPlayer4(?User $player4): self
+    {
+        $this->player4 = $player4;
+
+        return $this;
     }
 }
