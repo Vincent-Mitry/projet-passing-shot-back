@@ -117,9 +117,47 @@ class ReservationController extends AbstractController
     }
 
     /**
-     * @Route("/reservations/{id}", name="reservations_patch", methods={"PATCH"})
+     * @Route("/reservations/{id}/score", name="reservations_patch_score", methods={"PATCH"})
      */
-    public function reservationsPatchItem(
+    public function reservationsPatchScore(
+        Reservation $reservation = null,
+        Request $request,
+        SerializerInterface $serializer,
+        ManagerRegistry $doctrine,
+        ApiConstraintErrors $apiConstraintErrors,
+        RatingAverage $ratingAverage
+    ): Response
+     {
+        if ($reservation === null) {
+            $apiProblem = new ApiProblem(Response::HTTP_NOT_FOUND, ApiProblem::TYPE_RESERVATION_NOT_FOUND);
+            throw new ApiProblemException($apiProblem);
+        }
+
+        $jsonContent = $request->getContent();
+
+        /** @var Reservation */
+        $reservation = $serializer->deserialize($jsonContent, Reservation::class, 'json', [
+            AbstractNormalizer::OBJECT_TO_POPULATE => $reservation,
+            ['groups' => 'reservations_patch_item']
+        ]);
+
+        // Check Validation Constraint Errors
+        $constraintErrors = $apiConstraintErrors->constraintErrorsList($reservation);
+        if ($constraintErrors !== null) {
+            $apiProblem = new ApiProblem(Response::HTTP_UNPROCESSABLE_ENTITY, ApiProblem::TYPE_VALIDATION_ERROR, $constraintErrors);
+            throw new ApiProblemException($apiProblem);
+        }
+
+        $em = $doctrine->getManager();
+        $em->flush();
+
+        return $this->json(null, Response::HTTP_OK);
+    }
+
+    /**
+     * @Route("/reservations/{id}/rating", name="reservations_patch_rating", methods={"PATCH"})
+     */
+    public function reservationsPatchRating(
         Reservation $reservation = null,
         Request $request,
         SerializerInterface $serializer,
