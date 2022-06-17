@@ -55,14 +55,14 @@
                             </div>
                         </li>
                 </ul>
-                    <a href="#">
-                        <button type="button" class="btn btn-warning m-3">Déconnexion</button>
+                    <a href="{{ path('app_security_login') }}">
+                        <button type="button" class="btn btn-warning m-3">Connexion</button>
                     </a>
             </div>
         </nav>
         {% block body %}{% endblock %}
 
-        <footer class="bg-white sticky-footer">
+        <footer class="bg-white sticky-footer mt-5">
             <div class="container my-auto">
                 <div class="text-center my-auto copyright"><span>Copyright © Passing ShO't 2022</span></div>
             </div>

@@ -5,3 +5,23 @@ body {
 .list {
     font-size: 0.84em;
 }
+
+.form-login {
+    background-image: url(../images/bgtennis.jpg);
+    padding-top: 10%;
+    padding-right: 30%;
+}
+
+.section-login {
+    max-width: 60%;
+    margin: 0 auto;
+    border: 100px;
+}
+
+.text-color-grey {
+    color: white;
+}
+
+.text-color-black {
+    color: black;
+}

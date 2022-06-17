@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Court;
 use App\Form\CourtType;
+use App\Repository\ClubRepository;
 use App\Repository\CourtRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,16 +29,22 @@ class CourtController extends AbstractController
     /**
      * @Route("/ajout", name="app_court_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, CourtRepository $courtRepository): Response
+    public function new(Request $request, CourtRepository $courtRepository, ClubRepository $clubRepository): Response
     {
         $court = new Court();
         $form = $this->createForm(CourtType::class, $court);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $club = $clubRepository->findOneById(1);
+            $court->setClub($club);
+
             $courtRepository->add($court, true);
 
-            return $this->redirectToRoute('app_court_index', [], Response::HTTP_SEE_OTHER);
+            $this->addFlash('success', 'Terrain ajouté');
+
+            return $this->redirectToRoute('app_court', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('court/new.html.twig', [
@@ -59,15 +66,21 @@ class CourtController extends AbstractController
     /**
      * @Route("/{id}/modification", name="app_court_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, Court $court, CourtRepository $courtRepository): Response
+    public function edit(Request $request, Court $court, CourtRepository $courtRepository, ClubRepository $clubRepository): Response
     {
         $form = $this->createForm(CourtType::class, $court);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $club = $clubRepository->findOneById(1);
+            $court->setClub($club);
+
             $courtRepository->add($court, true);
 
-            return $this->redirectToRoute('app_court_index', [], Response::HTTP_SEE_OTHER);
+            $this->addFlash('success', 'Terrain modifé');
+
+            return $this->redirectToRoute('app_court', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('court/edit.html.twig', [
@@ -85,6 +98,8 @@ class CourtController extends AbstractController
             $courtRepository->remove($court, true);
         }
 
-        return $this->redirectToRoute('app_court_index', [], Response::HTTP_SEE_OTHER);
+        $this->addFlash('success', 'Terrain supprimé');
+
+        return $this->redirectToRoute('app_court', [], Response::HTTP_SEE_OTHER);
     }
 }

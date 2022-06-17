@@ -40,20 +40,21 @@ class Court
     /**
      * @ORM\Column(type="smallint")
      * @Assert\NotBlank
+     * @Assert\Choice(choices = {1, 2, 3})
      * @Groups ({"court_list"}) 
      */
     private $surface;
 
     /**
      * @ORM\Column(type="boolean")
-     * @Assert\NotBlank
+     * @Assert\Choice(choices = {true, false})
      * @Groups ({"court_list"}) 
      */
     private $lightning;
 
     /**
      * @ORM\Column(type="boolean")
-     * @Assert\NotBlank
+     * @Assert\Choice(choices = {true, false})
      * @Groups ({"court_list"}) 
      */
     private $type;
@@ -61,7 +62,7 @@ class Court
     /**
      * @ORM\Column(type="time")
      * @Assert\NotBlank
-     * @Assert\Time
+     * @Assert\Type("\DateTimeInterface")
      * @Groups ({"court_list"}) 
      */
     private $startTime;
@@ -69,7 +70,7 @@ class Court
     /**
      * @ORM\Column(type="time")
      * @Assert\NotBlank
-     * @Assert\Time
+     * @Assert\Type("\DateTimeInterface")
      * @Groups({"court_list"}) 
      */
     private $endTime;
@@ -101,21 +102,21 @@ class Court
 
     /**
      * @ORM\Column(type="datetime_immutable", nullable=true)
-     * @Assert\DateTime
+     * @Assert\Type("\DateTimeInterface")
      * @Groups({"court_list"}) 
      */
     private $renovatedAt;
 
     /**
      * @ORM\Column(type="datetime_immutable")
-     * @Assert\DateTime
+     * @Assert\Type("\DateTimeInterface")
      * @Groups({"court_list"}) 
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime_immutable", nullable=true)
-     * @Assert\DateTime
+     * @Assert\Type("\DateTimeInterface")
      * @Groups({"court_list"}) 
      */
     private $updatedAt;
