@@ -7,7 +7,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Validator\ConstraintViolation;
 
 /**
  * Court class
@@ -20,7 +19,7 @@ class CourtApiController extends AbstractController
      */
     public function courtList(CourtRepository $courtRepository): Response
     {
-        return $this->json($courtRepository->findAll(), Response::HTTP_OK, [], ['groups' => 'court_list'],);
+        return $this->json(['courtList' => $courtRepository->findAll()], Response::HTTP_OK, [], ['groups' => 'court_list'],);
     }
 
     /**

@@ -6,7 +6,6 @@ use App\Entity\User;
 use App\Repository\ReservationRepository;
 use App\Repository\UserRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use phpDocumentor\Reflection\Types\Null_;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -55,10 +54,10 @@ class UserApiController extends AbstractController
             'user' => $user,
             'userFutureRes' => $userFutureRes,
             'userLastRes' => $userLastRes
-    ], Response::HTTP_OK, [], [
-        'groups' => ['user_detail','user_see_reservations', 'past_user_reservations']
-        
-    ]);
+        ], 
+            Response::HTTP_OK, [], [
+            'groups' => ['user_detail','user_see_reservations', 'past_user_reservations']
+        ]);
     }
 
     /**
@@ -72,7 +71,6 @@ class UserApiController extends AbstractController
     ) {
         // Gathering Json content from $request
         $jsonContent = $request->getContent();
-
 
         // We deserialize Json content in $user variable
         $user = $serializer->deserialize($jsonContent, User::class, 'json');
@@ -96,14 +94,10 @@ class UserApiController extends AbstractController
             return $this->json($cleanErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-
-
         // we save it in DB
         $em = $doctrine->getManager();
         $em->persist($user);
         $em->flush();
-
-
 
         return $this->json(
             //ID of created User
@@ -115,7 +109,6 @@ class UserApiController extends AbstractController
             ]
         );
     }
-
 
     /**
      * @Route ("/users/{id}", name="user_update", methods={"PUT"}, requirements={"id"="\d+"})
