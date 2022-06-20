@@ -18,6 +18,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Mailer\MailerInterface;
 
 /**
  * Contact class
@@ -59,6 +60,13 @@ class ContactApiController extends AbstractController
         ]);
     }
 
+    public function __construct(
+        MailerInterface $mailer
+    ) {
+        $this->mailer = $mailer;
+    }
+
+
     /**
      * @Route("/contacts", name="contact_post", methods={"POST"})
      */
@@ -66,7 +74,8 @@ class ContactApiController extends AbstractController
         Request $request,
         SerializerInterface $serializer,
         ManagerRegistry $doctrine,
-        ApiConstraintErrors $apiConstraintErrors
+        ApiConstraintErrors $apiConstraintErrors,
+        MailerInterface $mailer
     ) {
         // Gathering Json content from $request
         $jsonContent = $request->getContent();
@@ -81,11 +90,31 @@ class ContactApiController extends AbstractController
             throw new ApiProblemException($apiProblem);
         }
       
+
         // we save it in DB
         $em = $doctrine->getManager();
         $em->persist($contact);
         $em->flush();   
         
+        // We define the address of the sender and the address of the recipient
+        $adressFrom = new Address('contact.passingshot@gmail.com');
+        $addressTo = new Address('contact.passingshot@gmail.com');
+
+        $email = new TemplatedEmail();
+        $email->from($adressFrom)
+            ->to($addressTo)
+            ->replyTo($contact->getEmail())
+            ->subject('Formulaire de contact :')
+            ->htmlTemplate('email/contact.html.twig')
+            ->context([
+                'contact' => $contact,
+                ]);
+
+        
+        // We send the mail with the mailerInterface component
+        $this->mailer->send($email);
+
+
         return $this->json(
             //ID of created Contact
             ['id' => $contact->getId()],
