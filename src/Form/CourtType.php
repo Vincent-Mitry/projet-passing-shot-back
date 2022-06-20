@@ -77,7 +77,9 @@ class CourtType extends AbstractType
             ->add('renovatedAt', DateType::class, [
                 'label' => 'Date de rénovation :',
                 'placeholder' => [
-                    'Année' => 'Year', 'Mois' => 'Month', 'Jour' => 'Day',
+                    'Année' => 'Year', 
+                    'Mois' => 'Month', 
+                    'Jour' => 'Day',
                 ],
                 'format' => 'dd MM yyyy',
                 'input' => 'datetime_immutable',

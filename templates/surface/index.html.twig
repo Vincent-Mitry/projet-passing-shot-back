@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Surface index{% endblock %}
+
+{% block body %}
+    <h1>Surface index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>CreatedAt</th>
+                <th>UpdatedAt</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for surface in surfaces %}
+            <tr>
+                <td>{{ surface.id }}</td>
+                <td>{{ surface.name }}</td>
+                <td>{{ surface.createdAt ? surface.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ surface.updatedAt ? surface.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_surface_show', {'id': surface.id}) }}">show</a>
+                    <a href="{{ path('app_surface_edit', {'id': surface.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_surface_new') }}">Create new</a>
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Surface{% endblock %}
+
+{% block body %}
+    <h1>Surface</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ surface.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ surface.name }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ surface.createdAt ? surface.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>UpdatedAt</th>
+                <td>{{ surface.updatedAt ? surface.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_surface') }}">back to list</a>
+
+    <a href="{{ path('app_surface_edit', {'id': surface.id}) }}">edit</a>
+
+    {{ include('surface/_delete_form.html.twig') }}
+{% endblock %}

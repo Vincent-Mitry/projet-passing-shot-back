@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Surface{% endblock %}
+
+{% block body %}
+    <h1>Edit Surface</h1>
+
+    {{ include('surface/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_surface') }}">back to list</a>
+
+    {{ include('surface/_delete_form.html.twig') }}
+{% endblock %}
