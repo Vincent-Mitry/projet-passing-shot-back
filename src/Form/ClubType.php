@@ -42,25 +42,16 @@ class ClubType extends AbstractType
                 'label' => 'bref decriptif du club',
                 'required' => true,
             ])
-            ->add('createdAt', DateType::class, [
-                'label' => 'Date d\'ouverture :',
-                'placeholder' => [
-                    'Année' => 'Year', 'Mois' => 'Month', 'Jour' => 'Day',
-                ],
-                'format' => 'dd MM yyyy',
-                'input' => 'datetime_immutable',
-                'required' => true,
-            ])
+            
             ->add('user', EntityType::class, [
                 'label' => 'Nom du propriétaire :',
                 'class' => User::class,
                 'choice_label' => 'email',
-                'multiple' => true,
-                'expanded' => false,
+                'multiple' => false,
+                'expanded' => true,
                 'query_builder' => function (EntityRepository $pr) {
                     return $pr->createQueryBuilder('u')
-                              
-                              ->orderBy('u.roles', 'ASC');
+                              ->orderBy('u.roles', 'DESC');
                 }])   
         ;
     }
