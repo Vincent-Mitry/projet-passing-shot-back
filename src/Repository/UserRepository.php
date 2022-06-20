@@ -56,6 +56,20 @@ class UserRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
+    /**
+    * Find users by lastname
+    */
+    public function getUserListByLastname($search)
+    {
+        return $this->createQueryBuilder('u')
+            ->where('u.lastname LIKE :search')
+            ->setParameter('search', $search.'%')
+            ->orderBy('u.firstname', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
 //    /**
 //     * @return User[] Returns an array of User objects
 //     */
