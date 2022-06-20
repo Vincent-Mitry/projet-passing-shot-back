@@ -27,14 +27,14 @@ class Club
 
     /**
      * @ORM\Column(type="time")
-     * @Assert\Time
+     * @Assert\Type("\DateTimeInterface")
      * @Assert\NotBlank
      */
     private $startingTime;
 
     /**
      * @ORM\Column(type="time")
-     * @Assert\Time
+     * @Assert\Type("\DateTimeInterface")
      * @Assert\NotBlank
      */
     private $endingTime;
@@ -64,7 +64,7 @@ class Club
 
     /**
      * @ORM\Column(type="datetime_immutable", nullable=true)
-     * @Assert\DateTime
+     * @Assert\Type("\DateTimeInterface")
      */
     private $updatedAt;
 

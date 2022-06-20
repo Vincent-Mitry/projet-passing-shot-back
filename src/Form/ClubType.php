@@ -12,6 +12,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TimeType;
 
 class ClubType extends AbstractType
 {
@@ -21,6 +22,7 @@ class ClubType extends AbstractType
             
             ->add('name', TextType::class, [
                 'label' => 'Nom :',
+                'required' => true,
             ])
             ->add('logo', UrlType::class, [
                 'label' => 'Logo du club :',
@@ -28,8 +30,17 @@ class ClubType extends AbstractType
                     'placeholder' => 'Champ non obligatoire'
                 ],
             ])
+            ->add('startingTime', TimeType::class, [
+                'label' => 'Heure d\'ouverture :',
+                'required' => true,
+            ])
+            ->add('endingTime', TimeType::class, [
+                'label' => 'Heure de fermeture :',
+                'required' => true,
+                ])
             ->add('description', TextType::class, [
                 'label' => 'bref decriptif du club',
+                'required' => true,
             ])
             ->add('createdAt', DateType::class, [
                 'label' => 'Date d\'ouverture :',
@@ -38,20 +49,20 @@ class ClubType extends AbstractType
                 ],
                 'format' => 'dd MM yyyy',
                 'input' => 'datetime_immutable',
+                'required' => true,
             ])
-            ->add('user', EntityType::class, array(
+            ->add('user', EntityType::class, [
                 'label' => 'Nom du propriétaire :',
                 'class' => User::class,
-                'choice_label' => 'type',
+                'choice_label' => 'email',
                 'multiple' => false,
                 'expanded' => true,
                 'query_builder' => function (EntityRepository $pr) {
                     return $pr->createQueryBuilder('u')
-                            ->select(['u.lastname', 'u.lastname'])
-                             ->where('u.roles = :roles')
-                            ->setParameter('roles', '["ROLE_SUPER_ADMIN"]');
-                })
-            )
+                              
+                              ->orderBy('u.roles', 'ASC');
+                }])
+            
         ;
     }
 

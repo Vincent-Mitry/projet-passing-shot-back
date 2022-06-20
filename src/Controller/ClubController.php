@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Club;
 use App\Form\ClubType;
 use App\Repository\ClubRepository;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,7 +29,7 @@ class ClubController extends AbstractController
     /**
      * @Route("/new", name="app_club_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, ClubRepository $clubRepository): Response
+    public function new(Request $request, ClubRepository $clubRepository, UserRepository $userRepository): Response
     {
         $club = new Club();
         $form = $this->createForm(ClubType::class, $club);
@@ -37,7 +38,7 @@ class ClubController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $clubRepository->add($club, true);
 
-            return $this->redirectToRoute('app_club_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_club', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('club/new.html.twig', [
@@ -67,7 +68,7 @@ class ClubController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $clubRepository->add($club, true);
 
-            return $this->redirectToRoute('app_club_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_club', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('club/edit.html.twig', [
@@ -85,6 +86,6 @@ class ClubController extends AbstractController
             $clubRepository->remove($club, true);
         }
 
-        return $this->redirectToRoute('app_club_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_club', [], Response::HTTP_SEE_OTHER);
     }
 }
