@@ -17,6 +17,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 /**
  * User class 
@@ -53,14 +54,18 @@ class UserApiController extends AbstractController
         $userLastRes = $reservationRepository->fiveLastReservationByUser($user);
 
         //expecting a json format response grouping "User_detail" and User_see_reservations collection tag
-        return $this->json([
-            'user' => $user,
-            'userFutureRes' => $userFutureRes,
-            'userLastRes' => $userLastRes
-        ], 
-            Response::HTTP_OK, [], [
-            'groups' => ['user_detail','user_see_reservations', 'past_user_reservations']
-        ]);
+        return $this->json(
+            [
+                'user' => $user,
+                'userFutureRes' => $userFutureRes,
+                'userLastRes' => $userLastRes
+            ],
+            Response::HTTP_OK,
+            [],
+            [
+                'groups' => ['user_detail', 'user_see_reservations', 'past_user_reservations']
+            ]
+        );
     }
 
     /**
@@ -70,8 +75,10 @@ class UserApiController extends AbstractController
         Request $request,
         SerializerInterface $serializer,
         ManagerRegistry $doctrine,
-        ApiConstraintErrors $apiConstraintErrors
-    ) {
+        ApiConstraintErrors $apiConstraintErrors,
+        UserPasswordHasherInterface $passwordHasher
+    ) 
+    {
         // Gathering Json content from $request
         $jsonContent = $request->getContent();
 
@@ -84,7 +91,15 @@ class UserApiController extends AbstractController
             $apiProblem = new ApiProblem(Response::HTTP_UNPROCESSABLE_ENTITY, ApiProblem::TYPE_VALIDATION_ERROR, $constraintErrors);
             throw new ApiProblemException($apiProblem);
         }
-      
+
+        $plainPassword = $user->getPassword();
+        $hashedPassword = $passwordHasher->hashPassword(
+            $user,
+            $plainPassword
+        );
+
+        $user->setPassword($hashedPassword);
+
         // we save it in DB
         $em = $doctrine->getManager();
         $em->persist($user);
@@ -92,11 +107,20 @@ class UserApiController extends AbstractController
 
         return $this->json(
             //ID of created User
-            ['id' => $user->getId()],
+            [
+                'id' => $user->getId(),
+                'lastname' => $user->getLastname(),
+                'firstname' => $user->getFirstname(),
+                'email' => $user->getEmail(),
+                'level' => $user->getLevel(),
+                'phone' => $user->getPhone(),
+                'birthdate' => $user->getBirthdate(),
+            ],
             //status code 201 = created
             Response::HTTP_CREATED,
             [
-                'Location' => $this->generateUrl('api_v1_user_detail', ['id' => $user->getId()])
+                'Location' => $this->generateUrl('api_v1_user_detail', ['id' => $user->getId()]),
+
             ]
         );
     }
@@ -111,8 +135,8 @@ class UserApiController extends AbstractController
         SerializerInterface $serializer,
         ManagerRegistry $doctrine,
         ValidatorInterface $validator,
-        User $user)
-    {
+        User $user
+    ) {
         // 404 (not found) personalized response
         if ($user === null) {
             $apiProblem = new ApiProblem(Response::HTTP_NOT_FOUND, ApiProblem::TYPE_USER_NOT_FOUND);
@@ -130,7 +154,7 @@ class UserApiController extends AbstractController
             $apiProblem = new ApiProblem(Response::HTTP_UNPROCESSABLE_ENTITY, ApiProblem::TYPE_VALIDATION_ERROR, $constraintErrors);
             throw new ApiProblemException($apiProblem);
         }
-        
+
         // we save it in DB
         $em = $doctrine->getManager();
         $em->flush();
