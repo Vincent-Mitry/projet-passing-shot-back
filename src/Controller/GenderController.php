@@ -26,7 +26,7 @@ class GenderController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="app_gender_new", methods={"GET", "POST"})
+     * @Route("/ajout", name="app_gender_new", methods={"GET", "POST"})
      */
     public function new(Request $request, GenderRepository $genderRepository): Response
     {
@@ -57,7 +57,7 @@ class GenderController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="app_gender_edit", methods={"GET", "POST"})
+     * @Route("/{id}/modification", name="app_gender_edit", methods={"GET", "POST"})
      */
     public function edit(Request $request, Gender $gender, GenderRepository $genderRepository): Response
     {

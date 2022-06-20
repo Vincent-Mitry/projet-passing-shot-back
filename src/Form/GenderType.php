@@ -17,28 +17,7 @@ class GenderType extends AbstractType
         ->add('type', TextType::class, [
             'label' => 'Genre :',
         ])
-        ->add('createdAt', DateType::class, [
-            'years' => range(date('1970'), date('Y')),
-            'label' => 'Date de création:',
-            'placeholder' => [
-                'Année' => 'Year',
-                'Mois' => 'Month',
-                'Jour' => 'Day',
-            ],
-            'format' => 'dd MM yyyy',
-            'input' => 'datetime_immutable',
-        ])
-        ->add('updatedAt', DateType::class, [
-                'years' => range(date('Y'), date('Y')-10),
-                'label' => 'Date de la mise à jour:',
-                'placeholder' => [
-                    'Année' => 'Year',
-                    'Mois' => 'Month',
-                    'Jour' => 'Day',
-                ],
-                'format' => 'dd MM yyyy',
-                'input' => 'datetime_immutable',
-            ])
+       
         ;
     }
 
