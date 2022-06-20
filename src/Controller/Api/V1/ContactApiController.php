@@ -66,10 +66,7 @@ class ContactApiController extends AbstractController
         Request $request,
         SerializerInterface $serializer,
         ManagerRegistry $doctrine,
-        ApiConstraintErrors $apiConstraintErrors,
-        InputInterface $input,
-        OutputInterface $output,
-        Contact $contact
+        ApiConstraintErrors $apiConstraintErrors
     ) {
         // Gathering Json content from $request
         $jsonContent = $request->getContent();
@@ -87,26 +84,7 @@ class ContactApiController extends AbstractController
         // we save it in DB
         $em = $doctrine->getManager();
         $em->persist($contact);
-        $em->flush();
-
-
-        // We define the address of the sender and the address of the recipient
-        $adressFrom = new Address('contact.passingshot@gmail.com');
-        $addressTo = new Address('contact.passingshot@gmail.com');
-
-        $email = new TemplatedEmail();
-        $email->from($adressFrom)
-            ->to($addressTo)
-            ->replyTo($contact->getEmail())
-            ->subject('Formulaire de contact :')
-            ->htmlTemplate('email/contact_mail.html.twig')
-            ->context([
-                'contact' => $contact,
-                ]);
-
-        
-        // We send the mails with the mailer component
-        $this->mailer->send($email);
+        $em->flush();   
         
         return $this->json(
             //ID of created Contact
@@ -117,6 +95,5 @@ class ContactApiController extends AbstractController
                 'Location' => $this->generateUrl('api_v1_contact_detail', ['id' => $contact->getId()])
             ]
         );
-        
     }    
 }
