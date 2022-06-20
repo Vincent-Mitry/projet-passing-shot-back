@@ -6,9 +6,9 @@
 <div class="container"></div>
     <div class="row m-5 text-center">
         <!-- 3 last reservations -->
-        <div class="col-12 col-md-4 ms-auto">
-            <div class="card text-white mb-3">
-                <div class="card-header bg-dark text-center">Informations sur les réservations</div>
+        <div class="col-12 col-md-4 ms-auto" >
+            <div class="card text-white mb-3" >
+                <div class="card-header text-center" style="color: white; background-color: #EA5C0A; border-color: white;">Informations sur les réservations</div>
                 <div class="card-body">
                     <table class="table table-hover">
                         <thead>
@@ -28,14 +28,14 @@
                                 <td>{{ reservation.court.id }}</td>
                                 <td>{{ reservation.startDateTime|date('d-m-Y-H:i') }}</td>
                                 <td>
-                                <a href="{{ path('app_reservation_show', {'id': reservation.id})}}" class="btn btn-sm btn-primary"><i class="bi bi-search"></i></a>
+                                <a href="{{ path('app_reservation_show', {'id': reservation.id})}}" class="btn btn-sm" style="color: white; background-color: #EA5C0A; border-color: white;"><i class="bi bi-search"></i></a>
                                 </td>
                             </tr>
                         {% endfor %}
                         </tbody>
                     </table>
                     <div class="d-grid gap-4">
-                        <a href="{{ path('app_reservation') }}" class="btn btn-success">Voir plus</a>
+                        <a href="{{ path('app_reservation') }}" class="btn" style="color: white; background-color: #EA5C0A; border-color: white;">Voir plus</a>
                     </div>
                 </div>
             </div>
@@ -43,7 +43,7 @@
         <!-- 3 last courts -->
         <div class="col-12 col-md-4 me-auto">
             <div class="card text-white mb-3">
-                <div class="card-header bg-dark text-center">Informations sur les terrains</div>
+                <div class="card-header text-center" style="color: white; background-color: #EA5C0A; border-color: white;">Informations sur les terrains</div>
                 <div class="card-body">
                     <table class="table table-hover">
                         <thead>
@@ -67,14 +67,14 @@
                                 <td>{{ court.lightning}}</td>
                                 <td>{{ court.indoor}}</td>
                                 <td>
-                                <a href="{{ path('app_court_show', {'id': court.id})}}" class="btn btn-sm btn-primary"><i class="bi bi-search"></i></a>
+                                <a href="{{ path('app_court_show', {'id': court.id})}}" class="btn btn-sm" style="color: white; background-color: #EA5C0A; border-color: white;"><i class="bi bi-search"></i></a>
                                 </td>
                             </tr>
                         {% endfor %}
                         </tbody>
                     </table>
                     <div class="d-grid gap-4">
-                        <a href="{{ path('app_court') }}" class="btn btn-success">Voir plus</a>
+                        <a href="{{ path('app_court') }}" class="btn" style="color: white; background-color: #EA5C0A; border-color: white;">Voir plus</a>
                     </div>
                 </div>
             </div>
@@ -84,7 +84,7 @@
         <!-- 3 last users --> 
         <div class="col-12 col-md-4 ms-auto">
             <div class="card text-white mb-3">
-                <div class="card-header bg-dark text-center">Informations sur les utilisateurs</div>
+                <div class="card-header text-center" style="color: white; background-color: #EA5C0A; border-color: white;">Informations sur les utilisateurs</div>
                 <div class="card-body">
                     <table class="table table-hover">
                         <thead>
@@ -104,14 +104,14 @@
                                 <td>{{ user.lastname }}</td>
                                 <td>{{ user.birthdate|date('d-m-Y')}}</td>
                                 <td>
-                                <a href="{{ path('app_user_show', {'id': user.id})}}" class="btn btn-sm btn-primary"><i class="bi bi-search"></i></a>
+                                <a href="{{ path('app_user_show', {'id': user.id})}}" class="btn btn-sm" style="color: white; background-color: #EA5C0A; border-color: white;"><i class="bi bi-search"></i></a>
                                 </td>
                             </tr>
                         {% endfor %}
                         </tbody>
                     </table>
                     <div class="d-grid gap-4">
-                        <a href="{{ path('app_user') }}" class="btn btn-success">Voir plus</a>
+                        <a href="{{ path('app_user') }}" class="btn" style="color: white; background-color: #EA5C0A; border-color: white;">Voir plus</a>
                     </div>
                 </div>
             </div>
@@ -119,7 +119,7 @@
         <!-- 3 last clubs -->
         <div class="col-12 col-md-4 me-auto">
             <div class="card text-white mb-3">
-                <div class="card-header bg-dark text-center">Informations sur les clubs</div>
+                <div class="card-header text-center" style="color: white; background-color: #EA5C0A; border-color: white;">Informations sur les clubs</div>
                 <div class="card-body">
                     <table class="table table-hover">
                         <thead>
@@ -137,14 +137,14 @@
                                 <td>{{ club.name }}</td>
                                 <td>{{ club.user.firstname}} {{ club.user.lastname}}</td>
                                 <td>
-                                <a href="{{ path('app_club_show', {'id': club.id})}}" class="btn btn-sm btn-primary"><i class="bi bi-search"></i></a>
+                                <a href="{{ path('app_club_show', {'id': club.id})}}" class="btn btn-sm" style="color: white; background-color: #EA5C0A; border-color: white;"><i class="bi bi-search"></i></a>
                                 </td>
                             </tr>
                         {% endfor %}
                         </tbody>
                     </table>
                     <div class="d-grid gap-4">
-                        <a href="{{ path('app_club') }}" class="btn btn-success">Voir plus</a>
+                        <a href="{{ path('app_club') }}" class="btn" style="color: white; background-color: #EA5C0A; border-color: white;">Voir plus</a>
                     </div>
                 </div>
             </div>
