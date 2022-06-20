@@ -79,7 +79,7 @@ class UserApiController extends AbstractController
         $user = $serializer->deserialize($jsonContent, User::class, 'json');
 
         // Check Validation Constraint Errors
-        $constraintErrors = $apiConstraintErrors->constraintErrorsListUser($user);
+        $constraintErrors = $apiConstraintErrors->constraintErrorsList($user);
         if ($constraintErrors !== null) {
             $apiProblem = new ApiProblem(Response::HTTP_UNPROCESSABLE_ENTITY, ApiProblem::TYPE_VALIDATION_ERROR, $constraintErrors);
             throw new ApiProblemException($apiProblem);
@@ -125,7 +125,7 @@ class UserApiController extends AbstractController
         $contentToUpdate = $serializer->deserialize($data, User::class, 'json', [AbstractNormalizer::OBJECT_TO_POPULATE => $user, ['groups' => 'user_update']]);
 
         // Check Validation Constraint Errors
-        $constraintErrors = $apiConstraintErrors->constraintErrorsListUser($user);
+        $constraintErrors = $apiConstraintErrors->constraintErrorsList($user);
         if ($constraintErrors !== null) {
             $apiProblem = new ApiProblem(Response::HTTP_UNPROCESSABLE_ENTITY, ApiProblem::TYPE_VALIDATION_ERROR, $constraintErrors);
             throw new ApiProblemException($apiProblem);
