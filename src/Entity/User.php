@@ -34,7 +34,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=64)
-     * @Assert\NotBlank
+     * @Assert\NotBlank(message = "Veuillez renseigner le nom de l'utilisateur.")
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 64,
+     * )
+     *  
      * @Groups({"reservations_get_item"})
      * @Groups ({"user_list", "user_detail", "user_update"})
      */
@@ -42,7 +47,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=64)
-     * @Assert\NotBlank 
+     * @Assert\NotBlank(message = "Veuillez renseigner le prénom de l'utilisateur.")
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 64,
+     * )
+     *  
      * @Groups({"reservations_get_item"})
      * @Groups ({"user_list", "user_detail", "user_update"})
      */
@@ -50,8 +60,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=180)
-     * @Assert\NotBlank
-     * @Assert\Email
+     * @Assert\NotBlank(message = "Veuillez renseigner l'adresse mail de l'utilisateur.")
+     * @Assert\Email(message = "{{ value }} n'est pas une adresse mail valide.")
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 180,
+     * )
+     * 
      * @Groups({"reservations_get_item"})
      * @Groups ({"user_list", "user_detail", "user_update"})
      */
@@ -59,19 +74,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="smallint")
-     * @Assert\NotBlank
+     * @Assert\NotBlank(message = "Veuillez sélectionner votre niveau.")
      * @Assert\Choice(choices = {1, 2, 3})
+     * 
      * @Groups ({"user_list", "user_detail", "user_update"})
      */
     private $level;
 
     /**
      * @ORM\Column(type="string", length=10)
-     * @Assert\NotBlank
+     * @Assert\NotBlank(message = "Veuillez renseigner votre numéro de téléphone.")
      * @Assert\Length(
      *      min = 10,
      *      max = 10,
+     *      exactMessage = "Le numéro de téléphone doit se comporter de 10 chiffres (format français sans indicatif)."
      * )
+     * 
      * @Groups ({"user_list", "user_detail", "user_update"})
      */
     private $phone;
@@ -80,6 +98,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
      * @var string The hashed password
      * @ORM\Column(type="string", length=100)
+     * @Assert\Length(max = 100)
+     * @Assert\NotBlank(message = "Veuillez saisir un mot de passe.")
+     * 
      * @Groups ({"user_list", "user_detail", "user_update"})
      */
     private $password;
@@ -93,6 +114,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="json")
      * @Assert\Choice({"ROLE_MEMBER", "ROLE_ADMIN", "ROLE_SUPER_ADMIN"}, multiple=true)
+     * 
      * @Groups ({"user_list", "user_detail", "user_update"})
      */
     private $roles = [];
@@ -111,7 +133,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="datetime_immutable")
-     * @Assert\NotBlank
+     * @Assert\Type("\DateTimeInterface")
+     * @Assert\NotNull(message = "Veuillez ajouter votre date de naissance.")
+     * 
      * @Groups ({"user_list", "user_detail", "user_update"})
      */
     private $birthdate;
@@ -135,6 +159,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\ManyToOne(targetEntity=Gender::class, inversedBy="users")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotNull(message = "Veuillez sélectionner un genre.")
+     * 
      * @Groups ({"user_list", "user_detail", "user_update"})
      */
     private $gender;

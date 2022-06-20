@@ -52,18 +52,18 @@ class ReservationController extends AbstractController
         /** @var Reservation */
         $reservation = $serializer->deserialize($jsonContent, Reservation::class, 'json');
 
+        // Check Validation Constraint Errors
+        $constraintErrors = $apiConstraintErrors->constraintErrorsList($reservation);
+        if ($constraintErrors !== null) {
+            $apiProblem = new ApiProblem(Response::HTTP_UNPROCESSABLE_ENTITY, ApiProblem::TYPE_VALIDATION_ERROR, $constraintErrors);
+            throw new ApiProblemException($apiProblem);
+        }
+
         // Check if the new reservation's timeslots are available
         $checkAvailability = $availableTimeslots->isAvailableForReservation($reservation);
         // If false ==> exception + error message
         if (!$checkAvailability) {  
             $apiProblem = new ApiProblem(Response::HTTP_NOT_FOUND, ApiProblem::TYPE_RESERVATION_UNAVAILABLE_SLOT);
-            throw new ApiProblemException($apiProblem);
-        }
-
-        // Check Validation Constraint Errors
-        $constraintErrors = $apiConstraintErrors->constraintErrorsList($reservation);
-        if ($constraintErrors !== null) {
-            $apiProblem = new ApiProblem(Response::HTTP_UNPROCESSABLE_ENTITY, ApiProblem::TYPE_VALIDATION_ERROR, $constraintErrors);
             throw new ApiProblemException($apiProblem);
         }
 
@@ -95,7 +95,7 @@ class ReservationController extends AbstractController
 
         $jsonContent = $request->getContent();
 
-                /** @var Reservation */
+        /** @var Reservation */
         $reservation = $serializer->deserialize($jsonContent, Reservation::class, 'json', [
             AbstractNormalizer::OBJECT_TO_POPULATE => $reservation,
             ['groups' => 'reservations_put_item']

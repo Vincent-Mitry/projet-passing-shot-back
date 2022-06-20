@@ -66,8 +66,8 @@
                             <td>{{ court.createdAt|date('d-m-Y')}}</td>
                             <td>{{ court.updatedAt ? court.updatedAt|date('Y-m-d') : '' }}</td>
                             <td>
-                                <a href="{{ path('app_court_show', {'id': court.id})}}" class="btn btn-sm btn-primary"><i class="bi bi-search"></i></a>
-                                <a href="{{ path('app_court_edit', {'id': court.id})}}" class="btn btn-sm btn-success"><i class="bi bi-pencil-square"></i></a>
+                                <a href="{{ path('app_court_show', {'id': court.id})}}" class="btn btn-sm" style="color: white; background-color: #EA5C0A; border-color: white;"><i class="bi bi-search"></i></a>
+                                <a href="{{ path('app_court_edit', {'id': court.id})}}" class="btn btn-sm" style="color: white; background-color: #FFCA2C; border-color: white;"><i class="bi bi-pencil-square"></i></a>
                             </td>
                         </tr>
                 {% endfor %}
