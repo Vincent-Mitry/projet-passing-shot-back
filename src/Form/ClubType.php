@@ -55,14 +55,13 @@ class ClubType extends AbstractType
                 'label' => 'Nom du propriétaire :',
                 'class' => User::class,
                 'choice_label' => 'email',
-                'multiple' => false,
-                'expanded' => true,
+                'multiple' => true,
+                'expanded' => false,
                 'query_builder' => function (EntityRepository $pr) {
                     return $pr->createQueryBuilder('u')
                               
                               ->orderBy('u.roles', 'ASC');
-                }])
-            
+                }])   
         ;
     }
 

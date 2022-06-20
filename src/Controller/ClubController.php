@@ -27,7 +27,7 @@ class ClubController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="app_club_new", methods={"GET", "POST"})
+     * @Route("/ajout", name="app_club_new", methods={"GET", "POST"})
      */
     public function new(Request $request, ClubRepository $clubRepository, UserRepository $userRepository): Response
     {
@@ -58,7 +58,7 @@ class ClubController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="app_club_edit", methods={"GET", "POST"})
+     * @Route("/{id}/modification", name="app_club_edit", methods={"GET", "POST"})
      */
     public function edit(Request $request, Club $club, ClubRepository $clubRepository): Response
     {
