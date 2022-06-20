@@ -20,21 +20,22 @@ use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
+ * Contact class
  * @Route("api/v1", name="api_v1_")
  */
-class contactController extends AbstractController
+class ContactApiController extends AbstractController
 {
 
     /**
      * @Route("/contacts", name="contact_list", methods={"GET"}, requirements={"id"="\d+"})
      */
-    public function userList(ContactRepository $contactRepository): Response
+    public function contactList(ContactRepository $contactRepository): Response
     {
         //looking to find all contact in ContactRepository
         $contactsList = $contactRepository->findAll();
 
-        //expecting a json format response grouping "User_List" collection tag
-        return $this->json(['contactsList' => $contactsList], Response::HTTP_OK, [], ['groups' => 'contact_list'],);
+        //expecting a json format response grouping "contact_List" collection tag
+        return $this->json(['contactsList' => $contactsList], Response::HTTP_OK, ['groups' => 'contact_list'],);
     }
 
     /**
@@ -53,19 +54,22 @@ class contactController extends AbstractController
         return $this->json([
             'contact' => $contact
         ], 
-            Response::HTTP_OK, [], [
+            Response::HTTP_OK, [
             'groups' => ['user_detail']
         ]);
     }
 
-       /**
+    /**
      * @Route("/contacts", name="contact_post", methods={"POST"})
      */
     public function contactPost(
         Request $request,
         SerializerInterface $serializer,
         ManagerRegistry $doctrine,
-        ApiConstraintErrors $apiConstraintErrors
+        ApiConstraintErrors $apiConstraintErrors,
+        InputInterface $input,
+        OutputInterface $output,
+        Contact $contact
     ) {
         // Gathering Json content from $request
         $jsonContent = $request->getContent();
@@ -84,15 +88,8 @@ class contactController extends AbstractController
         $em = $doctrine->getManager();
         $em->persist($contact);
         $em->flush();
-    }    
-    
 
-    // Send email after form validation        
 
-    protected function execute(InputInterface $input, OutputInterface $output, Contact $contact)
-    {
-
-        
         // We define the address of the sender and the address of the recipient
         $adressFrom = new Address('contact.passingshot@gmail.com');
         $addressTo = new Address('contact.passingshot@gmail.com');
@@ -120,6 +117,6 @@ class contactController extends AbstractController
                 'Location' => $this->generateUrl('api_v1_contact_detail', ['id' => $contact->getId()])
             ]
         );
-    }
-
+        
+    }    
 }
