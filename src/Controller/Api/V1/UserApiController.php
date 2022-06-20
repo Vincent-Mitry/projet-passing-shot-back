@@ -28,13 +28,26 @@ class UserApiController extends AbstractController
     /**
      * @Route("/users", name="user_list", methods={"GET"}, requirements={"id"="\d+"})
      */
-    public function userList(UserRepository $userRepository): Response
+    public function userList(UserRepository $userRepository, Request $request): Response
     {
+        // If parameter "lastname" in request 
+        if($search = $request->query->get('lastname')) {
+            // search users by lastname
+            $userListByLastname = $userRepository->getUserListByLastname($search);
+
+            if (empty($userListByLastname)) {
+                $apiProblem = new ApiProblem(Response::HTTP_NOT_FOUND, ApiProblem::TYPE_USER_LASTNAME_NOT_FOUND);
+                throw new ApiProblemException($apiProblem);
+            }
+
+            return $this->json(['usersList' => $userListByLastname], Response::HTTP_OK, [], ['groups' => 'user_list_search_by_lastname']);;
+        }
+        
         //looking to find all users in userRepository
         $usersList = $userRepository->findAll();
 
         //expecting a json format response grouping "User_List" collection tag
-        return $this->json(['usersList' => $usersList], Response::HTTP_OK, [], ['groups' => 'user_list'],);
+        return $this->json(['usersList' => $usersList], Response::HTTP_OK, [], ['groups' => 'user_list']);
     }
 
     /**
