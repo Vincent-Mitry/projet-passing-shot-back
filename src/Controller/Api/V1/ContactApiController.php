@@ -76,7 +76,8 @@ class ContactApiController extends AbstractController
         ManagerRegistry $doctrine,
         ApiConstraintErrors $apiConstraintErrors,
         MailerInterface $mailer
-    ) {
+    )
+    {
         // Gathering Json content from $request
         $jsonContent = $request->getContent();
 
@@ -99,7 +100,6 @@ class ContactApiController extends AbstractController
         // We define the address of the sender and the address of the recipient
         $adressFrom = new Address('contact.passingshot@gmail.com');
         $addressTo = new Address('contact.passingshot@gmail.com');
-
         $email = new TemplatedEmail();
         $email->from($adressFrom)
             ->to($addressTo)
@@ -111,8 +111,10 @@ class ContactApiController extends AbstractController
                 ]);
 
         
-        // We send the mail with the mailerInterface component
-        $this->mailer->send($email);
+        // We send the mail
+        $mailer->send($email);
+        // Confirm with flash message
+        $this->addFlash('message', 'Votre message a bien été envoyé');
 
 
         return $this->json(
