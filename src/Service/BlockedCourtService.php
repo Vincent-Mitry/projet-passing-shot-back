@@ -4,19 +4,16 @@ namespace App\Service;
 
 use App\Entity\Reservation;
 use App\Repository\ReservationRepository;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 
 class BlockedCourtService
 {
     private $reservationRepository;
     
-    public function __construct(ReservationRepository $reservationRepository)
+    public function __construct(ReservationRepository $reservationRepository, FlashBagInterface $flashbag)
     {
         $this->reservationRepository = $reservationRepository;
-    }
-
-    public function setReservationStatusToFalse(Reservation $reservation)
-    {
-        $reservation->setStatus(false);
+        $this->flashbag = $flashbag;
     }
 
     public function handleExistingReservationsOnBlocked($court, $blockedStartDatetime, $blockedEndDatetime)
@@ -24,12 +21,14 @@ class BlockedCourtService
         // Check if existing reservations between blocked court startDatetime and endDatetime
         $reservationsList = $this->reservationRepository->getReservationsInBlockedCourt($court, $blockedStartDatetime, $blockedEndDatetime);
 
-        dd($reservationsList);
-
         // Add Confirmation message : "Etes vous sûr(e) de vouloir bloquer le terrain ? Les réservations faisant partie
         // du créneau de date de blocage seront automatiquement annulées."
 
         // Set Reservation Status to False
-
+                                      /** @var Reservation */
+        foreach ($reservationsList as $reservation) {
+            $reservation->setStatus(false);
+            //TODO : Send Mail To User
+        }
     }
 }
