@@ -51,8 +51,8 @@ class Reservation
     private $endDatetime;
 
     /**
-     * @ORM\Column(type="smallint", options={"default" : 1})
-     * @Assert\NotNull
+     * @ORM\Column(type="boolean")
+     * @Assert\Choice(choices = {true, false})
      * 
      * @Groups({"reservations_get_item"})
      * @Groups({"reservations_put_item"})

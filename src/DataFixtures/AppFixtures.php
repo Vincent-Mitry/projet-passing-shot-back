@@ -203,7 +203,7 @@ class AppFixtures extends Fixture
 
             $reservation->setStartDatetime($startDateTime)
                         ->setEndDatetime($endDateTime)
-                        ->setStatus(1)
+                        ->setStatus(true)
                         ->setCountPlayers(2)
                         ->setCreatedAt(new DateTimeImmutable())
                         ->setCourt($faker->randomElement($courtList))
