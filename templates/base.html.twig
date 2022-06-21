@@ -43,11 +43,13 @@
                         <a class="nav-link" href="{{ path('app_user') }}">Utilisateurs</a>
                     </li>
                     <li class="nav-item">
+
+                        <a class="nav-link" href="{{ path('app_surface') }}">Surfaces</a>
+                    </li>
+
                         <a class="nav-link" href="{{ path('app_gender') }}">Genres</a>
                     </li>
-                    {# <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_surface') }}">Surfaces</a>
-                    </li> #}
+
                 </ul>
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                 <ul class="navbar-nav flex-nowrap ms-auto">
