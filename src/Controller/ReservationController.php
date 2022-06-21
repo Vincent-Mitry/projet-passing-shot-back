@@ -27,7 +27,7 @@ class ReservationController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="app_reservation_new", methods={"GET", "POST"})
+     * @Route("/ajout", name="app_reservation_new", methods={"GET", "POST"})
      */
     public function new(Request $request, ReservationRepository $reservationRepository): Response
     {
@@ -59,7 +59,7 @@ class ReservationController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="app_reservation_edit", methods={"GET", "POST"})
+     * @Route("/{id}/modification", name="app_reservation_edit", methods={"GET", "POST"})
      */
     public function edit(Request $request, Reservation $reservation, ReservationRepository $reservationRepository): Response
     {
