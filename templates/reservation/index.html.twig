@@ -32,7 +32,8 @@
                         <th>Fin</th>
                         <th>Status</th>
                         <th>Score</th>
-                        <th>ID du joueur</th>
+                        <th>Prénom du joueur</th>
+                        <th>Nom du joueur</th>
                         <th>Terrain</th>
                         <th>Note du terrain</th>
                         <th>Nombre de joueur</th>
@@ -47,17 +48,19 @@
                             <td>{{ reservation.id }}</td>
                             <td>{{ reservation.startDateTime|date('d-m-Y-H:i') }}</td>
                             <td>{{ reservation.endDateTime|date('d-m-Y-H:i') }}</td>
-                            <td>{{ reservation.status }}</td>
+                            <td>{% if reservation.status == 1 %}Actif{% else %}
+                                Inactif{% endif %}</td>
                             <td>{{ reservation.score }}</td>
-                            <td>{{ reservation.user.id }}</td>
-                            <td>{{ reservation.court.id}}</td>
+                            <td>{{ reservation.user.firstname }}</td>
+                            <td>{{ reservation.user.lastname }}</td>
+                            <td>{{ reservation.court.name}}</td>
                             <td>{{ reservation.courtRating }}</td>
                             <td>{{ reservation.countPlayers }}</td>
                             <td>{{ reservation.createdAt|date('d-m-Y')}}</td>
                             <td>{{ reservation.updatedAt|date('d-m-Y')}}</td>
                             <td>
-                               <a href="#" class="btn btn-sm" style="color: white; background-color: #EA5C0A; border-color: white;"><i class="bi bi-search"></i></a>
-                                <a href="#" class="btn btn-sm" style="color: white; background-color: #FFCA2C; border-color: white;"><i class="bi bi-pencil-square"></i></a>
+                               <a href="{{ path('app_reservation_show', {'id': reservation.id})}}" class="btn btn-sm" style="color: white; background-color: #EA5C0A; border-color: white;"><i class="bi bi-search"></i></a>
+                                <a href="{{ path('app_reservation_edit', {'id': reservation.id})}}" class="btn btn-sm" style="color: white; background-color: #FFCA2C; border-color: white;"><i class="bi bi-pencil-square"></i></a>
                             </td>
                         </tr>
                 {% endfor %}
