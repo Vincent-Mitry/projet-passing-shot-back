@@ -58,7 +58,7 @@ class AvailableTimeslots
     */
     public function getAvailableTimeslots(Court $court, $date) : array
     {
-        // Array containing the available time slots for the current court
+        // Array containing the available time slots
         $availabletimeSlots = [];
         
         // Retrieval of the current's court starting and ending hour (in numerical value)
@@ -70,55 +70,32 @@ class AvailableTimeslots
             $availabletimeSlots[] = $i;
         }
 
-        // Check if court is blocked for the day
-        $blockedCourtList = $this->blockedCourtRepository->getBlockedCourtsByDateAndCourt($date, $court);
+        // Remove time slots from blocked courts
+        $availabletimeSlots = $this->checkBlockedCourts($date, $court, $courtStartHour, $courtEndHour, $availabletimeSlots);
 
-        foreach ($blockedCourtList as $blockedCourt) {
-            // We retrieve the current blocked court start datetime and end datetime objects
-            $blockedCourtStartDatetime = $blockedCourt->getStartDatetime();
-            $blockedCourtEndDatetime = $blockedCourt->getEndDatetime();
-
-            // We convert the Blocked Court's Datetime Objects in Date Format
-            $blockedCourtStartDate = date_format($blockedCourtStartDatetime, 'Y-m-d');
-            $blockedCourtEndDate = date_format($blockedCourtEndDatetime, 'Y-m-d');
-            // We convert the Blocked Court's Datetime Objects in Numeric Hour Format
-            $blockedCourtStartHour = (int) date_format($blockedCourtStartDatetime, 'H');
-            $blockedCourtEndHour = (int) date_format($blockedCourtEndDatetime, 'H');
-
-            // We compare the Current Date ($date) with the BlockedCourt's StartDate and EndDate.
-            // Depending on the startDate and the endDate, we assign :
-            // - the startHour we start removing time slots for the day
-            // - the EndHour until we stop removing time slots for the day  
-
-            // If The current date is in between a Blocked Court's startDate and endDate, 
-            // all Timeslots are unavailable for the day, so we return an empty array
-            if ($blockedCourtStartDate < $date && $date < $blockedCourtEndDate) {
-                return $availabletimeSlots = [];
-            }
-
-            if ($blockedCourtStartDate == $date && $date < $blockedCourtEndDate) {
-                $startHourToRemoveFrom = $blockedCourtStartHour;
-                $endHourToStop = $courtEndHour;
-            }
-
-            if ($blockedCourtStartDate < $date && $date == $blockedCourtEndDate) {
-                $startHourToRemoveFrom = $courtStartHour;
-                $endHourToStop = $blockedCourtEndHour;
-            }
-
-            if ($blockedCourtStartDate == $date && $date == $blockedCourtEndDate) {
-                $startHourToRemoveFrom = $blockedCourtStartHour;
-                $endHourToStop = $blockedCourtEndHour;
-            }
-
-            // Removal of each time slot based on the current day's start hour to remove until the end hour
-            for ($i= $startHourToRemoveFrom; $i < $endHourToStop; $i++) { 
-                if (($key = array_search($i, $availabletimeSlots)) !== false){
-                    unset($availabletimeSlots[$key]);
-                }
-            } 
+        if (empty($availabletimeSlots)) {
+            return $availabletimeSlots;
         }
         
+        // Remove time slots from reservations
+        $availabletimeSlots = $this->checkReservations($date, $court, $availabletimeSlots);
+
+        // return clean data "removing" keys and keeping values
+        $availabletimeSlots = array_values($availabletimeSlots);
+
+        return $availabletimeSlots;
+    }
+
+    /**
+     * Check the court's reservations and returns the updated available time slots for the day
+     *
+     * @param string $date
+     * @param Court $court
+     * @param array $availabletimeSlots
+     * @return array
+     */
+    public function checkReservations($date, $court, $availabletimeSlots)
+    {
         // Retrieval of all current court's reservations for the day
         $reservationList = $this->reservationRepository->getAllReservationsByDateAndCourt($date, $court);
         
@@ -135,8 +112,73 @@ class AvailableTimeslots
             } 
         }
 
-        // return clean data "removing" keys and keeping values
-        $availabletimeSlots = array_values($availabletimeSlots);
+        return $availabletimeSlots;
+    }
+
+    /**
+     * Check it the court is blocked and returns the updated available time slots for the day
+     *
+     * @param string $date
+     * @param Court $court
+     * @param int $courtStartHour
+     * @param int $courtEndHour
+     * @param array $availabletimeSlots
+     * @return array
+     */
+    public function checkBlockedCourts($date, $court, $courtStartHour, $courtEndHour, $availabletimeSlots)
+    {
+        $blockedCourtList = $this->blockedCourtRepository->getBlockedCourtsByDateAndCourt($date, $court);
+
+        if (empty($blockedCourtList)) {
+            return $availabletimeSlots;
+        }
+
+        foreach ($blockedCourtList as $blockedCourt) {
+            // We retrieve the current blocked court start datetime and end datetime objects
+            $blockedCourtStartDatetime = $blockedCourt->getStartDatetime();
+            $blockedCourtEndDatetime = $blockedCourt->getEndDatetime();
+
+            // We convert the Blocked Court's Datetime Objects in Date Format so we can compare with the current $date
+            $blockedCourtStartDate = date_format($blockedCourtStartDatetime, 'Y-m-d');
+            $blockedCourtEndDate = date_format($blockedCourtEndDatetime, 'Y-m-d');
+            // We convert the Blocked Court's Datetime Objects in Numeric Hour Format so we can compare with the available time slots
+            $blockedCourtStartHour = (int) date_format($blockedCourtStartDatetime, 'H');
+            $blockedCourtEndHour = (int) date_format($blockedCourtEndDatetime, 'H');
+
+            // We compare the Current Date ($date) with the BlockedCourt's StartDate and EndDate.
+            // Depending on the startDate and the endDate, we assign :
+            // - the startHour we start removing time slots for the day
+            // - the EndHour until we stop removing time slots for the day  
+            switch (true) {
+                // If The current date is strictly in between a Blocked Court's startDate and endDate, 
+                // all Timeslots are unavailable for the day, so we return an empty array
+                case $blockedCourtStartDate < $date && $date < $blockedCourtEndDate:
+                    return $availabletimeSlots = [];
+                    break;
+                
+                case $blockedCourtStartDate == $date && $date < $blockedCourtEndDate:
+                    $startHourToRemoveFrom = $blockedCourtStartHour;
+                    $endHourToStop = $courtEndHour;
+                    break;
+
+                case $blockedCourtStartDate < $date && $date == $blockedCourtEndDate:
+                    $startHourToRemoveFrom = $courtStartHour;
+                    $endHourToStop = $blockedCourtEndHour;
+                    break;
+
+                case $blockedCourtStartDate == $date && $date == $blockedCourtEndDate:
+                    $startHourToRemoveFrom = $blockedCourtStartHour;
+                    $endHourToStop = $blockedCourtEndHour;
+                    break;
+            }
+
+            // Removal of each time slot based on the current day's start hour to remove until the end hour
+            for ($i= $startHourToRemoveFrom; $i < $endHourToStop; $i++) { 
+                if (($key = array_search($i, $availabletimeSlots)) !== false){
+                    unset($availabletimeSlots[$key]);
+                }
+            }
+        }
 
         return $availabletimeSlots;
     }
