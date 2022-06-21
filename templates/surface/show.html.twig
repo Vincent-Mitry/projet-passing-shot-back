@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Surfaces
+{% endblock %}
+
+{% block body %}
+	<div class="container-fluid">
+		<div class=" d-flex justify-content-center">
+			<a href="{{ path('app_court') }}" class="btn btn-warning m-3">Retour</a>
+			<a href="{{ path('app_court_edit', {'id': surface.id}) }}" class="btn btn-warning m-3">Modifier</a>
+			{{ include('surface/_delete_form.html.twig') }}
+		</div>
+		<div class="card shadow">
+			<div class="card-header py-3">
+				<p class="text-danger m-0 fw-bold text-center">Information sur le terrain
+					{{ surface.name }}</p>
+			</div>
+			<div class="card-body">
+				<div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
+					<table class="table table-striped table-hover my-0" id="dataTable ">
+						<tbody></tbody>
+						<tbody>
+							<tr>
+								<th>Id</th>
+								<td>{{ surface.id }}</td>
+							</tr>
+							<tr>
+								<th>Name</th>
+								<td>{{ surface.name }}</td>
+							</tr>
+							<tr>
+								<th>CreatedAt</th>
+								<td>{{ surface.createdAt ? surface.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+							</tr>
+							<tr>
+								<th>UpdatedAt</th>
+								<td>{{ surface.updatedAt ? surface.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+
+			{% endblock %}
