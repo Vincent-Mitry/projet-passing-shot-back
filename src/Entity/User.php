@@ -73,9 +73,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $email;
 
     /**
-     * @ORM\Column(type="smallint")
+     * @ORM\Column(type="string", length=64)
      * @Assert\NotBlank(message = "Veuillez sélectionner votre niveau.")
-     * @Assert\Choice(choices = {1, 2, 3})
+     * @Assert\Choice(choices = {"Débutant", "Intermédiaire", "Confirmé"})
      * 
      * @Groups ({"user_list", "user_detail", "user_update"})
      */
@@ -230,12 +230,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return (string) $this->email;
     }
 
-    public function getLevel(): ?int
+    public function getLevel(): ?string
     {
         return $this->level;
     }
 
-    public function setLevel(int $level): self
+    public function setLevel(string $level): self
     {
         $this->level = $level;
 
