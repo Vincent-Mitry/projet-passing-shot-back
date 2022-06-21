@@ -21,28 +21,22 @@ class ReservationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-        ->add('startDatetime', DateTime::class, [
+        ->add('startDatetime', DateTimeType::class, [
             'widget' => 'choice',
-            'format' => 'yyyy-MM-dd  HH:mm',
             'input' => 'datetime_immutable',
+            'label' => 'Date et heure de début',
+            'years' => range(date('Y'), date('Y')+1),
             ],
             
-        
-       
+        )
+        ->add('endDatetime', DateTimeType::class, [
+            'widget' => 'choice',
+            'input' => 'datetime_immutable',
+            'label' => 'Date et heure de fin',
+            'years' => range(date('Y'), date('Y')+1),
+            ],
             
         )
-            ->add('endDatetime', DateType::class, [
-            'label' => 'Date et heure de fin :',
-            'placeholder' => [
-                    'Année' => 'Year', 
-                    'Mois' => 'Month', 
-                    'Jour' => 'Day',
-                    'Heure' => 'Hours',
-                    
-                ],
-                'format' => 'dd MM yyyy HH:mm',
-                'input' => 'datetime_immutable',
-            ])
             ->add('status', ChoiceType::class, [
                 'choices' => [
                     'Inactif' => 2,
