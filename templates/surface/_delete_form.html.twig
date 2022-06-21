@@ -1,4 +1,6 @@
-<form method="post" action="{{ path('app_court_delete', {'id': surface.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce terrain ?');">
+
+<form method="post" action="{{ path('app_surface_delete', {'id': surface.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ surface.id) }}">
-    <button class="btn btn-warning m-3">Supprimer</button>
+    <button class="btn">Delete</button>
+
 </form>

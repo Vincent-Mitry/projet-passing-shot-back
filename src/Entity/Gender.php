@@ -52,7 +52,7 @@ class Gender
     public function __construct()
     {
         $this->users = new ArrayCollection();
-    }
+            }
 
     public function getId(): ?int
     {

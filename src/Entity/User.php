@@ -28,7 +28,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups ({"user_list", "user_detail"})
+     * @Groups ({"user_list", "user_detail", "user_list_search_by_lastname"})
      */
     private $id;
 
@@ -41,7 +41,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * )
      *  
      * @Groups({"reservations_get_item"})
-     * @Groups ({"user_list", "user_detail", "user_update"})
+     * @Groups ({"user_list", "user_detail", "user_update", "user_list_search_by_lastname"})
      */
     private $lastname;
 
@@ -54,7 +54,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * )
      *  
      * @Groups({"reservations_get_item"})
-     * @Groups ({"user_list", "user_detail", "user_update"})
+     * @Groups ({"user_list", "user_detail", "user_update", "user_list_search_by_lastname"})
      */
     private $firstname;
 
