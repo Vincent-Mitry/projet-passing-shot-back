@@ -9,6 +9,7 @@ use App\Form\BlockedCourtType;
 use App\Repository\ClubRepository;
 use App\Repository\CourtRepository;
 use App\Repository\BlockedCourtRepository;
+use App\Service\BlockedCourtService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -121,8 +122,12 @@ class CourtController extends AbstractController
      * @Route("/{court_id}/bloquer", name="app_court_block", methods={"GET", "POST"}, requirements={"court_id"="\d+"})
      * @ParamConverter("court", options={"id" = "court_id"})
      */
-    public function block(Request $request, Court $court = null, BlockedCourtRepository $blockedCourtRepository): Response
-    {
+    public function block(
+        Request $request,
+        Court $court = null,
+        BlockedCourtRepository $blockedCourtRepository,
+        BlockedCourtService $blockedCourtService
+    ): Response {
         if ($court === null) {
             throw $this->createNotFoundException('Terrain non trouvé');
         }
@@ -136,6 +141,7 @@ class CourtController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $blockedCourtService->handleExistingReservationsOnBlocked($court, $blockedCourt->getStartDatetime(), $blockedCourt->getEndDatetime());
 
             $blockedCourtRepository->add($blockedCourt, true);
 
