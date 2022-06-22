@@ -116,8 +116,8 @@ class ReservationRepository extends ServiceEntityRepository
      * Gets all reservations affected by the blocked court (if a reservation's time slot is included in the blocked court's time slot)
      *
      * @param Court $court
-     * @param [type] $blockedStartDatetime
-     * @param [type] $blockedEndDatetime
+     * @param \DateTimeInterface $blockedStartDatetime
+     * @param \DateTimeInterface $blockedEndDatetime
      * @return array
      */
     public function getReservationsInBlockedCourt($court, $blockedStartDatetime, $blockedEndDatetime)
