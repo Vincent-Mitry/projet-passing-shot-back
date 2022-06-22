@@ -38,7 +38,7 @@ class ReservationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $reservationRepository->add($reservation, true);
 
-            return $this->redirectToRoute('app_reservation_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_reservation', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('reservation/new.html.twig', [
@@ -69,7 +69,7 @@ class ReservationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $reservationRepository->add($reservation, true);
 
-            return $this->redirectToRoute('app_reservation_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_reservation', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('reservation/edit.html.twig', [
@@ -87,6 +87,6 @@ class ReservationController extends AbstractController
             $reservationRepository->remove($reservation, true);
         }
 
-        return $this->redirectToRoute('app_reservation_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_reservation', [], Response::HTTP_SEE_OTHER);
     }
 }

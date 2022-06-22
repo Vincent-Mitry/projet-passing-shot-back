@@ -25,11 +25,11 @@
             </tr>
             <tr>
                 <th>A partir de </th>
-                <td>{{ reservation.startDatetime ? reservation.startDatetime|date('H:i') : '' }}</td>
+                <td>{{ reservation.startDatetime ? reservation.startDatetime|date('d M H:i') : '' }}</td>
             </tr>
             <tr>
                 <th>Jusqu'à</th>
-                <td>{{ reservation.endDatetime ? reservation.endDatetime|date('H:i') : '' }}</td>
+                <td>{{ reservation.endDatetime ? reservation.endDatetime|date('d M H:i') : '' }}</td>
             </tr>
             <tr>
                 <th>Nom du terrain</th>
@@ -53,7 +53,8 @@
                     {{reservation.player4Id}} {% endif %}</td>
             </tr> #}
                 <th>Notation du terrain</th>
-                <td>{{ reservation.court.ratingAvg }}</td>
+                <td>{% if reservation.court.ratingAvg == null %} Pas de notation {% else %}
+                    {{reservation.court.ratingAvg}} {% endif %} </td>
             </tr>
            
             </tr>

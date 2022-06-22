@@ -61,7 +61,7 @@ class ReservationType extends AbstractType
                 'label' => 'Nom du terrain:',
                 'class' => Court::class,
                 'choice_label' => 'name',
-                'multiple' => true,
+                'multiple' => false,
                 'expanded' => false,
                 'help' => 'Sélectionner un terrain.',
                 'query_builder' => function (EntityRepository $er) {
@@ -73,7 +73,7 @@ class ReservationType extends AbstractType
                 'label' => 'Nom du membre :',
                 'class' => User::class,
                 'choice_label' => 'lastname',
-                'multiple' => true,
+                'multiple' => false,
                 'expanded' => false,
                 'help' => 'Sélectionner un membre.',
                 'query_builder' => function (EntityRepository $ef) {
