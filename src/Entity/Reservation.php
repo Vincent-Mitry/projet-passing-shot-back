@@ -52,7 +52,7 @@ class Reservation
 
     /**
      * @ORM\Column(type="boolean")
-     * @Assert\Choice(choices = {true, false})
+     * @Assert\NotNull()
      * 
      * @Groups({"reservations_get_item"})
      * @Groups({"reservations_put_item"})
