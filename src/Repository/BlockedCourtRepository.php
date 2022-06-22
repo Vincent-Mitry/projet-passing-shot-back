@@ -39,6 +39,18 @@ class BlockedCourtRepository extends ServiceEntityRepository
         }
     }
 
+    public function getBlockedCourtsByDateAndCourt($date, $court)
+    {
+        return $this->createQueryBuilder('b')
+            ->where(':date BETWEEN CAST(b.startDatetime as DATE) AND b.endDatetime')
+            ->andWhere('b.court = :court')
+            ->setParameter('date', $date)
+            ->setParameter('court', $court)
+            ->getQuery()            
+            ->getResult()
+        ;
+    }
+
 //    /**
 //     * @return BlockedCourt[] Returns an array of BlockedCourt objects
 //     */
