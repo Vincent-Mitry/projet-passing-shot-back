@@ -5,6 +5,23 @@
 {% block body %}
 <div class="container"></div>
     <div class="row m-5 text-center">
+    {# courts available today #}
+    
+                <div class="card-header text-center" style="color: white; background-color: #EA5C0A; border-color: white;">Terrains disponibles aujourd'hui</div>
+                <div class="card-body">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">Nom du terrain</th>
+                                <th scope="col">heures</th>
+                                
+                            </tr>
+                        </thead>
+                       
+                        
+                        </tbody>
+                    </table>
+                    </div>
         <!-- 3 last reservations -->
         <div class="col-12 col-md-4 ms-auto" >
             <div class="card text-white mb-3" >
@@ -23,6 +40,7 @@
                         <tbody>
                         {% for reservation in reservations %}
                             <tr>
+                            
                                 <th scope="row">{{ reservation.id }}</th>
                                 <td>{{ reservation.createdAt|date('d-m-Y')}}</td>
                                 <td>{{ reservation.court.id }}</td>

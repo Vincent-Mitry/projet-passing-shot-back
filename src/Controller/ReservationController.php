@@ -95,4 +95,12 @@ class ReservationController extends AbstractController
 
         return $this->redirectToRoute('app_reservation', [], Response::HTTP_SEE_OTHER);
     }
+
+    /**
+     * @Route("/disponibilites", name="app_reservation_availabilities", methods={"GET"})
+     */
+    public function checkAvailability(Reservation $reservation)
+    {
+       
+    }
 }
