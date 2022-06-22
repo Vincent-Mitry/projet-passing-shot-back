@@ -4,26 +4,22 @@ namespace App\Controller\Api\V1;
 
 use App\Entity\Contact;
 use App\Service\Api\ApiProblem;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Mime\Address;
+use Symfony\Component\Mailer\Mailer;
 use App\Repository\ContactRepository;
+use Symfony\Component\Mailer\Transport;
 use App\Service\Api\ApiConstraintErrors;
 use App\Service\Api\ApiProblemException;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Component\Mailer\SentMessage;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
-use Symfony\Component\Mailer\Mailer;
-use Symfony\Component\Mime\Email;
-use Symfony\Component\Mailer\Transport;
 
 /**
  * Contact class
@@ -98,34 +94,50 @@ class ContactApiController extends AbstractController
             throw new ApiProblemException($apiProblem);
         }
       
+        // we save it in DB
+        $em = $doctrine->getManager();
+        $em->persist($contact);
+        $em->flush();
+        
+        // We define the address of the sender and the address of the recipient
+        $adressFrom = new Address('contact.passingshot@gmail.com');
+        $addressTo = new Address('contact.passingshot@gmail.com');
 
         
-        // // We define the address of the sender and the address of the recipient
-        // // $adressFrom = new Address('contact.passingshot@gmail.com');
-        // // $addressTo = new Address('contact.passingshot@gmail.com');
-        // $email = new TemplatedEmail();
-        // $email->replyTo($contact->getEmail())
-        // ->subject('Réception d\'un mail')
-        // ->text("Envoi du mail réussi")
-        // ->htmlTemplate('email/contact.html.twig')
-        // ->context([
-        //     'contact' => $contact,
-        // ]);
-    
-        // // We send the mail
-        // try {
-        //     $mailer->send($email);
-        //     dd("OK");
-        // } catch (TransportExceptionInterface $e) {
-        //     dd($e);
-        // }
+        $email = new TemplatedEmail();
+        $email->from($adressFrom)
+            ->to($addressTo)
+            ->replyTo($contact->getEmail())
+            ->subject('Formulaire de contact : '.  $contact->getLastname() . ' ' . $contact->getFirstname() )
+            ->htmlTemplate('email/contact.html.twig')
+            ->context([
+                'contact' => $contact,
+            ]);
+                
 
-        $email = (new Email())
-                ->from('contact.passingshot@gmail.com')
-                ->to($contact->getEmail())
-                ->subject('Test mail')
-                ->text("Bienvenue sur Passing Shot");
+        //$email = (new TemplatedEmail())
+        //        ->from($adressFrom)
+        //        ->to($addressTo)
+        //        ->subject('Formulaire de contact : '.  $contact->getLastname() . ' ' . $contact->getFirstname() )
+        //        ->html('<h1>Réponse du formulaire</h1>
 
+            
+        //        <h3>Informations de contact :</h3>
+        //            <ul>
+        //                <li>Nom : ' . $contact->getFirstname() .'</li>
+        //                <li>Prénom : ' . $contact->getLastname() .'</li>
+        //                <li>E-mail : '. $contact->getEmail() .'</li>
+        //            </ul>
+        //        
+        //        <h3>Message :</h3>
+        //            <p>'. $contact->getMessage() . '</p>')
+        //        ->context([
+        //            'contact' => $contact,
+        //            ]);
+
+
+
+        // We send the mail
 
         $transport = Transport::fromDsn($_ENV['MAILER_DSN']);
         
@@ -133,10 +145,7 @@ class ContactApiController extends AbstractController
         
         $mailer->send($email);
         
-        // we save it in DB
-        $em = $doctrine->getManager();
-        $em->persist($contact);
-        $em->flush();
+
         
         // Confirm with flash message
         $this->addFlash('message', 'Votre message a bien été envoyé.');
