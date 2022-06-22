@@ -51,6 +51,7 @@ security:
     access_control:
         - { path: ^/api/login, roles: PUBLIC_ACCESS }
         - { path: ^/api/logout, roles: PUBLIC_ACCESS }
+        - { path: ^/api/v1/contacts, roles: PUBLIC_ACCESS }
         - { path: ^/api/v1/courts, roles: PUBLIC_ACCESS }
         - { path: ^/api/v1/reservations/available-courts, roles: PUBLIC_ACCESS }
         - { path: ^/api,       roles: IS_AUTHENTICATED_FULLY }

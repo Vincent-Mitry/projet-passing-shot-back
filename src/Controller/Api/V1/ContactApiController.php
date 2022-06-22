@@ -9,8 +9,10 @@ use App\Repository\ContactRepository;
 use App\Service\Api\ApiConstraintErrors;
 use App\Service\Api\ApiProblemException;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Mailer\SentMessage;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -18,7 +20,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
+use Symfony\Component\Mailer\Mailer;
+use Symfony\Component\Mime\Email;
+use Symfony\Component\Mailer\Transport;
 
 /**
  * Contact class
@@ -36,7 +41,7 @@ class ContactApiController extends AbstractController
         $contactsList = $contactRepository->findAll();
 
         //expecting a json format response grouping "contact_List" collection tag
-        return $this->json(['contactsList' => $contactsList], Response::HTTP_OK, ['groups' => 'contact_list'],);
+        return $this->json(['contactsList' => $contactsList], Response::HTTP_OK, ['groups' => 'contact_list'], );
     }
 
     /**
@@ -52,12 +57,15 @@ class ContactApiController extends AbstractController
         }
 
         //expecting a json format response grouping "Contact_detail" and User_see_reservations collection tag
-        return $this->json([
+        return $this->json(
+            [
             'contact' => $contact
-        ], 
-            Response::HTTP_OK, [
+        ],
+            Response::HTTP_OK,
+            [
             'groups' => ['user_detail']
-        ]);
+        ]
+        );
     }
 
     public function __construct(
@@ -76,8 +84,7 @@ class ContactApiController extends AbstractController
         ManagerRegistry $doctrine,
         ApiConstraintErrors $apiConstraintErrors,
         MailerInterface $mailer
-    )
-    {
+    ) {
         // Gathering Json content from $request
         $jsonContent = $request->getContent();
 
@@ -92,31 +99,49 @@ class ContactApiController extends AbstractController
         }
       
 
+        
+        // // We define the address of the sender and the address of the recipient
+        // // $adressFrom = new Address('contact.passingshot@gmail.com');
+        // // $addressTo = new Address('contact.passingshot@gmail.com');
+        // $email = new TemplatedEmail();
+        // $email->replyTo($contact->getEmail())
+        // ->subject('Réception d\'un mail')
+        // ->text("Envoi du mail réussi")
+        // ->htmlTemplate('email/contact.html.twig')
+        // ->context([
+        //     'contact' => $contact,
+        // ]);
+    
+        // // We send the mail
+        // try {
+        //     $mailer->send($email);
+        //     dd("OK");
+        // } catch (TransportExceptionInterface $e) {
+        //     dd($e);
+        // }
+
+        $email = (new Email())
+                ->from('contact.passingshot@gmail.com')
+                ->to($contact->getEmail())
+                ->subject('Test mail')
+                ->text("Bienvenue sur Passing Shot");
+
+
+        $transport = Transport::fromDsn($_ENV['MAILER_DSN']);
+        
+        $mailer = new Mailer($transport);
+        
+        $mailer->send($email);
+        
         // we save it in DB
         $em = $doctrine->getManager();
         $em->persist($contact);
-        $em->flush();   
+        $em->flush();
         
-        // We define the address of the sender and the address of the recipient
-        $adressFrom = new Address('contact.passingshot@gmail.com');
-        $addressTo = new Address('contact.passingshot@gmail.com');
-        $email = new TemplatedEmail();
-        $email->from($adressFrom)
-            ->to($addressTo)
-            ->replyTo($contact->getEmail())
-            ->subject('Formulaire de contact :')
-            ->htmlTemplate('email/contact.html.twig')
-            ->context([
-                'contact' => $contact,
-                ]);
-
-        
-        // We send the mail
-        $mailer->send($email);
         // Confirm with flash message
-        $this->addFlash('message', 'Votre message a bien été envoyé');
-
-
+        $this->addFlash('message', 'Votre message a bien été envoyé.');
+        
+        
         return $this->json(
             //ID of created Contact
             ['id' => $contact->getId()],
@@ -124,7 +149,7 @@ class ContactApiController extends AbstractController
             Response::HTTP_CREATED,
             [
                 'Location' => $this->generateUrl('api_v1_contact_detail', ['id' => $contact->getId()])
-            ]
+                ]
         );
-    }    
+    }
 }
