@@ -23,6 +23,8 @@ class Reservation
      * 
      * @Groups({"reservations_get_item"})
      * @Groups({"reservations_put_item"})
+     * @Groups({"user_see_reservations"})
+     * @Groups({"past_user_reservations"})
      */
     private $id;
 
@@ -56,6 +58,9 @@ class Reservation
      * 
      * @Groups({"reservations_get_item"})
      * @Groups({"reservations_put_item"})
+     * 
+     * @Groups({"user_see_reservations"})
+     * @Groups({"past_user_reservations"})
      */
     private $status;
 
@@ -116,6 +121,8 @@ class Reservation
      * @Assert\NotNull(message = "Veuillez attribuer un terrain à la réservation")
      * 
      * @Groups({"reservations_get_item"})
+     * @Groups({"user_see_reservations"})
+     * @Groups({"past_user_reservations"})
      */
     private $court;
 
@@ -130,16 +137,25 @@ class Reservation
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class)
+     * 
+     * @Groups({"user_see_reservations"})
+     * @Groups({"past_user_reservations"})
      */
     private $player2;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class)
+     * 
+     * @Groups({"user_see_reservations"})
+     * @Groups({"past_user_reservations"})
      */
     private $player3;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class)
+     * 
+     * @Groups({"user_see_reservations"})
+     * @Groups({"past_user_reservations"})
      */
     private $player4;
 
