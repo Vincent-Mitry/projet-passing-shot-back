@@ -56,14 +56,16 @@
                 <ul class="navbar-nav flex-nowrap ms-auto">
                     <div class="shadow"></div>
                     <div class="d-none d-sm-block topbar-divider"></div>
-                        <li class="nav-item no-arrow">
-                            <div class="nav-item  no-arrow">
-                                <a class="nav-link" aria-expanded="false" href="#">
-                                    <span class="d-none d-lg-inline me-2 text-gray-600 small">{{ app.user.firstname }} {{ app.user.lastname }}</span>
-                                        <img class="rounded-circle me-2" width="50" height="50" src="{{ app.user.picture }}">
-                                </a>
-                            </div>
-                        </li>
+                    <li class="nav-item no-arrow">
+                        <div class="nav-item  no-arrow">
+                            <a class="nav-link" aria-expanded="false" href="#">
+                                <span class="d-none d-lg-inline me-2 text-gray-600 small">{{ app.user.firstname }} {{ app.user.lastname }}</span>
+                                {% if app.user.picture is not null %}
+                                    <img class="rounded-circle me-2" width="50" height="50" src="{{ app.user.picture }}">
+                                {% endif %}
+                            </a>
+                        </div>
+                    </li>
                 </ul>
                     <a href="{{ path('logout') }}">
                         <button type="button" class="btn m-3" style="color: white; background-color: #EA5C0A; border-color: white;">Deconnexion</button>
