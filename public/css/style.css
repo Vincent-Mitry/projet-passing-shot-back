@@ -25,3 +25,8 @@ body {
 .text-color-black {
     color: black;
 }
+
+.col-form-label, .form-label {
+    font-weight:400;
+    color: #EA5C0A;
+}
