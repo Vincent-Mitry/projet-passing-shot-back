@@ -5,26 +5,11 @@
 {% block body %}
 <div class="container"></div>
     <div class="row m-5 text-center">
-    {# courts available today #}
-    
-                {# <div class="card-header text-center" style="color: white; background-color: #EA5C0A; border-color: white;">Terrains disponibles aujourd'hui</div>
-                <div class="card-body">
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th scope="col">Nom du terrain</th>
-                                <th scope="col">heures</th>
-                                
-                            </tr>
-                        </thead>
-                       
-                        
-                        </tbody>
-                    </table>
-                    </div> #}
+	<!-- Courts available today -->
+	
         <!-- 3 last reservations -->
         <div class="col-12 col-md-4 ms-auto" >
-            <div class="card text-white mb-3" >
+            <div class="cardFix card text-white mb-3" >
                 <div class="card-header text-center" style="color: white; background-color: #EA5C0A; border-color: white;">Informations sur les réservations</div>
                 <div class="card-body">
                     <table class="table table-hover">
@@ -40,7 +25,6 @@
                         <tbody>
                         {% for reservation in reservations %}
                             <tr>
-                            
                                 <th scope="row">{{ reservation.id }}</th>
                                 <td>{{ reservation.createdAt|date('d-m-Y')}}</td>
                                 <td>{{ reservation.court.id }}</td>
@@ -169,4 +153,83 @@
         </div>
     </div>    
 </div>
+<div class="row m-5 text-center">
+<div class="col-12">
+			<div class="card text-white mb-3">
+				<div class="card-header text-center" style="color: white; background-color: #EA5C0A; border-color: white;">Terrains disponibles aujourd'hui</div>
+				<div class="card-body">
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th scope="col">Nom du terrain</th>
+								<th scope="col">Heures</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Court 1</td>
+								{% for availableTimeslotOne in availableTimeslots[1] %}
+									<td class="mt-2 badge rounded-pill bg-success mx-5">{{ availableTimeslotOne }}</td>
+								{% endfor %}
+							</tr>
+							<tr>
+								<td>Court 2</td>
+								{% for availableTimeslotOne in availableTimeslots[2] %}
+									<td class="mt-2 badge rounded-pill bg-success mx-5">{{ availableTimeslotOne }}</td>
+								{% endfor %}
+							</tr>
+							<tr>
+								<td>Court 3</td>
+								{% for availableTimeslotOne in availableTimeslots[3] %}
+									<td class="mt-2 badge rounded-pill bg-success mx-5">{{ availableTimeslotOne }}</td>
+								{% endfor %}
+							</tr>
+							<tr>
+								<td>Court 4</td>
+								{% for availableTimeslotOne in availableTimeslots[4] %}
+									<td class="mt-2 badge rounded-pill bg-success mx-5">{{ availableTimeslotOne }}</td>
+								{% endfor %}
+							</tr>
+							<tr>
+								<td>Court 5</td>
+								{% for availableTimeslotOne in availableTimeslots[5] %}
+									<td class="mt-2 badge rounded-pill bg-success mx-5">{{ availableTimeslotOne }}</td>
+								{% endfor %}
+							</tr>
+							<tr>
+								<td>Court 6</td>
+								{% for availableTimeslotOne in availableTimeslots[6] %}
+									<td class="mt-2 badge rounded-pill bg-success mx-5">{{ availableTimeslotOne }}</td>
+								{% endfor %}
+							</tr>
+							<tr>
+								<td>Court 7</td>
+								{% for availableTimeslotOne in availableTimeslots[7] %}
+									<td class="mt-2 badge rounded-pill bg-success mx-5">{{ availableTimeslotOne }}</td>
+								{% endfor %}
+							</tr>
+							<tr>
+								<td>Court 8</td>
+								{% for availableTimeslotOne in availableTimeslots[8] %}
+									<td class="mt-2 badge rounded-pill bg-success mx-5">{{ availableTimeslotOne }}</td>
+								{% endfor %}
+							</tr>
+							<tr>
+								<td>Court 9</td>
+								{% for availableTimeslotOne in availableTimeslots[9] %}
+									<td class="mt-2 badge rounded-pill bg-success mx-5">{{ availableTimeslotOne }}</td>
+								{% endfor %}
+							</tr>
+							<tr>
+								<td>Court 10</td>
+								{% for availableTimeslotOne in availableTimeslots[10] %}
+									<td class="mt-2 badge rounded-pill bg-success mx-5">{{ availableTimeslotOne }}</td>
+								{% endfor %}
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
 {% endblock %}

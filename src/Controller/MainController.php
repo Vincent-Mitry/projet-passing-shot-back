@@ -24,16 +24,16 @@ class MainController extends AbstractController
     AvailableTimeslots $availableTimeslots,
     Request $request): Response
     {
-      //$availableCourtsForToday = $availableTimeslots->getAllAvailableTimeslots('NOW');
-      //$courtId = $availableCourtsForToday['1'];
-      //dd($courtId);
+      $availableCourtsForToday = $availableTimeslots->getAllAvailableTimeslots(date('y/m/d'));
+     
+    
 
         return $this->render('main/index.html.twig', [
             'clubs' => $clubRepository->findLastThree(),
             'reservations' => $reservationRepository->findLastThree(),
             'courts' => $courtRepository->findLastThree(),
             'users' => $userRepository->findLastThree(),
-            // 'availableTimeslots' => $availableTimeslots->getAllAvailableTimeslots('NOW')
+            'availableTimeslots' => $availableTimeslots->getAllAvailableTimeslots(date('y/m/d'))
             
 
         ]);
