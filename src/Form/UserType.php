@@ -29,8 +29,9 @@ class UserType extends AbstractType
             ->add('picture', UrlType::class, [
                 'label' => 'Photo :',
                 'attr' => [
-                    'placeholder' => 'Champ non obligatoire'
+                    'placeholder' => 'Champ optionnel'
                 ],
+                'required' => false,
             ])
             ->add('lastname', TextType::class, [
                 'label' => 'Nom :'
@@ -70,7 +71,7 @@ class UserType extends AbstractType
                 ],
                 'multiple' => false,
                 'expanded' => true,
-                'help' => 'Sélectionner au moins un niveau.',
+                'help' => 'Sélectionner un niveau.',
             ])
             ->add('phone', TextType::class, [
                 'label' => 'Téléphone :',

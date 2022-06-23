@@ -27,8 +27,9 @@ class ClubType extends AbstractType
             ->add('logo', UrlType::class, [
                 'label' => 'Logo du club :',
                 'attr' => [
-                    'placeholder' => 'Champ non obligatoire'
+                    'placeholder' => 'Champ optionnel'
                 ],
+                'required' => false,
             ])
             ->add('startingTime', TimeType::class, [
                 'label' => 'Heure d\'ouverture :',

@@ -30,3 +30,8 @@ body {
     font-weight:400;
     color: #EA5C0A;
 }
+
+.col-form-label.required, .form-label.required {
+    font-weight:400;
+    color: black;
+}

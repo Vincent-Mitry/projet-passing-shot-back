@@ -49,9 +49,9 @@ class CourtType extends AbstractType
                 'required' => false,
                 ])
             ->add('lightning', CheckboxType::class, [
-            'label' => 'Éclairé',
-            'attr' => ['class' => 'form-row p-0'],
-            'required' => false,
+                'label' => 'Éclairé',
+                'attr' => ['class' => 'form-row p-0'],
+                'required' => false,
             ])
             ->add('startTime', TimeType::class, [
                 'label' => 'Heure d\'ouverture :',
@@ -74,12 +74,14 @@ class CourtType extends AbstractType
                 'attr' => [
                     'placeholder' => 'Champ optionnel'
                 ],
+                'required' => false,
             ])
             ->add('detailed_map', UrlType::class, [
                 'label' => 'Plan :',
                 'attr' => [
                     'placeholder' => 'Champ optionnel'
                 ],
+                'required' => false,
             ])
             ->add('slug', TextType::class, [
                 'label' => 'Slug :'
