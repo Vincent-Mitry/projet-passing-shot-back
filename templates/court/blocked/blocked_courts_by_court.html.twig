@@ -50,6 +50,8 @@
                                 {# <a href="{{ path('app_blocked_court_edit', {'court_id': blockedCourt.court.id})}}" class="btn btn-sm" style="color: white; background-color: #FFCA2C; border-color: white;"><i class="bi bi-pencil-square"></i></a> #}
                             </td>
                         </tr>
+                {% else %}
+                    <tr><td colspan="5">Pas de fermetures temporaires à afficher pour ce terrain.</td></tr>
                 {% endfor %}
                 </tbody>
             </table>
