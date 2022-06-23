@@ -28,7 +28,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups ({"user_list", "user_detail"})
+     * @Groups ({"user_list", "user_detail", "user_list_search_by_lastname"})
      */
     private $id;
 
@@ -41,7 +41,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * )
      *  
      * @Groups({"reservations_get_item"})
-     * @Groups ({"user_list", "user_detail", "user_update"})
+     * @Groups ({"user_list", "user_detail", "user_update", "user_list_search_by_lastname"})
      */
     private $lastname;
 
@@ -54,7 +54,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * )
      *  
      * @Groups({"reservations_get_item"})
-     * @Groups ({"user_list", "user_detail", "user_update"})
+     * @Groups ({"user_list", "user_detail", "user_update", "user_list_search_by_lastname"})
      */
     private $firstname;
 
@@ -73,9 +73,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $email;
 
     /**
-     * @ORM\Column(type="smallint")
+     * @ORM\Column(type="string", length=64)
      * @Assert\NotBlank(message = "Veuillez sélectionner votre niveau.")
-     * @Assert\Choice(choices = {1, 2, 3})
+     * @Assert\Choice(choices = {"Débutant", "Intermédiaire", "Confirmé"})
      * 
      * @Groups ({"user_list", "user_detail", "user_update"})
      */
@@ -101,7 +101,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @Assert\Length(max = 100)
      * @Assert\NotBlank(message = "Veuillez saisir un mot de passe.")
      * 
-     * @Groups ({"user_list", "user_detail", "user_update"})
      */
     private $password;
 
@@ -230,12 +229,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return (string) $this->email;
     }
 
-    public function getLevel(): ?int
+    public function getLevel(): ?string
     {
         return $this->level;
     }
 
-    public function setLevel(int $level): self
+    public function setLevel(string $level): self
     {
         $this->level = $level;
 

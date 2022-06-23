@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Terrain {% endblock %}
+{% block title %}Terrains{% endblock %}
 
 {% block body %}
 <div class="container-fluid">
@@ -52,7 +52,7 @@
                 {% for court in courts %}
                         <tr>
                             <td>{{ court.id }}</td>
-                            <td><img class="rounded-circle me-2" width="30" height="30" src="{{ court.picture }}"></td></td>
+                            <td><img class="rounded-circle me-2" width="30" height="30" src="{{ court.picture }}"></td>
                             <td>{{ court.name }}</td>
                             <td>{{ court.club.name }}</td>
                             <td>{{ court.surface.name }}</td>
@@ -68,6 +68,7 @@
                             <td>
                                 <a href="{{ path('app_court_show', {'id': court.id})}}" class="btn btn-sm" style="color: white; background-color: #EA5C0A; border-color: white;"><i class="bi bi-search"></i></a>
                                 <a href="{{ path('app_court_edit', {'id': court.id})}}" class="btn btn-sm" style="color: white; background-color: #FFCA2C; border-color: white;"><i class="bi bi-pencil-square"></i></a>
+                                <a href="{{ path('app_court_block', {'court_id': court.id})}}" class="btn btn-sm" style="color: white; background-color: #A82300; border-color: white;"><i class="bi bi-file-lock2"></i></a>
                             </td>
                         </tr>
                 {% endfor %}
