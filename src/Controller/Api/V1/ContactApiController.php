@@ -134,11 +134,6 @@ class ContactApiController extends AbstractController
         $mailer->send($email);
         
 
-        
-        // Confirm with flash message
-        $this->addFlash('message', 'Votre message a bien été envoyé.');
-        
-        
         return $this->json(
             //ID of created Contact
             ['id' => $contact->getId()],
