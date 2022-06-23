@@ -2,9 +2,9 @@
 
 namespace App\Controller\Api\V1;
 
+use Twig\Environment;
 use App\Entity\Contact;
 use App\Service\Api\ApiProblem;
-use Symfony\Component\Mime\Email;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mailer\Mailer;
 use App\Repository\ContactRepository;
@@ -12,6 +12,7 @@ use Symfony\Component\Mailer\Transport;
 use App\Service\Api\ApiConstraintErrors;
 use App\Service\Api\ApiProblemException;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Bridge\Twig\Mime\BodyRenderer;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
@@ -109,33 +110,20 @@ class ContactApiController extends AbstractController
             ->to($addressTo)
             ->replyTo($contact->getEmail())
             ->subject('Formulaire de contact : '.  $contact->getLastname() . ' ' . $contact->getFirstname() )
-            ->htmlTemplate('email/contact.html.twig')
+            ->htmlTemplate('/email/contact.html.twig')
             ->context([
-                'contact' => $contact,
+                'contact' => $contact
             ]);
-                
-
-        //$email = (new TemplatedEmail())
-        //        ->from($adressFrom)
-        //        ->to($addressTo)
-        //        ->subject('Formulaire de contact : '.  $contact->getLastname() . ' ' . $contact->getFirstname() )
-        //        ->html('<h1>Réponse du formulaire</h1>
-
             
-        //        <h3>Informations de contact :</h3>
-        //            <ul>
-        //                <li>Nom : ' . $contact->getFirstname() .'</li>
-        //                <li>Prénom : ' . $contact->getLastname() .'</li>
-        //                <li>E-mail : '. $contact->getEmail() .'</li>
-        //            </ul>
-        //        
-        //        <h3>Message :</h3>
-        //            <p>'. $contact->getMessage() . '</p>')
-        //        ->context([
-        //            'contact' => $contact,
-        //            ]);
 
 
+        $loader = new \Twig\Loader\FilesystemLoader('../templates');
+
+        $twigEnv = new Environment($loader);
+
+        $twigBodyRenderer = new BodyRenderer($twigEnv);
+
+        $twigBodyRenderer->render($email);
 
         // We send the mail
 

@@ -5,33 +5,24 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Google font -->
 
-    <!-- Our custom CSS -->
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-    <!-- Bootsrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 </head>
-    <body>
-
-            <h1 class="text-center">Réponse du formulaire</h1>
-
-            <h3>
-                De la part de {{ contact.firstname }} {{ contact.lastname }}.
-            </h3>
-                
-            <p> Adresse mail : {{ contact.email }}
-            </p>
-
-            <p>
-                Message : {{ contact.message }}
-            </p> 
-
-        <footer class="bg-white sticky-footer mt-5">
-            <div class="container my-auto">
-                <div class="text-center my-auto copyright"><span>Formulaire de contact © Passing ShO't 2022</span></div>
-            </div>
-        </footer>
+    <body style="font-size: 1.2em;">
+        <div class"container-fluid">
+            <h1 style="text-align: center; color: #C23D12;">Passing ShO't Contact</h1>
+            <hr class="my-0"></hr>
+            <h3 style="color: #C23D12;">Informations de contact :</h3>
+            <ul>
+                <li>Nom : {{ contact.lastname }}</li>
+                <li>Prénom : {{ contact.firstname }}</li>
+                <li>E-mail : {{ contact.email }}</li>
+            </ul>
+            <h3 style="color: #C23D12;">Message :</h3>
+            <p>{{ contact.message }}</p>
+        </div>    
     </body>
 </html>
+
+
