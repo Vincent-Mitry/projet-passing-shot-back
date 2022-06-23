@@ -28,7 +28,7 @@
                 </div>
         <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
         {{ include('_flash_messages.html.twig') }}
-            <table class="table table-striped table-hover my-0 list" id="dataTable ">
+            <table class="table table-striped table-hover my-0 list text-center" id="dataTable ">
                 <thead>
                     <tr>
                         <th>#</th>
@@ -37,14 +37,13 @@
                         <th>Club</th>
                         <th>Surface</th>
                         <th>Éclairage</th>
-                        <th>Type</th>
+                        <th>Couvert</th>
                         <th>Heure d'ouverture</th>
                         <th>Heure de fermeture</th>
                         <th>Plan</th>
                         <th>Note</th>
                         <th>Date de rénovation</th>
-                        <th>Date de création</th>
-                        <th>Date de modification</th>
+                        <th>Fermetures temporaires</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -56,15 +55,18 @@
                             <td>{{ court.name }}</td>
                             <td>{{ court.club.name }}</td>
                             <td>{{ court.surface.name }}</td>
-                            <td>{{ court.lightning }}</td>
-                            <td>{{ court.indoor }}</td>
+                            <td>
+                                {% if court.lightning == true %}oui{% else %}non{% endif %}
+                            </td>
+                            <td>
+                                {% if court.indoor == true %}oui{% else %}non{% endif %}
+                            </td>
                             <td>{{ court.startTime|date('H:i') }}</td>
                             <td>{{ court.endTime|date('H:i') }}</td>
                             <td>{{ court.detailedMap }}</td>
                             <td>{{ court.ratingAvg }}</td>
                             <td>{{ court.renovatedAt|date('d-m-Y') }}</td>
-                            <td>{{ court.createdAt|date('d-m-Y')}}</td>
-                            <td>{{ court.updatedAt ? court.updatedAt|date('Y-m-d') : '' }}</td>
+                            <td><a href="{{ path('app_blocked_courts_by_court', {'court_id': court.id})}}" class="btn btn-sm" style="color: white; background-color: #EA5C0A; border-color: white;">Voir la liste</a></td>
                             <td>
                                 <a href="{{ path('app_court_show', {'id': court.id})}}" class="btn btn-sm" style="color: white; background-color: #EA5C0A; border-color: white;"><i class="bi bi-search"></i></a>
                                 <a href="{{ path('app_court_edit', {'id': court.id})}}" class="btn btn-sm" style="color: white; background-color: #FFCA2C; border-color: white;"><i class="bi bi-pencil-square"></i></a>

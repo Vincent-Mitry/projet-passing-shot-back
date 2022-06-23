@@ -51,6 +51,18 @@ class BlockedCourtRepository extends ServiceEntityRepository
         ;
     }
 
+    public function findBlockedCourtsByCourt($court)
+    {
+        return $this->createQueryBuilder('b')
+            ->innerJoin('b.court', 'c')
+            ->where('c.id = :court')
+            ->orderBy('b.startDatetime', 'DESC')
+            ->setParameter('court', $court)
+            ->getQuery()            
+            ->getResult()
+        ;
+    }
+
 //    /**
 //     * @return BlockedCourt[] Returns an array of BlockedCourt objects
 //     */

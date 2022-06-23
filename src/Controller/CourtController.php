@@ -111,7 +111,7 @@ class CourtController extends AbstractController
     /**
      * List of blocked courts for current court
      * 
-     * @Route("/{court_id}/liste-terrains-bloqués", name="app_blocked_courts_by_court", methods={"GET"})
+     * @Route("/{court_id}/fermetures-temporaires", name="app_blocked_courts_by_court", methods={"GET"}, requirements={"court_id"="\d+"})
      * @ParamConverter("court", options={"id" = "court_id"})
      */
     public function listBlockedCourts(BlockedCourtRepository $blockedCourtRepository, Court $court = null): Response
@@ -121,8 +121,29 @@ class CourtController extends AbstractController
         }
         
         return $this->render('court/blocked/blocked_courts_by_court.html.twig', [
-            'blockedCourts' => $blockedCourtRepository->findById($court->getId()),
+            'blockedCourts' => $blockedCourtRepository->findBlockedCourtsByCourt($court->getId()),
             'court' => $court
+        ]);
+    }
+
+    /**
+     * @Route("/{court_id}/fermetures-temporaires/{id}", name="app_blocked_court_show", methods={"GET"}, requirements={"court_id"="\d+"})
+     * @ParamConverter("court", options={"id" = "court_id"})
+     * @ParamConverter("blocked_court", options={"id" = "id"})
+     */
+    public function showBlocked(Court $court = null, BlockedCourt $blockedCourt = null): Response
+    {
+        if ($court === null) {
+            throw $this->createNotFoundException('Terrain non trouvé');
+        }
+
+        if ($court === null) {
+            throw $this->createNotFoundException('Terrain bloqué non trouvé');
+        }
+        
+        return $this->render('court/blocked/show.html.twig', [
+            'court' => $court,
+            'blockedCourt' => $blockedCourt,
         ]);
     }
 
