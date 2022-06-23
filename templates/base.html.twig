@@ -31,17 +31,25 @@
                       <a class="nav-link active" aria-current="page" href="{{ path('app_home') }}">Accueil</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_club') }}">Club</a>
+                        <a class="nav-link" href="{{ path('app_club') }}">Clubs</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_reservation') }}">Réservation</a>
+                        <a class="nav-link" href="{{ path('app_reservation') }}">Réservations</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_court') }}">Terrain</a>
+                        <a class="nav-link" href="{{ path('app_court') }}">Terrains</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_user') }}">Utilisateur</a>
+                        <a class="nav-link" href="{{ path('app_user') }}">Utilisateurs</a>
                     </li>
+                    <li class="nav-item">
+
+                        <a class="nav-link" href="{{ path('app_surface') }}">Surfaces</a>
+                    </li>
+
+                        <a class="nav-link" href="{{ path('app_gender') }}">Genres</a>
+                    </li>
+
                 </ul>
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                 <ul class="navbar-nav flex-nowrap ms-auto">

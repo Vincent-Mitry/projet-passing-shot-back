@@ -17,6 +17,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 /**
  * User class 
@@ -27,13 +28,26 @@ class UserApiController extends AbstractController
     /**
      * @Route("/users", name="user_list", methods={"GET"}, requirements={"id"="\d+"})
      */
-    public function userList(UserRepository $userRepository): Response
+    public function userList(UserRepository $userRepository, Request $request): Response
     {
+        // If parameter "lastname" in request 
+        if($search = $request->query->get('lastname')) {
+            // search users by lastname
+            $userListByLastname = $userRepository->getUserListByLastname($search);
+
+            if (empty($userListByLastname)) {
+                $apiProblem = new ApiProblem(Response::HTTP_NOT_FOUND, ApiProblem::TYPE_USER_LASTNAME_NOT_FOUND);
+                throw new ApiProblemException($apiProblem);
+            }
+
+            return $this->json(['usersList' => $userListByLastname], Response::HTTP_OK, [], ['groups' => 'user_list_search_by_lastname']);;
+        }
+        
         //looking to find all users in userRepository
         $usersList = $userRepository->findAll();
 
         //expecting a json format response grouping "User_List" collection tag
-        return $this->json(['usersList' => $usersList], Response::HTTP_OK, [], ['groups' => 'user_list'],);
+        return $this->json(['usersList' => $usersList], Response::HTTP_OK, [], ['groups' => 'user_list']);
     }
 
     /**
@@ -53,14 +67,18 @@ class UserApiController extends AbstractController
         $userLastRes = $reservationRepository->fiveLastReservationByUser($user);
 
         //expecting a json format response grouping "User_detail" and User_see_reservations collection tag
-        return $this->json([
-            'user' => $user,
-            'userFutureRes' => $userFutureRes,
-            'userLastRes' => $userLastRes
-        ], 
-            Response::HTTP_OK, [], [
-            'groups' => ['user_detail','user_see_reservations', 'past_user_reservations']
-        ]);
+        return $this->json(
+            [
+                'user' => $user,
+                'userFutureRes' => $userFutureRes,
+                'userLastRes' => $userLastRes
+            ],
+            Response::HTTP_OK,
+            [],
+            [
+                'groups' => ['user_detail', 'user_see_reservations', 'past_user_reservations']
+            ]
+        );
     }
 
     /**
@@ -70,8 +88,10 @@ class UserApiController extends AbstractController
         Request $request,
         SerializerInterface $serializer,
         ManagerRegistry $doctrine,
-        ApiConstraintErrors $apiConstraintErrors
-    ) {
+        ApiConstraintErrors $apiConstraintErrors,
+        UserPasswordHasherInterface $passwordHasher
+    ) 
+    {
         // Gathering Json content from $request
         $jsonContent = $request->getContent();
 
@@ -84,7 +104,16 @@ class UserApiController extends AbstractController
             $apiProblem = new ApiProblem(Response::HTTP_UNPROCESSABLE_ENTITY, ApiProblem::TYPE_VALIDATION_ERROR, $constraintErrors);
             throw new ApiProblemException($apiProblem);
         }
-      
+
+        $plainPassword = $user->getPassword();
+        $hashedPassword = $passwordHasher->hashPassword(
+            $user,
+            $plainPassword
+        );
+        $roleDefault = ["ROLE_MEMBER"]; 
+        $user->setPassword($hashedPassword);
+        $user->setRoles($roleDefault);
+
         // we save it in DB
         $em = $doctrine->getManager();
         $em->persist($user);
@@ -93,11 +122,15 @@ class UserApiController extends AbstractController
     
         return $this->json(
             //ID of created User
-            ['id' => $user->getId()],
+            [
+                'id' => $user->getId(),
+                
+            ],
             //status code 201 = created
             Response::HTTP_CREATED,
             [
-                'Location' => $this->generateUrl('api_v1_user_detail', ['id' => $user->getId()])
+                'Location' => $this->generateUrl('api_v1_user_detail', ['id' => $user->getId()]),
+
             ]
         );
     }
@@ -112,8 +145,8 @@ class UserApiController extends AbstractController
         SerializerInterface $serializer,
         ManagerRegistry $doctrine,
         ValidatorInterface $validator,
-        User $user)
-    {
+        User $user
+    ) {
         // 404 (not found) personalized response
         if ($user === null) {
             $apiProblem = new ApiProblem(Response::HTTP_NOT_FOUND, ApiProblem::TYPE_USER_NOT_FOUND);
@@ -131,7 +164,7 @@ class UserApiController extends AbstractController
             $apiProblem = new ApiProblem(Response::HTTP_UNPROCESSABLE_ENTITY, ApiProblem::TYPE_VALIDATION_ERROR, $constraintErrors);
             throw new ApiProblemException($apiProblem);
         }
-        
+
         // we save it in DB
         $em = $doctrine->getManager();
         $em->flush();

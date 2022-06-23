@@ -37,7 +37,9 @@ class Court
      * )
      * 
      * @Groups({"reservations_get_item"})
-     * @Groups ({"court_list"}) 
+     * @Groups ({"court_list"})
+     * @Groups({"user_see_reservations"})
+     * @Groups({"past_user_reservations"}) 
      */
     private $name;
 
