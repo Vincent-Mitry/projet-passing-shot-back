@@ -119,6 +119,7 @@ class UserApiController extends AbstractController
         $em->persist($user);
         $em->flush();
 
+    
         return $this->json(
             //ID of created User
             [
