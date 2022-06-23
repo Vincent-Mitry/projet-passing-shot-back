@@ -110,24 +110,21 @@ class UserApiController extends AbstractController
             $user,
             $plainPassword
         );
-
+        $roleDefault = ["ROLE_MEMBER"]; 
         $user->setPassword($hashedPassword);
+        $user->setRoles($roleDefault);
 
         // we save it in DB
         $em = $doctrine->getManager();
         $em->persist($user);
         $em->flush();
 
+    
         return $this->json(
             //ID of created User
             [
                 'id' => $user->getId(),
-                'lastname' => $user->getLastname(),
-                'firstname' => $user->getFirstname(),
-                'email' => $user->getEmail(),
-                'level' => $user->getLevel(),
-                'phone' => $user->getPhone(),
-                'birthdate' => $user->getBirthdate(),
+                
             ],
             //status code 201 = created
             Response::HTTP_CREATED,

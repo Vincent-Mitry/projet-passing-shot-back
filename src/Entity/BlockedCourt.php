@@ -25,12 +25,24 @@ class BlockedCourt
     /**
      * @ORM\Column(type="datetime_immutable")
      * @Assert\Type("\DateTimeInterface")
+     * @Assert\GreaterThanOrEqual(
+     *  "today",
+     *  message = "La date choisie ne peut pas être inférieure à la date d'aujourd'hui."
+     * )
      */
     private $startDatetime;
 
     /**
      * @ORM\Column(type="datetime_immutable")
      * @Assert\Type("\DateTimeInterface")
+     * @Assert\GreaterThanOrEqual(
+     *  "today",
+     *  message = "La date choisie ne peut pas être inférieure à la date d'aujourd'hui."
+     * )
+     * @Assert\GreaterThan(
+     *  propertyPath = "startDatetime",
+     *  message = "La date et heure de fin doit être supérieure à celle du début."
+     * )
      */
     private $endDatetime;
 

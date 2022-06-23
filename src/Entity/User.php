@@ -101,7 +101,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @Assert\Length(max = 100)
      * @Assert\NotBlank(message = "Veuillez saisir un mot de passe.")
      * 
-     * @Groups ({"user_list", "user_detail", "user_update"})
      */
     private $password;
 
