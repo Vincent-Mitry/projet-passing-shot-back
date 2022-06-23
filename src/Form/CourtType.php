@@ -37,7 +37,7 @@ class CourtType extends AbstractType
                 'choice_label' => 'name',
                 'multiple' => false,
                 'expanded' => true,
-                'help' => 'Sélectionner au moins une surface.',
+                'help' => 'Sélectionner une surface.',
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('s')
                         ->orderBy('s.name', 'ASC');
@@ -54,21 +54,29 @@ class CourtType extends AbstractType
             'required' => false,
             ])
             ->add('startTime', TimeType::class, [
-                'label' => 'Heure d\'ouverture :'
+                'label' => 'Heure d\'ouverture :',
+                'placeholder' => [
+                    'hour' => 'Heure', 
+                    'minute' => 'Minutes', 
+                ],
             ])
             ->add('endTime', TimeType::class, [
                 'label' => 'Heure de fermeture :',
+                'placeholder' => [
+                    'hour' => 'Heure', 
+                    'minute' => 'Minutes', 
+                ],
             ])
             ->add('picture', UrlType::class, [
                 'label' => 'Photo :',
                 'attr' => [
-                    'placeholder' => 'Champ non obligatoire'
+                    'placeholder' => 'Champ optionnel'
                 ],
             ])
             ->add('detailed_map', UrlType::class, [
                 'label' => 'Plan :',
                 'attr' => [
-                    'placeholder' => 'Champ non obligatoire'
+                    'placeholder' => 'Champ optionnel'
                 ],
             ])
             ->add('slug', TextType::class, [
@@ -77,13 +85,16 @@ class CourtType extends AbstractType
             ->add('renovatedAt', DateType::class, [
                 'years' => range(date('Y'), date('Y')-10),
                 'label' => 'Date de rénovation :',
+                'required' => false,
+                'empty_data' => null,
                 'placeholder' => [
-                    'Année' => 'Year', 
-                    'Mois' => 'Month', 
-                    'Jour' => 'Day',
+                    'year' => 'Année', 
+                    'month' => 'Mois', 
+                    'day' => 'Jour',
                 ],
                 'format' => 'dd MM yyyy',
                 'input' => 'datetime_immutable',
+                'help' => 'Champs optionnels.',
             ])
         
             ->add('club', EntityType::class, [
@@ -92,7 +103,7 @@ class CourtType extends AbstractType
                 'choice_label' => 'name',
                 'multiple' => false,
                 'expanded' => true,
-                'help' => 'Sélectionner au moins un club.',
+                'help' => 'Sélectionner un club.',
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('c')
                         ->orderBy('c.name', 'ASC');
