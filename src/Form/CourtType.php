@@ -59,6 +59,7 @@ class CourtType extends AbstractType
                     'hour' => 'Heure', 
                     'minute' => 'Minutes', 
                 ],
+                'attr' => ['class' => 'col-4']
             ])
             ->add('endTime', TimeType::class, [
                 'label' => 'Heure de fermeture :',
@@ -66,6 +67,7 @@ class CourtType extends AbstractType
                     'hour' => 'Heure', 
                     'minute' => 'Minutes', 
                 ],
+                'attr' => ['class' => 'col-4']
             ])
             ->add('picture', UrlType::class, [
                 'label' => 'Photo :',
@@ -95,6 +97,7 @@ class CourtType extends AbstractType
                 'format' => 'dd MM yyyy',
                 'input' => 'datetime_immutable',
                 'help' => 'Champs optionnels.',
+                'attr' => ['class' => 'col-4']
             ])
         
             ->add('club', EntityType::class, [
@@ -117,7 +120,7 @@ class CourtType extends AbstractType
             'data_class' => Court::class,
             'attr' => [
                 'novalidate' => 'novalidate'
-            ]
+            ],
         ]);
     }
 }
