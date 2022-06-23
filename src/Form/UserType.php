@@ -27,20 +27,20 @@ class UserType extends AbstractType
     {
         $builder
             ->add('picture', UrlType::class, [
-                'label' => 'Photo :',
+                'label' => 'Photo',
                 'attr' => [
                     'placeholder' => 'Champ optionnel'
                 ],
                 'required' => false,
             ])
             ->add('lastname', TextType::class, [
-                'label' => 'Nom :'
+                'label' => 'Nom'
             ])
             ->add('firstname', TextType::class, [
-                'label' => 'Prénom :'
+                'label' => 'Prénom'
             ])
             ->add('birthdate', BirthdayType::class, [
-                'label' => 'Date de naissance :',
+                'label' => 'Date de naissance',
                 'placeholder' => [
                     'Année' => 'Year', 'Mois' => 'Month', 'Jour' => 'Day',
                 ],
@@ -48,10 +48,10 @@ class UserType extends AbstractType
                 'input' => 'datetime_immutable',
             ])
             ->add('email', EmailType::class, [
-                'label' => 'Adresse mail :',
+                'label' => 'Adresse mail',
             ])
             ->add('gender', EntityType::class, [
-                'label' => 'Genre :',
+                'label' => 'Genre',
                 'class' => Gender::class,
                 'choice_label' => 'type',
                 'multiple' => false,
@@ -63,7 +63,7 @@ class UserType extends AbstractType
                 }
             ])
             ->add('level', ChoiceType::class, [
-                'label' => 'Niveau :',
+                'label' => 'Niveau',
                 'choices' => [
                     'Débutant' => 1,
                     'Intermédiaire' => 2,
@@ -74,7 +74,7 @@ class UserType extends AbstractType
                 'help' => 'Sélectionner un niveau.',
             ])
             ->add('phone', TextType::class, [
-                'label' => 'Téléphone :',
+                'label' => 'Téléphone',
                 'constraints' => [
                     new NotBlank(),
                     // Regex pour numéro de téléphone (10 chiffres)
@@ -85,7 +85,7 @@ class UserType extends AbstractType
                 ],
             ])
             ->add('roles', ChoiceType::class, [
-                'label' => 'Rôles :',
+                'label' => 'Rôles',
                 'choices' => [
                     'Membre' => 'ROLE_MEMBER',
                     'Gérant' => 'ROLE_ADMIN',
@@ -106,7 +106,7 @@ class UserType extends AbstractType
                 if ($user->getId() === null) {
                     // Add (new)
                     $form->add('password', PasswordType::class, [
-                        'label' => 'Mot de passe :',
+                        'label' => 'Mot de passe',
                         'constraints' => [
                             new NotBlank(),
                             // Regex pour le mot de passe
@@ -121,7 +121,7 @@ class UserType extends AbstractType
                     // Edit
                     $form->add('password', PasswordType::class, [
                         // Pour l'edit
-                        'label' => 'Mot de passe :',
+                        'label' => 'Mot de passe',
                         'empty_data' => '',
                         'attr' => [
                             'placeholder' => 'Laissez vide si inchangé'

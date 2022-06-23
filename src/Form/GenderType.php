@@ -15,7 +15,7 @@ class GenderType extends AbstractType
     {
         $builder
         ->add('type', TextType::class, [
-            'label' => 'Genre :',
+            'label' => 'Genre',
         ])
        
         ;

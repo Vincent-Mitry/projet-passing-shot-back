@@ -31,7 +31,6 @@ body {
     color: #EA5C0A;
 }
 
-.col-form-label.required, .form-label.required {
-    font-weight:400;
-    color: black;
+.col-form-label.required::after, .form-label.required::after {
+    content: " *";
 }

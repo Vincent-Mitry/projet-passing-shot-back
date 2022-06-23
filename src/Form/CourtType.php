@@ -29,7 +29,7 @@ class CourtType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-                'label' => 'Nom :',
+                'label' => 'Nom',
             ])
             ->add('surface', EntityType::class, [
                 'label' => 'Surface :',
@@ -62,7 +62,7 @@ class CourtType extends AbstractType
                 'attr' => ['class' => 'col-4']
             ])
             ->add('endTime', TimeType::class, [
-                'label' => 'Heure de fermeture :',
+                'label' => 'Heure de fermeture',
                 'placeholder' => [
                     'hour' => 'Heure', 
                     'minute' => 'Minutes', 
@@ -70,21 +70,21 @@ class CourtType extends AbstractType
                 'attr' => ['class' => 'col-4']
             ])
             ->add('picture', UrlType::class, [
-                'label' => 'Photo :',
+                'label' => 'Photo',
                 'attr' => [
                     'placeholder' => 'Champ optionnel'
                 ],
                 'required' => false,
             ])
             ->add('detailed_map', UrlType::class, [
-                'label' => 'Plan :',
+                'label' => 'Plan',
                 'attr' => [
                     'placeholder' => 'Champ optionnel'
                 ],
                 'required' => false,
             ])
             ->add('slug', TextType::class, [
-                'label' => 'Slug :'
+                'label' => 'Slug'
             ])
             ->add('renovatedAt', DateType::class, [
                 'years' => range(date('Y'), date('Y')-10),
@@ -103,7 +103,7 @@ class CourtType extends AbstractType
             ])
         
             ->add('club', EntityType::class, [
-                'label' => 'Club :',
+                'label' => 'Club',
                 'class' => Club::class,
                 'choice_label' => 'name',
                 'multiple' => false,
