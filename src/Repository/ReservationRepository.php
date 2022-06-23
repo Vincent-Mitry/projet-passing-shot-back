@@ -112,6 +112,33 @@ class ReservationRepository extends ServiceEntityRepository
 
     }
 
+    /**
+     * Gets all reservations affected by the blocked court (if a reservation's time slot is included in the blocked court's time slot)
+     *
+     * @param Court $court
+     * @param \DateTimeInterface $blockedStartDatetime
+     * @param \DateTimeInterface $blockedEndDatetime
+     * @return array
+     */
+    public function getReservationsInBlockedCourt($court, $blockedStartDatetime, $blockedEndDatetime)
+    {
+        return $this->createQueryBuilder('r')
+            ->innerJoin('r.court', 'c')
+            ->where('c.id = :court')
+            ->andWhere(
+                '(r.startDatetime >= :blockedStartDatetime AND r.startDatetime < :blockedEndDatetime) 
+                OR (r.endDatetime > :blockedStartDatetime AND r.endDatetime <= :blockedEndDatetime)'
+            )
+            ->setParameters([
+                'court' => $court,
+                'blockedStartDatetime' => $blockedStartDatetime,
+                'blockedEndDatetime' => $blockedEndDatetime,
+            ])
+            ->getQuery()            
+            ->getResult()
+        ;
+    }
+
 //    /**
 //     * @return Reservation[] Returns an array of Reservation objects
 //     */
