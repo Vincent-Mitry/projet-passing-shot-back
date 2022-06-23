@@ -109,12 +109,20 @@ class CourtController extends AbstractController
     }
 
     /**
-     * @Route("/liste-terrains-bloqués", name="app_blocked_court_list", methods={"GET"})
+     * List of blocked courts for current court
+     * 
+     * @Route("/{court_id}/liste-terrains-bloqués", name="app_blocked_courts_by_court", methods={"GET"})
+     * @ParamConverter("court", options={"id" = "court_id"})
      */
-    public function listBlockedCourts(BlockedCourtRepository $blockedCourtRepository): Response
+    public function listBlockedCourts(BlockedCourtRepository $blockedCourtRepository, Court $court = null): Response
     {
-        return $this->render('court/blocked/index.html.twig', [
-            'blockedCourts' => $blockedCourtRepository->findAll(),
+        if ($court === null) {
+            throw $this->createNotFoundException('Terrain non trouvé');
+        }
+        
+        return $this->render('court/blocked/blocked_courts_by_court.html.twig', [
+            'blockedCourts' => $blockedCourtRepository->findById($court->getId()),
+            'court' => $court
         ]);
     }
 
@@ -147,7 +155,7 @@ class CourtController extends AbstractController
 
             $this->addFlash('success', 'Terrain bloqué');
 
-            return $this->redirectToRoute('app_blocked_court_list', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_blocked_courts_by_court', ['court_id' => $court->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('court/blocked/new.html.twig', [
