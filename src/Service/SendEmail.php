@@ -19,14 +19,15 @@ class SendEmail
         $this->mailer = $mailer;
     }
 
+    // Function who send email
     public function execute(
-    MailerInterface $mailer,
     $adressFrom,
     $addressTo,
     $replyTo,
     $subject,
     $htmlTemplate,
-    $context)
+    $context,
+    MailerInterface $mailer)
     {
         // We define the address of the sender and the address of the recipient
         $from = new Address($adressFrom);
@@ -39,9 +40,7 @@ class SendEmail
             ->replyTo($replyTo)
             ->subject($subject)
             ->htmlTemplate($htmlTemplate)
-            ->context([
-                $context
-            ]);
+            ->context($context);
             
 
 

@@ -11,6 +11,7 @@ use App\Repository\ContactRepository;
 use Symfony\Component\Mailer\Transport;
 use App\Service\Api\ApiConstraintErrors;
 use App\Service\Api\ApiProblemException;
+use App\Service\SendEmail;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bridge\Twig\Mime\BodyRenderer;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -80,7 +81,8 @@ class ContactApiController extends AbstractController
         SerializerInterface $serializer,
         ManagerRegistry $doctrine,
         ApiConstraintErrors $apiConstraintErrors,
-        MailerInterface $mailer
+        MailerInterface $mailer,
+        SendEmail $sendEmail
     ) {
         // Gathering Json content from $request
         $jsonContent = $request->getContent();
@@ -99,41 +101,18 @@ class ContactApiController extends AbstractController
         $em = $doctrine->getManager();
         $em->persist($contact);
         $em->flush();
-        
-        // We define the address of the sender and the address of the recipient
-        $adressFrom = new Address('contact.passingshot@gmail.com');
-        $addressTo = new Address('contact.passingshot@gmail.com');
 
         
-        $email = new TemplatedEmail();
-        $email->from($adressFrom)
-            ->to($addressTo)
-            ->replyTo($contact->getEmail())
-            ->subject('Formulaire de contact : '.  $contact->getLastname() . ' ' . $contact->getFirstname() )
-            ->htmlTemplate('/email/contact.html.twig')
-            ->context([
-                'contact' => $contact
-            ]);
+        // Send email with SendEmail service
+        $adressFrom = 'contact.passingshot@gmail.com';
+        $addressTo = 'contact.passingshot@gmail.com';
+        $replyTo = $contact->getEmail();
+        $subject = 'Formulaire de contact : '.  $contact->getLastname() . ' ' . $contact->getFirstname();
+        $htmlTemplate = '/email/contact.html.twig' ;
+        $context = ['contact' => $contact];
+
+        $sendEmail->execute($adressFrom, $addressTo, $replyTo, $subject, $htmlTemplate, $context, $mailer);
             
-
-
-        $loader = new \Twig\Loader\FilesystemLoader('../templates');
-
-        $twigEnv = new Environment($loader);
-
-        $twigBodyRenderer = new BodyRenderer($twigEnv);
-
-        $twigBodyRenderer->render($email);
-
-        // We send the mail
-
-        $transport = Transport::fromDsn($_ENV['MAILER_DSN']);
-        
-        $mailer = new Mailer($transport);
-        
-        $mailer->send($email);
-        
-
         return $this->json(
             //ID of created Contact
             ['id' => $contact->getId()],
