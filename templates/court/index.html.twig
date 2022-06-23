@@ -51,7 +51,13 @@
                 {% for court in courts %}
                         <tr>
                             <td>{{ court.id }}</td>
-                            <td><img class="rounded-circle me-2" width="30" height="30" src="{{ court.picture }}"></td>
+                            <td>
+                                {% if court.picture is not null %}
+                                    <img class="rounded-circle me-2" width="30" height="30" src="{{ court.picture }}">
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </td>
                             <td>{{ court.name }}</td>
                             <td>{{ court.club.name }}</td>
                             <td>{{ court.surface.name }}</td>
@@ -63,9 +69,9 @@
                             </td>
                             <td>{{ court.startTime|date('H:i') }}</td>
                             <td>{{ court.endTime|date('H:i') }}</td>
-                            <td>{{ court.detailedMap }}</td>
-                            <td>{{ court.ratingAvg }}</td>
-                            <td>{{ court.renovatedAt|date('d-m-Y') }}</td>
+                            <td>{{ court.detailedMap ? court.detailedMap : '-' }}</td>
+                            <td>{{ court.ratingAvg ? court.ratingAvg : '-' }}</td>
+                            <td>{{ court.renovatedAt ? court.renovatedAt|date('d-m-Y') : '-' }}</td>
                             <td><a href="{{ path('app_blocked_courts_by_court', {'court_id': court.id})}}" class="btn btn-sm" style="color: white; background-color: #EA5C0A; border-color: white;">Voir la liste</a></td>
                             <td>
                                 <a href="{{ path('app_court_show', {'id': court.id})}}" class="btn btn-sm" style="color: white; background-color: #EA5C0A; border-color: white;"><i class="bi bi-search"></i></a>

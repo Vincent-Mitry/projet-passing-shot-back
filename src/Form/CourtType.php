@@ -85,18 +85,6 @@ class CourtType extends AbstractType
                 'format' => 'dd MM yyyy',
                 'input' => 'datetime_immutable',
             ])
-
-            ->add('createdAt', DateType::class, [
-                'years' => range(date('1970'), date('Y')),
-                'label' => 'Date de création:',
-                'placeholder' => [
-                    'Année' => 'Year',
-                    'Mois' => 'Month',
-                    'Jour' => 'Day',
-                ],
-                'format' => 'dd MM yyyy',
-                'input' => 'datetime_immutable',
-            ])
         
             ->add('club', EntityType::class, [
                 'label' => 'Club :',
