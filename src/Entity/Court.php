@@ -30,7 +30,7 @@ class Court
 
     /**
      * @ORM\Column(type="string", length=64)
-     * @Assert\NotBlank
+     * @Assert\NotBlank(message = "Veuillez saisir le nom du terrain.")
      * @Assert\Length(
      *      min = 2,
      *      max = 64,
