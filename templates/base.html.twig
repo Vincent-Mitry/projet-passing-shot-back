@@ -32,26 +32,26 @@
                     </a>
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                             <li class="nav-item">
-                                <a class="nav-link {{ route_name == "app_home" ? 'active' }}" aria-current="page" href="{{ path('app_home') }}">Accueil</a>
+                                <a class="nav-link {{ route_name matches '{^app_home}' ? 'active' }}" aria-current="page" href="{{ path('app_home') }}">Accueil</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link {{ route_name == "app_club" ? 'active' }}" href="{{ path('app_club') }}">Clubs</a>
+                                <a class="nav-link {{ route_name matches '{^app_club}' ? 'active' }}" href="{{ path('app_club') }}">Clubs</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link {{ route_name == "app_reservation" ? 'active' }}" href="{{ path('app_reservation') }}">Réservations</a>
+                                <a class="nav-link {{ route_name matches '{^app_reservation}' ? 'active' }}" href="{{ path('app_reservation') }}">Réservations</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link {{ route_name == "app_court" ? 'active' }}" href="{{ path('app_court') }}">Terrains</a>
+                                <a class="nav-link {{ route_name matches '{^app_court}' ? 'active' }}" href="{{ path('app_court') }}">Terrains</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link {{ route_name == "app_user" ? 'active' }}" href="{{ path('app_user') }}">Utilisateurs</a>
+                                <a class="nav-link {{ route_name matches '{^app_user}' ? 'active' }}" href="{{ path('app_user') }}">Utilisateurs</a>
                             </li>
                             <li class="nav-item">
 
-                                <a class="nav-link {{ route_name == "app_surface" ? 'active' }}" href="{{ path('app_surface') }}">Surfaces</a>
+                                <a class="nav-link {{ route_name matches '{^app_surface}' ? 'active' }}" href="{{ path('app_surface') }}">Surfaces</a>
                             </li>
 
-                                <a class="nav-link {{ route_name == "app_gender" ? 'active' }}" href="{{ path('app_gender') }}">Genres</a>
+                                <a class="nav-link {{ route_name matches '{^app_gender}' ? 'active' }}" href="{{ path('app_gender') }}">Genres</a>
                             </li>
                         </ul>
                         {% if is_granted('IS_AUTHENTICATED_FULLY') %}

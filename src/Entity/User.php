@@ -83,7 +83,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=10)
-     * @Assert\NotBlank(message = "Veuillez renseigner votre numéro de téléphone.")
+     * @Assert\NotBlank(message = "Veuillez insérer votre numéro de téléphone.")
      * @Assert\Length(
      *      min = 10,
      *      max = 10,

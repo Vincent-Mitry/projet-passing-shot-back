@@ -25,7 +25,7 @@ class Gender
 
     /**
      * @ORM\Column(type="string", length=50)
-     * @Assert\NotBlank(message="Veuillez renseigner le type du genre.")
+     * @Assert\NotBlank(message="Veuillez insérer le type du genre.")
      * @Assert\Length(
      *      min = 2,
      *      max = 50,
