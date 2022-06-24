@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 class MainController extends AbstractController
 {
     /**
-     * @Route("/", name="app_home", methods={"GET"})
+     * @Route("", name="app_home", methods={"GET"})
      */
     public function home(ClubRepository $clubRepository,
     ReservationRepository $reservationRepository,
@@ -24,16 +24,16 @@ class MainController extends AbstractController
     AvailableTimeslots $availableTimeslots,
     Request $request): Response
     {
-     
+      
+
         
-        
+
         return $this->render('main/index.html.twig', [
             'clubs' => $clubRepository->findLastThree(),
             'reservations' => $reservationRepository->findLastThree(),
             'courts' => $courtRepository->findLastThree(),
             'users' => $userRepository->findLastThree(),
-            'availableTimeslots' => $availableTimeslots->getAllAvailableTimeslots(date('y/m/d')),
-            
+            'availableTimeslots' => $availableTimeslots->getAllAvailableTimeslots(date('y/m/d')),         
            
             
 

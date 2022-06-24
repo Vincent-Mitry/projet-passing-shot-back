@@ -178,138 +178,28 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td>Court 1</td>
-							{% for availableTimeslot in availableTimeslots[1] %}
-								{% if availableTimeslot is empty %}
-									<td class="mt-2 badge rounded-pill bg-danger mx-5">
-										pas de creneau horaire disponible pour ce terrain aujourd'hui
+
+						{# Je boucle sur mon tableau 'courts' en lui demandant la clé et le tableau associé nommé ici 'hours' #}
+						{% for key, hours in availableTimeslots %}
+							<tr>
+								{# J'affiche le numéro du court dans la première colonne de mon tableau dynamiquement #}
+								<td>Terrain n°{{ key }}</td>
+
+								{# Je boucle sur mon tableau 'hours' #}
+								{% for hour in hours %}
+								
+									{# Si ma valeur est 'null', alors j'affiche une pastille 'indisponible' #}
+									{% if hour matches '/^\\d+$/ '%}
+										<td class="mt-2 badge rounded-pill bg-success mx-5">{{ hour }}</td>
+
+										{# Sinon j'affiche une pastille avec chaque heure disponible à la réservation #}
 									{% else %}
-										<td class="mt-2 badge rounded-pill bg-success mx-5">{{ availableTimeslot }}
-										{% endif %}
-									</td>
+									<td class="mt-2 badge rounded-pill bg-danger mx-5">X</td>
+										
+									{% endif %}
 								{% endfor %}
 							</tr>
-						</tr>
-						<tr>
-							<td>Court 2</td>
-							{% for availableTimeslot in availableTimeslots[2] %}
-                            
-								{% if availableTimeslot is empty %}
-									<td class="mt-2 badge rounded-pill bg-danger mx-5">
-										pas de creneau horaire disponible pour ce terrain aujourd'hui
-									{% else %}
-										<td class="mt-2 badge rounded-pill bg-success mx-5">{{ availableTimeslot }}
-										{% endif %}
-									</td>
-								{% endfor %}
-							</tr>
-						</tr>
-						<tr>
-							<td>Court 3</td>
-							{% for availableTimeslot in availableTimeslots[3] %}
-                   
-								{% if availableTimeslot is empty   %}
-									<td class="mt-2 badge rounded-pill bg-danger mx-5">
-										pas de creneau horaire disponible pour ce terrain aujourd'hui
-									{% else %}
-										<td class="mt-2 badge rounded-pill bg-success mx-5">{{ availableTimeslot }}
-										{% endif %}
-									</td>
-								{% endfor %}
-							</tr>
-						</tr>
-						<tr>
-							<td>Court 4</td>
-							{% for availableTimeslot in availableTimeslots[4] %}
-								{% if availableTimeslot is empty %}
-									<td class="mt-2 badge rounded-pill bg-danger mx-5">
-										pas de creneau horaire disponible pour ce terrain aujourd'hui
-									{% else %}
-										<td class="mt-2 badge rounded-pill bg-success mx-5">{{ availableTimeslot }}
-										{% endif %}
-									</td>
-								{% endfor %}
-							</tr>
-						</tr>
-						<tr>
-							<td>Court 5</td>
-							{% for availableTimeslot in availableTimeslots[5] %}
-								{% if availableTimeslot is empty %}
-									<td class="mt-2 badge rounded-pill bg-danger mx-5">
-										pas de creneau horaire disponible pour ce terrain aujourd'hui
-									{% else %}
-										<td class="mt-2 badge rounded-pill bg-success mx-5">{{ availableTimeslot }}
-										{% endif %}
-									</td>
-								{% endfor %}
-							</tr>
-						</tr>
-						<tr>
-							<td>Court 6</td>
-							{% for availableTimeslot in availableTimeslots[6] %}
-								{% if availableTimeslot is empty %}
-									<td class="mt-2 badge rounded-pill bg-danger mx-5">
-										pas de creneau horaire disponible pour ce terrain aujourd'hui
-									{% else %}
-										<td class="mt-2 badge rounded-pill bg-success mx-5">{{ availableTimeslot }}
-										{% endif %}
-									</td>
-								{% endfor %}
-							</tr>
-						</tr>
-						<tr>
-							<td>Court 7</td>
-							{% for availableTimeslot in availableTimeslots[7] %}
-								{% if availableTimeslot is empty %}
-									<td class="mt-2 badge rounded-pill bg-danger mx-5">
-										pas de creneau horaire disponible pour ce terrain aujourd'hui
-									{% else %}
-										<td class="mt-2 badge rounded-pill bg-success mx-5">{{ availableTimeslot }}
-										{% endif %}
-									</td>
-								{% endfor %}
-							</tr>
-						</tr>
-						<tr>
-							<td>Court 8</td>
-							{% for availableTimeslot in availableTimeslots[8] %}
-								{% if availableTimeslot is empty %}
-									<td class="mt-2 badge rounded-pill bg-danger mx-5">
-										pas de creneau horaire disponible pour ce terrain aujourd'hui
-									{% else %}
-										<td class="mt-2 badge rounded-pill bg-success mx-5">{{ availableTimeslot }}
-										{% endif %}
-									</td>
-								{% endfor %}
-							</tr>
-						</tr>
-						<tr>
-							<td>Court 9</td>
-							{% for availableTimeslot in availableTimeslots[9] %}
-								{% if availableTimeslot is empty %}
-									<td class="mt-2 badge rounded-pill bg-danger mx-5">
-										pas de creneau horaire disponible pour ce terrain aujourd'hui
-									{% else %}
-										<td class="mt-2 badge rounded-pill bg-success mx-5">{{ availableTimeslot }}
-										{% endif %}
-									</td>
-								{% endfor %}
-							</tr>
-						</tr>
-						<tr>
-							<td>Court 10</td>
-							{% for availableTimeslot in availableTimeslots[10] %}
-								{% if availableTimeslot is empty %}
-									<td class="mt-2 badge rounded-pill bg-danger mx-5">
-										pas de creneau horaire disponible pour ce terrain aujourd'hui
-									{% else %}
-										<td class="mt-2 badge rounded-pill bg-success mx-5">{{ availableTimeslot }}
-										{% endif %}
-									</td>
-								{% endfor %}
-							</tr>
-						</tr>
+						{% endfor %}
 					</tbody>
 				</table>
 			</div>

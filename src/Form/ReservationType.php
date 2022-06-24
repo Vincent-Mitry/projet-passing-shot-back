@@ -72,7 +72,7 @@ class ReservationType extends AbstractType
             ->add('user', EntityType::class, [
                 'label' => 'Nom du membre :',
                 'class' => User::class,
-                'choice_label' => 'lastname',
+                'choice_label'=> 'lastname',   
                 'multiple' => false,
                 'expanded' => false,
                 'help' => 'Sélectionner un membre.',
