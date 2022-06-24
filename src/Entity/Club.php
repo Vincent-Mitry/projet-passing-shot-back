@@ -29,21 +29,25 @@ class Club
 
     /**
      * @ORM\Column(type="time")
-     * @Assert\NotNull
+     * @Assert\NotNull(message = "Veuillez sélectionner une heure d'ouverture.")
      * @Assert\Type("\DateTimeInterface")
      */
     private $startingTime;
 
     /**
      * @ORM\Column(type="time")
-     * @Assert\NotNull
+     * @Assert\NotNull(message = "Veuillez sélectionner une heure de fermeture.")
      * @Assert\Type("\DateTimeInterface")
+     * @Assert\GreaterThan(
+     *  propertyPath = "startingTime",
+     *  message = "L'heure de fermeture doit être supérieure à celle de d'ouverture."
+     * )
      */
     private $endingTime;
 
     /**
      * @ORM\Column(type="string", length=200)
-     * @Assert\NotBlank
+     * @Assert\NotBlank(message = "Le nom du club ne peut pas être vide.")
      */
     private $name;
 
@@ -54,7 +58,7 @@ class Club
 
     /**
      * @ORM\Column(type="text")
-     * @Assert\NotBlank
+     * @Assert\NotBlank(message = "Veuillez insérer une description.")
      */
     private $description;
 
