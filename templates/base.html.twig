@@ -41,16 +41,14 @@
                                 <a class="nav-link {{ route_name matches '{^app_reservation}' ? 'active' }}" href="{{ path('app_reservation') }}">Réservations</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link {{ route_name matches '{^app_court}' ? 'active' }}" href="{{ path('app_court') }}">Terrains</a>
+                                <a class="nav-link {{ route_name matches '{^app_court}' or '{^app_blocked}' ? 'active' }}" href="{{ path('app_court') }}">Terrains</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link {{ route_name matches '{^app_user}' ? 'active' }}" href="{{ path('app_user') }}">Utilisateurs</a>
                             </li>
                             <li class="nav-item">
-
                                 <a class="nav-link {{ route_name matches '{^app_surface}' ? 'active' }}" href="{{ path('app_surface') }}">Surfaces</a>
                             </li>
-
                                 <a class="nav-link {{ route_name matches '{^app_gender}' ? 'active' }}" href="{{ path('app_gender') }}">Genres</a>
                             </li>
                         </ul>
