@@ -27,17 +27,15 @@
 						</tr>
 						<tr>
 							<th>Horaire d'ouverture</th>
-							<td>{{ club.startingTime ? club.startingTime|date('H:i') : '' }}</td>
+							<td>{{ club.startingTime ? club.startingTime|date('H:i') : '-' }}</td>
 						</tr>
 						<tr>
 							<th>Horaire de fermeture</th>
-							<td>{{ club.endingTime ? club.endingTime|date('H:i') : '' }}</td>
+							<td>{{ club.endingTime ? club.endingTime|date('H:i') : '-' }}</td>
 						</tr>
 						<tr>
 							<th>Logo</th>
-							<td>{% if club.logo == null %} - {% else %}
-								{{ club.logo }}{% endif %}
-							</td>
+							<td>{{ club.logo ? club.logo : '-' }}</td>
 						</tr>
 						<tr>
 							<th>Description</th>
@@ -45,11 +43,11 @@
 						</tr>
 						<tr>
 							<th>Date de création</th>
-							<td>{{ club.createdAt ? club.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+							<td>{{ club.createdAt ? club.createdAt|date('Y-m-d H:i:s') : '-' }}</td>
 						</tr>
 						<tr>
 							<th>Date de modification</th>
-							<td>{{ club.updatedAt ? club.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+							<td>{{ club.updatedAt ? club.updatedAt|date('Y-m-d H:i:s') : '-' }}</td>
 						</tr>
 					</tbody>
 				</table>
