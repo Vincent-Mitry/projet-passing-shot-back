@@ -46,11 +46,13 @@ class CourtType extends AbstractType
             ->add('indoor', CheckboxType::class, [
                 'label' => 'Couvert',
                 'attr' => ['class' => 'form-row p-0'],
+                'help' => 'Cocher si le terrain est couvert.',
                 'required' => false,
-                ])
+            ])
             ->add('lightning', CheckboxType::class, [
                 'label' => 'Éclairé',
                 'attr' => ['class' => 'form-row p-0'],
+                'help' => 'Cocher si le terrain est éclairé.',
                 'required' => false,
             ])
             ->add('startTime', TimeType::class, [

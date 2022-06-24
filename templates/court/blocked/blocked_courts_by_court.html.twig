@@ -5,7 +5,7 @@
 {% block body %}
 <div class="container-fluid">
     <div class=" d-flex justify-content-center">
-        <a href="{{ path('app_blocked_courts_by_court', {'court_id': court.id}) }}" class="btn btn-warning m-3">Retour</a>
+        <a href="{{ path('app_court_show', {'id': court.id}) }}" class="btn btn-warning m-3">Retour</a>
     </div>
     <div class="card shadow">
         <div class="card-header py-3">

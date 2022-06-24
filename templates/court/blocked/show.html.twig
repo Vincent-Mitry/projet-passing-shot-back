@@ -31,19 +31,19 @@
                         </tr>
                         <tr>
                             <th>Date et heure de début de la fermeture : </th>
-                            <td>{{ blockedCourt.startDatetime ? blockedCourt.startDatetime|date('d-m-Y à H:i') : '' }}</td>
+                            <td>{{ blockedCourt.startDatetime ? blockedCourt.startDatetime|date('d-m-Y à H:i') : '-' }}</td>
                         </tr>
                         <tr>
                             <th>Date et heure de fin de la fermeture : </th>
-                            <td>{{ blockedCourt.endDatetime ? blockedCourt.endDatetime|date('d-m-Y à H:i') : '' }}</td>
+                            <td>{{ blockedCourt.endDatetime ? blockedCourt.endDatetime|date('d-m-Y à H:i') : '-' }}</td>
                         </tr>
                         <tr>
                             <th>Date de création : </th>
-                            <td>{{ court.createdAt ? court.createdAt|date('d-m-Y H:i') : '' }}</td>
+                            <td>{{ court.createdAt ? court.createdAt|date('d-m-Y H:i') : '-' }}</td>
                         </tr>
                         <tr>
                             <th>Date de mise à jour : </th>
-                            <td>{{ court.updatedAt ? court.updatedAt|date('d-m-Y H:i') : '' }}</td>
+                            <td>{{ court.updatedAt ? court.updatedAt|date('d-m-Y H:i') : '-' }}</td>
                         </tr>
                     </tbody>
                 </table>
