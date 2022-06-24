@@ -18,12 +18,22 @@ use Symfony\Component\Routing\Annotation\Route;
 class UserController extends AbstractController
 {
     /**
-     * @Route("", name="app_user", methods={"GET"})
+     * @Route("/staff", name="app_user_staff", methods={"GET"})
      */
-    public function list(UserRepository $userRepository): Response
+    public function listStaff(UserRepository $userRepository): Response
     {
-        return $this->render('user/index.html.twig', [
-            'users' => $userRepository->findAll(),
+        return $this->render('user/index_staff.html.twig', [
+            'users' => $userRepository->getUsersMemberStaff(),
+        ]);
+    }
+
+    /**
+     * @Route("/membres", name="app_user_member", methods={"GET"})
+     */
+    public function listMember(UserRepository $userRepository): Response
+    {
+        return $this->render('user/index_member.html.twig', [
+            'users' => $userRepository->getUsersMemberList(),
         ]);
     }
 

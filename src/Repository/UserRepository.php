@@ -70,6 +70,36 @@ class UserRepository extends ServiceEntityRepository
         ;
     }
 
+    /**
+    * Get all users member
+    */
+    public function getUsersMemberList()
+    {
+        return $this->createQueryBuilder('u')
+            ->where('u.roles LIKE :role')
+            ->setParameter('role', '%ROLE_MEMBER%')
+            ->orderBy('u.lastname', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
+    * Get all users staff
+    */
+    public function getUsersMemberStaff()
+    {
+        return $this->createQueryBuilder('u')
+            ->where('u.roles LIKE :admin')
+            ->orWhere('u.roles LIKE :superadmin')
+            ->setParameter('admin', '%ROLE_ADMIN%')
+            ->setParameter('superadmin', '%ROLE_SUPER_ADMIN%')
+            ->orderBy('u.lastname', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
 //    /**
 //     * @return User[] Returns an array of User objects
 //     */
