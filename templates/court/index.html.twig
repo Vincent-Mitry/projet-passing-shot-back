@@ -54,8 +54,8 @@
                             <td>{{ court.id }}</td>
                             <td><img class="rounded-circle me-2" width="30" height="30" src="{{ court.picture }}"></td>
                             <td>{{ court.name }}</td>
-                            <td>{{ court.club.name }}</td>
-                            <td>{{ court.surface.name }}</td>
+                            <td>{{ court.club.name|default('') }}</td>
+                            <td>{{ court.surface.name|default('') }}</td>
                             <td>{{ court.lightning }}</td>
                             <td>{{ court.indoor }}</td>
                             <td>{{ court.startTime|date('H:i') }}</td>

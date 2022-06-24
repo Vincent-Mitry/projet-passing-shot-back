@@ -69,7 +69,7 @@ class Club
     private $updatedAt;
 
     /**
-     * @ORM\OneToOne(targetEntity=User::class, inversedBy="club", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=User::class, inversedBy="club")
      * @ORM\JoinColumn(nullable=true)
      */
     private $user;

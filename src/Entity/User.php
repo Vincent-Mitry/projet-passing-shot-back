@@ -146,7 +146,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $reservations;
 
     /**
-     * @ORM\OneToOne(targetEntity=Club::class, mappedBy="user", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=Club::class, mappedBy="user")
      */
     private $club;
 
