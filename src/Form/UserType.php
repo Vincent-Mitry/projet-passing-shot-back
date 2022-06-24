@@ -64,9 +64,9 @@ class UserType extends AbstractType
             ->add('level', ChoiceType::class, [
                 'label' => 'Niveau :',
                 'choices' => [
-                    'Débutant' => 1,
-                    'Intermédiaire' => 2,
-                    'Confirmé' => 3,
+                    'Débutant' => 'Débutant',
+                    'Intermédiaire' => 'Intermédiaire',
+                    'Confirmé' => 'Confirmé',
                 ],
                 'multiple' => false,
                 'expanded' => true,
