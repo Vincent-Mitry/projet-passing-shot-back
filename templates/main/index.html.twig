@@ -100,7 +100,7 @@
                         {% for user in users %}
                             <tr>
                                 <th scope="row">{{ user.id }}</th>
-                                <td>{{ user.firstname}}</td>
+                                <td>{{ user.firstname }}</td>
                                 <td>{{ user.lastname }}</td>
                                 <td>{{ user.birthdate|date('d-m-Y')}}</td>
                                 <td>
@@ -135,7 +135,7 @@
                             <tr>
                                 <th scope="row">{{ club.id }}</th>
                                 <td>{{ club.name }}</td>
-                                <td>{{ club.user.firstname}} {{ club.user.lastname}}</td>
+                                <td>{{ club.user ? club.user.firstname : '-' }} {{ club.user ? club.user.lastname : '' }}</td>
                                 <td>
                                 <a href="{{ path('app_club_show', {'id': club.id})}}" class="btn btn-sm" style="color: white; background-color: #EA5C0A; border-color: white;"><i class="bi bi-search"></i></a>
                                 </td>

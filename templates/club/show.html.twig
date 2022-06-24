@@ -1,7 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Club
-{% endblock %}
+{% block title %}Club{% endblock %}
 
 {% block body %}
 <div class="container-fluid">
@@ -12,8 +11,7 @@
 	</div>
 	<div class="card shadow">
 		<div class="card-header py-3">
-			<p class="text-danger m-0 fw-bold text-center">Information sur le club
-				{{ club.name }}</p>
+			<p class="text-danger m-0 fw-bold text-center">Détails du club : {{ club.name }}</p>
 		</div>
 		<div class="card-body">
 			<div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
@@ -37,20 +35,20 @@
 						</tr>
 						<tr>
 							<th>Logo</th>
-							<td>{% if club.logo == null %} pas de logo publié {% else %}
+							<td>{% if club.logo == null %} - {% else %}
 								{{ club.logo }}{% endif %}
 							</td>
 						</tr>
 						<tr>
-							<th>Descriptif</th>
-							<td>{{ club.description }}</td>
+							<th>Description</th>
+							<td class="col-10">{{ club.description }}</td>
 						</tr>
 						<tr>
-							<th>CreatedAt</th>
+							<th>Date de création</th>
 							<td>{{ club.createdAt ? club.createdAt|date('Y-m-d H:i:s') : '' }}</td>
 						</tr>
 						<tr>
-							<th>UpdatedAt</th>
+							<th>Date de modification</th>
 							<td>{{ club.updatedAt ? club.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
 						</tr>
 					</tbody>

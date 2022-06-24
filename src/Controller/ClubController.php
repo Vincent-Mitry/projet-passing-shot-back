@@ -34,8 +34,9 @@ class ClubController extends AbstractController
         $club = new Club();
         $form = $this->createForm(ClubType::class, $club);
         $form->handleRequest($request);
-
+        
         if ($form->isSubmitted() && $form->isValid()) {
+            
             $clubRepository->add($club, true);
 
             return $this->redirectToRoute('app_club', [], Response::HTTP_SEE_OTHER);

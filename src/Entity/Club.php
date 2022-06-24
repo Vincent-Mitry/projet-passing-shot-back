@@ -6,10 +6,12 @@ use App\Entity\User;
 use App\Entity\Court;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ClubRepository;
+use DateTime;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Ignore;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\Time;
 
 /**
  * @ORM\Entity(repositoryClass=ClubRepository::class)
@@ -27,15 +29,15 @@ class Club
 
     /**
      * @ORM\Column(type="time")
+     * @Assert\NotNull
      * @Assert\Type("\DateTimeInterface")
-     * @Assert\NotBlank
      */
     private $startingTime;
 
     /**
      * @ORM\Column(type="time")
+     * @Assert\NotNull
      * @Assert\Type("\DateTimeInterface")
-     * @Assert\NotBlank
      */
     private $endingTime;
 
@@ -95,7 +97,7 @@ class Club
         return $this->startingTime;
     }
 
-    public function setStartingTime(\DateTimeInterface $startingTime): self
+    public function setStartingTime(?\DateTimeInterface $startingTime): self
     {
         $this->startingTime = $startingTime;
 
@@ -107,7 +109,7 @@ class Club
         return $this->endingTime;
     }
 
-    public function setEndingTime(\DateTimeInterface $endingTime): self
+    public function setEndingTime(?\DateTimeInterface $endingTime): self
     {
         $this->endingTime = $endingTime;
 

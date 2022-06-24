@@ -53,6 +53,9 @@ class BlockedCourtType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => BlockedCourt::class,
+            'attr' => [
+                'novalidate' => 'novalidate'
+            ]
         ]);
     }
 }

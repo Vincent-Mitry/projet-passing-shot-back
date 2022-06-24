@@ -11,6 +11,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
 
@@ -33,27 +34,42 @@ class ClubType extends AbstractType
             ])
             ->add('startingTime', TimeType::class, [
                 'label' => 'Heure d\'ouverture',
+                'placeholder' => [
+                    'hour' => 'Heure', 
+                    'minute' => 'Minutes', 
+                ],
                 'required' => true,
+                'attr' => ['class' => 'col-4']
             ])
             ->add('endingTime', TimeType::class, [
                 'label' => 'Heure de fermeture',
+                'placeholder' => [
+                    'hour' => 'Heure', 
+                    'minute' => 'Minutes', 
+                ],
                 'required' => true,
-                ])
-            ->add('description', TextType::class, [
-                'label' => 'bref decriptif du club',
+                'attr' => ['class' => 'col-4']
+            ])
+            ->add('description', TextareaType::class, [
+                'label' => 'Description',
                 'required' => true,
             ])
             
             ->add('user', EntityType::class, [
-                'label' => 'Nom du propriétaire',
+                'placeholder' => '--- Sélectionner le propriétaire ---',
+                'label' => 'Propriétaire',
                 'class' => User::class,
                 'choice_label' => 'email',
                 'multiple' => false,
-                'expanded' => true,
+                'expanded' => false,
                 'query_builder' => function (EntityRepository $pr) {
                     return $pr->createQueryBuilder('u')
-                              ->orderBy('u.roles', 'DESC');
-                }])   
+                              ->where('u.roles LIKE :role')
+                              ->orderBy('u.roles', 'DESC')
+                              ->setParameter('role', '%ROLE_SUPER_ADMIN%');
+                },
+                'required' => false,
+            ])   
         ;
     }
 
