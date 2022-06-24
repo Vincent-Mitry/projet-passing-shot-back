@@ -1,15 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Utilisateur {% endblock %}
+{% block title %}Liste des membres{% endblock %}
 
 {% block body %}
 <div class="container-fluid">
     <div class=" d-flex justify-content-center">
-        <a href="{{ path('app_user_new') }}" class="btn btn-warning m-3">Créer un nouvel utilisateur</a>
+        <a href="{{ path('app_user_member_new') }}" class="btn btn-warning m-3">Créer un nouveau membre</a>
     </div>
     <div class="card shadow">
         <div class="card-header py-3 text-color-white">
-            <p class="text-danger m-0 fw-bold text-center">Informations des utilisateurs</p>
+            <p class="text-danger m-0 fw-bold text-center">Liste des membres</p>
         </div>
         <div class="card-body">
             <div class="row">
@@ -39,7 +39,6 @@
                             <th>Genre</th>
                             <th>Niveau</th>
                             <th>Téléphone</th>
-                            <th>Rôle</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -55,13 +54,9 @@
                                 <td>{{ user.gender.type }}</td>
                                 <td>{{ user.level }}</td>
                                 <td>{{ user.phone }}</td>
-                                <td> 
-                                {% for role in user.roles %}
-                                {{ role }}
-                                {% endfor %}</td>
                                 <td>
-                                    <a href="{{ path('app_user_show', {'id': user.id})}}" class="btn btn-sm" style="color: white; background-color: #EA5C0A; border-color: white;"><i class="bi bi-search"></i></a>
-                                    <a href="{{ path('app_user_edit', {'id': user.id})}}" class="btn btn-sm" style="color: white; background-color: #FFCA2C; border-color: white;"><i class="bi bi-pencil-square"></i></a>
+                                    <a href="{{ path('app_user_member_show', {'id': user.id})}}" class="btn btn-sm" style="color: white; background-color: #EA5C0A; border-color: white;"><i class="bi bi-search"></i></a>
+                                    <a href="{{ path('app_user_member_edit', {'id': user.id})}}" class="btn btn-sm" style="color: white; background-color: #FFCA2C; border-color: white;"><i class="bi bi-pencil-square"></i></a>
                                 </td>
                             </tr>
                     {% endfor %}

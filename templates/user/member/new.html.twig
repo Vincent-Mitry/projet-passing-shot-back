@@ -1,22 +1,21 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Modification de {{ user.firstname }} {{ user.lastname }}{% endblock %}
+{% block title %}Création d'un membre{% endblock %}
 
 {% block body %}
 <div class="container-fluid">
     <div class=" d-flex justify-content-center">
-        <a href="{{ path('app_user') }}" class="btn btn-warning m-3">Retour</a>
-        {{ include('user/_delete_form.html.twig') }}
+        <a href="{{ path('app_user_member') }}" class="btn btn-warning m-3">Retour</a>
     </div>
         <div class="card shadow">
             <div class="card-header py-3">
-                <p class="text-danger m-0 fw-bold text-center">Modification de l'utilisateur {{ user.firstname }} {{ user.lastname }}</p>
+                <p class="text-danger m-0 fw-bold text-center">Création d'un membre</p>
             </div>
             <div class="card-body">
         <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
             <table class="table table-striped table-hover my-0" id="dataTable ">
                 <tbody>
-                     <div class="m-3 p-5">{{ include('user/_form.html.twig', {'button_label': 'Enregistrer'}) }}</div>
+                    <div class="m-3 p-5">{{ include('user/member/_form.html.twig') }}</div>
                 </tbody>
             </table>
         </div>
