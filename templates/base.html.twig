@@ -1,84 +1,91 @@
 <!DOCTYPE html>
 <html lang="fr">
 
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Google font -->
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- Google font -->
 
-    <!-- Our custom CSS -->
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-    <!-- Bootsrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
-    <!-- Bootstrap icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-    <!-- favicon -->
-    <link rel="shortcut icon" href="{{ asset('images/passingshot.svg') }}" type="image/x-icon">
+        <!-- Our custom CSS -->
+        <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+        <!-- Bootsrap -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+            integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+        <!-- Bootstrap icons -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+        <!-- favicon -->
+        <link rel="shortcut icon" href="{{ asset('images/passingshot.svg') }}" type="image/x-icon">
 
-    <title>{% block title %}{% endblock %} - BackOffice Passing ShO't</title>
-</head>
+        <title>{% block title %}{% endblock %} - BackOffice Passing ShO't</title>
+    </head>
     <body>
         {# route name attributes #}
         {% set route_name = app.request.attributes.get('_route') %}
         <!-- Nav -->
-        <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
-            <div class="container-fluid">
-            <a href="{{ path('app_home') }}" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none header-logo">
-                <img src="{{ asset('images/passingshot.svg') }}" height="100" alt="Logo Passing ShO't">
-            </a>
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                      <a class="nav-link {{ route_name == "app_home" ? 'active' }}" aria-current="page" href="{{ path('app_home') }}">Accueil</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ route_name == "app_club" ? 'active' }}" href="{{ path('app_club') }}">Clubs</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ route_name == "app_reservation" ? 'active' }}" href="{{ path('app_reservation') }}">Réservations</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ route_name == "app_court" ? 'active' }}" href="{{ path('app_court') }}">Terrains</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ route_name == "app_user" ? 'active' }}" href="{{ path('app_user') }}">Utilisateurs</a>
-                    </li>
-                    <li class="nav-item">
+        <div class="main">
+            <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
+                <div class="container-fluid">
+                <a href="{{ path('app_home') }}" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none header-logo">
+                    <img src="{{ asset('images/passingshot.svg') }}" height="100" alt="Logo Passing ShO't">
+                </a>
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link {{ route_name == "app_home" ? 'active' }}" aria-current="page" href="{{ path('app_home') }}">Accueil</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ route_name == "app_club" ? 'active' }}" href="{{ path('app_club') }}">Clubs</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ route_name == "app_reservation" ? 'active' }}" href="{{ path('app_reservation') }}">Réservations</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ route_name == "app_court" ? 'active' }}" href="{{ path('app_court') }}">Terrains</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ route_name == "app_user" ? 'active' }}" href="{{ path('app_user') }}">Utilisateurs</a>
+                        </li>
+                        <li class="nav-item">
 
-                        <a class="nav-link {{ route_name == "app_surface" ? 'active' }}" href="{{ path('app_surface') }}">Surfaces</a>
-                    </li>
+                            <a class="nav-link {{ route_name == "app_surface" ? 'active' }}" href="{{ path('app_surface') }}">Surfaces</a>
+                        </li>
 
-                        <a class="nav-link {{ route_name == "app_gender" ? 'active' }}" href="{{ path('app_gender') }}">Genres</a>
-                    </li>
-                </ul>
-                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                <ul class="navbar-nav flex-nowrap ms-auto">
-                    <div class="shadow"></div>
-                    <div class="d-none d-sm-block topbar-divider"></div>
-                    <li class="nav-item no-arrow">
-                        <div class="nav-item  no-arrow">
-                            <a class="nav-link" aria-expanded="false" href="#">
-                                <span class="d-none d-lg-inline me-2 text-gray-600 small">{{ app.user.firstname }} {{ app.user.lastname }}</span>
-                                {% if app.user.picture is not null %}
-                                    <img class="rounded-circle me-2" width="50" height="50" src="{{ app.user.picture }}">
-                                {% endif %}
-                            </a>
-                        </div>
-                    </li>
-                </ul>
-                    <a href="{{ path('logout') }}">
-                        <button type="button" class="btn m-3" style="color: white; background-color: #EA5C0A; border-color: white;">Deconnexion</button>
-                    </a>
-                {% endif %}
-            </div>
-        </nav>
-        {% block body %}{% endblock %}
+                            <a class="nav-link {{ route_name == "app_gender" ? 'active' }}" href="{{ path('app_gender') }}">Genres</a>
+                        </li>
+                    </ul>
+                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    <ul class="navbar-nav flex-nowrap ms-auto">
+                        <div class="shadow"></div>
+                        <div class="d-none d-sm-block topbar-divider"></div>
+                        <li class="nav-item no-arrow">
+                            <div class="nav-item  no-arrow">
+                                <a class="nav-link" aria-expanded="false" href="#">
+                                    <span class="d-none d-lg-inline me-2 text-gray-600 small">{{ app.user.firstname }} {{ app.user.lastname }}</span>
+                                    {% if app.user.picture is not null %}
+                                        <img class="rounded-circle me-2" width="50" height="50" src="{{ app.user.picture }}">
+                                    {% endif %}
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                        <a href="{{ path('logout') }}">
+                            <button type="button" class="btn m-3" style="color: white; background-color: #EA5C0A; border-color: white;">Deconnexion</button>
+                        </a>
+                    {% endif %}
+                </div>
+            </nav>
+            {% block body %}{% endblock %}
+        </div>
 
-        <footer class="bg-white sticky-footer my-5">
+
+        <footer id="footer" class="bg-white sticky-footer mt-5 mb-3">
             <div class="container my-auto">
                 <div class="text-center my-auto copyright"><span>Copyright © Passing ShO't 2022</span></div>
             </div>
         </footer>
+
+        {# <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> #}
+        {# <script src="{{ asset('js/script.js') }}"></script> #}
     </body>
+
 </html>

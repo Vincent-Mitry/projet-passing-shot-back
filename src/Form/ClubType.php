@@ -21,22 +21,22 @@ class ClubType extends AbstractType
         $builder
             
             ->add('name', TextType::class, [
-                'label' => 'Nom :',
+                'label' => 'Nom',
                 'required' => true,
             ])
             ->add('logo', UrlType::class, [
-                'label' => 'Logo du club :',
+                'label' => 'Logo du club',
                 'attr' => [
                     'placeholder' => 'Champ optionnel'
                 ],
                 'required' => false,
             ])
             ->add('startingTime', TimeType::class, [
-                'label' => 'Heure d\'ouverture :',
+                'label' => 'Heure d\'ouverture',
                 'required' => true,
             ])
             ->add('endingTime', TimeType::class, [
-                'label' => 'Heure de fermeture :',
+                'label' => 'Heure de fermeture',
                 'required' => true,
                 ])
             ->add('description', TextType::class, [
@@ -45,7 +45,7 @@ class ClubType extends AbstractType
             ])
             
             ->add('user', EntityType::class, [
-                'label' => 'Nom du propriétaire :',
+                'label' => 'Nom du propriétaire',
                 'class' => User::class,
                 'choice_label' => 'email',
                 'multiple' => false,
