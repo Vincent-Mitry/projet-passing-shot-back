@@ -1,18 +1,8 @@
-<!DOCTYPE html>
-<html lang="fr">
+{% extends '/email/base_email.html.twig' %}
 
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+{% block title %} - Contact{% endblock %}
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
-</head>
-    <body style="font-size: 1.2em;">
-        <div class"container-fluid">
-            <h1 style="text-align: center; color: #C23D12;">Passing ShO't Contact</h1>
-            <hr class="my-0"></hr>
+{% block body %}
             <h3 style="color: #C23D12;">Informations de contact :</h3>
             <ul>
                 <li>Nom : {{ contact.lastname }}</li>
@@ -21,8 +11,5 @@
             </ul>
             <h3 style="color: #C23D12;">Message :</h3>
             <p>{{ contact.message }}</p>
-        </div>    
-    </body>
-</html>
-
+{% endblock %}
 
