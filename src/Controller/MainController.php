@@ -2,15 +2,15 @@
 
 namespace App\Controller;
 
+use App\Service\Timeslots;
 use App\Repository\ClubRepository;
 use App\Repository\UserRepository;
 use App\Repository\CourtRepository;
-use App\Service\AvailableTimeslots;
 use App\Repository\ReservationRepository;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 
 class MainController extends AbstractController
 {
@@ -21,7 +21,7 @@ class MainController extends AbstractController
     ReservationRepository $reservationRepository,
     CourtRepository $courtRepository,
     UserRepository $userRepository,
-    AvailableTimeslots $availableTimeslots,
+    Timeslots $timeslots,
     Request $request): Response
     {
       
@@ -33,7 +33,7 @@ class MainController extends AbstractController
             'reservations' => $reservationRepository->findLastThree(),
             'courts' => $courtRepository->findLastThree(),
             'users' => $userRepository->findLastThree(),
-            'availableTimeslots' => $availableTimeslots->getAllAvailableTimeslots(date('y/m/d')),         
+            'timeslots' => $timeslots->getAllAvailabletimeslots(date('y/m/d')),         
            
             
 

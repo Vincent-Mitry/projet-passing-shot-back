@@ -180,7 +180,7 @@
 					<tbody>
 
 						{# Je boucle sur mon tableau 'courts' en lui demandant la clé et le tableau associé nommé ici 'hours' #}
-						{% for key, hours in availableTimeslots %}
+						{% for key, hours in timeslots %}
 							<tr>
 								{# J'affiche le numéro du court dans la première colonne de mon tableau dynamiquement #}
 								<td>Terrain n°{{ key }}</td>
@@ -188,13 +188,13 @@
 								{# Je boucle sur mon tableau 'hours' #}
 								{% for hour in hours %}
 								
-									{# Si ma valeur est 'null', alors j'affiche une pastille 'indisponible' #}
+									
 									{% if hour matches '/^\\d+$/ '%}
 										<td class="mt-2 badge rounded-pill bg-success mx-5">{{ hour }}</td>
 
-										{# Sinon j'affiche une pastille avec chaque heure disponible à la réservation #}
+										
 									{% else %}
-									<td class="mt-2 badge rounded-pill bg-danger mx-5">X</td>
+									<td class="mt-2 badge rounded-pill bg-danger mx-5">xx</td>
 										
 									{% endif %}
 								{% endfor %}

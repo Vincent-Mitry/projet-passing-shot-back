@@ -39,7 +39,7 @@ class ReservationType extends AbstractType
         )
             ->add('status', ChoiceType::class, [
                 'choices' => [
-                    'Inactif' => 2,
+                    'Inactif' => 0,
                     'Actif' => 1,
                 ],
                 'placeholder' => 'Status de la réservation',
