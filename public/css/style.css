@@ -1,5 +1,8 @@
 body {
     font-family: 'Montserrat', sans-serif;
+}
+
+.wrapper {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -7,7 +10,7 @@ body {
 
 .main {
     flex-grow: 1;
- }
+}
 
 .list {
     font-size: 0.84em;
