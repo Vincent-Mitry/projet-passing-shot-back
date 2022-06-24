@@ -214,7 +214,7 @@ class Court
         return $this->startTime;
     }
 
-    public function setStartTime(\DateTimeInterface $startTime): self
+    public function setStartTime(?\DateTimeInterface $startTime): self
     {
         $this->startTime = $startTime;
 
@@ -226,7 +226,7 @@ class Court
         return $this->endTime;
     }
 
-    public function setEndTime(\DateTimeInterface $endTime): self
+    public function setEndTime(?\DateTimeInterface $endTime): self
     {
         $this->endTime = $endTime;
 
