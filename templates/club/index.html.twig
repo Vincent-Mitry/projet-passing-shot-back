@@ -51,8 +51,8 @@
 							<td>{{ club.description }}</td>
 							<td>{{ club.startingTime|date('H:i') }}</td>
 							<td>{{ club.endingTime|date('H:i') }}</td>
-							<td>{{ club.user.firstname}}
-								{{ club.user.lastname}}</td>
+							<td>{{ club.user.firstname|default('')}}
+								{{ club.user.lastname|default('')}}</td>
 							<td>{{ club.createdAt|date('d-m-Y')}}</td>
 							<td>{{ club.updatedAt|date('d-m-Y')}}</td>
 							<td>
