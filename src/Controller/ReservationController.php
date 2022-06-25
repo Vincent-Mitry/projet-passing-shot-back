@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Entity\Reservation;
 use App\Form\ReservationType;
 use App\Repository\ReservationRepository;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -83,24 +84,22 @@ class ReservationController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="app_reservation_delete", methods={"POST"})
+     * @Route("/{id}/suppression", name="app_reservation_deactivate", methods={"GET", "PATCH"})
      */
-    public function delete(Request $request, Reservation $reservation, ReservationRepository $reservationRepository): Response
+    public function deactivate(Request $request, Reservation $reservation, ReservationRepository $reservationRepository, ManagerRegistry $doctrine): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$reservation->getId(), $request->request->get('_token'))) {
-            $reservationRepository->remove($reservation, true);
+          
+            $status = $reservation->setStatus(false);
 
-            $this->addFlash('warning', $reservation->getId() . ' supprimé!');
-        }
+            $reservationRepository->add($status, true);
+
+            
+            
+            $this->addFlash('warning', 'La réservation numéro ' . $reservation->getId() . ' a été supprimé!');
+        
 
         return $this->redirectToRoute('app_reservation', [], Response::HTTP_SEE_OTHER);
     }
 
-    /**
-     * @Route("/disponibilites", name="app_reservation_availabilities", methods={"GET"})
-     */
-    public function checkAvailability(Reservation $reservation)
-    {
-       
-    }
+   
 }
