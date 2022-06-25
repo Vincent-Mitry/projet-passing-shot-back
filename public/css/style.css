@@ -25,3 +25,7 @@ body {
 .text-color-black {
     color: black;
 }
+
+.notFound {
+    width: 20%;
+}
