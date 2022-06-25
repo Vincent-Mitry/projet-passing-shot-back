@@ -26,3 +26,19 @@ body {
     color: black;
 }
 
+a:link {
+    text-decoration: none;
+  }
+  
+  .resTable {
+    text-decoration: none;
+    color: white;
+  }
+  
+  a:hover {
+    text-decoration: none;
+  }
+  
+  a:active {
+    text-decoration: none;
+  }
