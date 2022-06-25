@@ -189,12 +189,11 @@
 								{% for hour in hours %}
 								
 									
-									{% if hour matches '/^\\d+$/ '%}
-										<td class="mt-2 badge rounded-pill bg-success mx-5">{{ hour }}</td>
-
+									{% if hour matches '/^[1-9]\d*$/' %}
+										<td class="mt-2 badge rounded-pill bg-danger mx-5"><a href="{{ path('app_reservation_show', {'id': hour})}}">RE</a></td>
 										
 									{% else %}
-									<td class="mt-2 badge rounded-pill bg-danger mx-5">xx</td>
+									<td class="mt-2 badge rounded-pill bg-success mx-5">{{ hour }}</td>
 										
 									{% endif %}
 								{% endfor %}

@@ -107,7 +107,7 @@ class Timeslots
             // Removal of each time slot based on the current reservation's start and end time
             for ($i= $reservationStartHour; $i < $reservationEndHour; $i++) { 
                 if (($key = array_search($i, $availabletimeSlots)) !== false){
-                    $availabletimeSlots[$key] = null;
+                    $availabletimeSlots[$key] = strval($reservation->getId());
                 }
             } 
         }
