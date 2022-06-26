@@ -20,9 +20,17 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class UserType extends AbstractType
 {
+    protected $request;
+
+    public function __construct(RequestStack $request)
+    {
+        $this->request = $request;
+    }
+    
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -84,17 +92,63 @@ class UserType extends AbstractType
                     'placeholder' => '0000000000'
                 ],
             ])
-            ->add('roles', ChoiceType::class, [
-                'label' => 'Rôles',
-                'choices' => [
-                    'Membre' => 'ROLE_MEMBER',
-                    'Gérant' => 'ROLE_ADMIN',
-                    'Propriétaire' => 'ROLE_SUPER_ADMIN',
-                ],
-                'help' => 'Sélectionner au moins un rôle.',
-                'multiple' => false,
-                'expanded' => true,
-	        ])
+            // Add Choicy Type For Roles depending on route name
+            ->addEventListener(FormEvents::PRE_SET_DATA, function(FormEvent $event) {
+                // Le form, pour continuer de travailler avec (car par accès aux variables en dehors de la fonction anonyme)
+                $form = $event->getForm();
+
+                $routeName = $this->request->getCurrentRequest()->attributes->get('_route');
+
+                // If route name == app_user_member_new"
+                if ($routeName === "app_user_member_new") {
+                    $form->add('roles', ChoiceType::class, [
+                        'label' => 'Rôles',
+                        'choices' => [
+                            'Membre' => 'ROLE_MEMBER',
+                        ],
+                        'help' => 'Sélectionner un rôle.',
+                        'multiple' => false,
+                        'expanded' => true,
+                        'model_transformer' => new CallbackTransformer(
+                            // De l'Entité vers le Form (affiche form)
+                            function ($rolesAsArray) {
+                                // transform the array to a string
+                                return implode(', ', $rolesAsArray);
+                            },
+                            // Du Form vers l'Entité (traite form)
+                            function ($rolesAsString) {
+                                // transform the string back to an array
+                                return explode(', ', $rolesAsString);
+                            }
+                        )
+                    ]);
+                } else {
+                    // Route name = staff
+                    $form->add('roles', ChoiceType::class, [
+                        'label' => 'Rôles',
+                        'choices' => [
+                            'Gérant' => 'ROLE_ADMIN',
+                            'Propriétaire' => 'ROLE_SUPER_ADMIN',
+                        ],
+                        'help' => 'Sélectionner un rôle.',
+                        'multiple' => false,
+                        'expanded' => true,
+                        'model_transformer' => new CallbackTransformer(
+                            // De l'Entité vers le Form (affiche form)
+                            function ($rolesAsArray) {
+                                // transform the array to a string
+                                return implode(', ', $rolesAsArray);
+                            },
+                            // Du Form vers l'Entité (traite form)
+                            function ($rolesAsString) {
+                                // transform the string back to an array
+                                return explode(', ', $rolesAsString);
+                            }
+                        )
+                    ]);
+                }
+
+            })
             ->addEventListener(FormEvents::PRE_SET_DATA, function(FormEvent $event) {
                 // Le user (qui est l'entité mappée sur le form) se trouve là
                 $user = $event->getData();
@@ -132,6 +186,7 @@ class UserType extends AbstractType
                         'mapped' => false,
                     ]);
                 }
+                
             });
 
             
@@ -139,19 +194,19 @@ class UserType extends AbstractType
         // Ajout d'un Data Transformer
         // pour convertir la chaine choisie en un tableau
         // qui contient cette chaine et vice-versa
-        $builder->get('roles')
-        ->addModelTransformer(new CallbackTransformer(
-            // De l'Entité vers le Form (affiche form)
-            function ($rolesAsArray) {
-                // transform the array to a string
-                return implode(', ', $rolesAsArray);
-            },
-            // Du Form vers l'Entité (traite form)
-            function ($rolesAsString) {
-                // transform the string back to an array
-                return explode(', ', $rolesAsString);
-            }
-        ));
+        // $builder->get('roles')
+        // ->addModelTransformer(new CallbackTransformer(
+        //     // De l'Entité vers le Form (affiche form)
+        //     function ($rolesAsArray) {
+        //         // transform the array to a string
+        //         return implode(', ', $rolesAsArray);
+        //     },
+        //     // Du Form vers l'Entité (traite form)
+        //     function ($rolesAsString) {
+        //         // transform the string back to an array
+        //         return explode(', ', $rolesAsString);
+        //     }
+        // ));
     }
 
 

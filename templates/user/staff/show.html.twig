@@ -1,18 +1,18 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Détails du membre n° {{ user.id }}  : {{ user.firstname }} {{ user.lastname }}{% endblock %}
+{% block title %}Détails de l'utilisateur "back-office" n° {{ user.id }}  : {{ user.firstname }} {{ user.lastname }}{% endblock %}
 
 {% block body %}
 
 <div class="container-fluid">
     <div class=" d-flex justify-content-center">
-        <a href="{{ path('app_user_member') }}" class="btn btn-warning m-3">Retour</a>
-        <a href="{{ path('app_user_member_edit', {'id': user.id}) }}" class="btn btn-warning m-3">Modifier</a>
-        {{ include('user/member/_delete_form.html.twig') }}
+        <a href="{{ path('app_user_staff') }}" class="btn btn-warning m-3">Retour</a>
+        <a href="{{ path('app_user_staff_edit', {'id': user.id}) }}" class="btn btn-warning m-3">Modifier</a>
+        {{ include('user/staff/_delete_form.html.twig') }}
     </div>
         <div class="card shadow">
             <div class="card-header py-3">
-                <p class="text-danger m-0 fw-bold text-center">Détails du membre n° {{ user.id }}  : {{ user.firstname }} {{ user.lastname }}</p>
+                <p class="text-danger m-0 fw-bold text-center">Détails de l'utilisateur "back-office" n° {{ user.id }}  : {{ user.firstname }} {{ user.lastname }}</p>
             </div>
             <div class="card-body">
         <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
