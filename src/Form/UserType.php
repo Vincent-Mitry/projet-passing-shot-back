@@ -29,6 +29,18 @@ class UserType extends AbstractType
     public function __construct(RequestStack $request)
     {
         $this->request = $request;
+        $this->rolesCallbackTransformer = new CallbackTransformer(
+            // De l'Entité vers le Form (affiche form)
+            function ($rolesAsArray) {
+                // transform the array to a string
+                return implode(', ', $rolesAsArray);
+            },
+            // Du Form vers l'Entité (traite form)
+            function ($rolesAsString) {
+                // transform the string back to an array
+                return explode(', ', $rolesAsString);
+            }
+        );
     }
     
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -109,20 +121,9 @@ class UserType extends AbstractType
                         'help' => 'Sélectionner un rôle.',
                         'multiple' => false,
                         'expanded' => true,
-                        'model_transformer' => new CallbackTransformer(
-                            // De l'Entité vers le Form (affiche form)
-                            function ($rolesAsArray) {
-                                // transform the array to a string
-                                return implode(', ', $rolesAsArray);
-                            },
-                            // Du Form vers l'Entité (traite form)
-                            function ($rolesAsString) {
-                                // transform the string back to an array
-                                return explode(', ', $rolesAsString);
-                            }
-                        )
+                        'model_transformer' => $this->rolesCallbackTransformer,
                     ]);
-                } else {
+                } elseif($routeName === "app_user_staff_new") {
                     // Route name = staff
                     $form->add('roles', ChoiceType::class, [
                         'label' => 'Rôles',
@@ -133,18 +134,20 @@ class UserType extends AbstractType
                         'help' => 'Sélectionner un rôle.',
                         'multiple' => false,
                         'expanded' => true,
-                        'model_transformer' => new CallbackTransformer(
-                            // De l'Entité vers le Form (affiche form)
-                            function ($rolesAsArray) {
-                                // transform the array to a string
-                                return implode(', ', $rolesAsArray);
-                            },
-                            // Du Form vers l'Entité (traite form)
-                            function ($rolesAsString) {
-                                // transform the string back to an array
-                                return explode(', ', $rolesAsString);
-                            }
-                        )
+                        'model_transformer' => $this->rolesCallbackTransformer,
+                    ]);
+                } elseif($routeName === "app_user_staff_edit") {
+                    // Route name = staff
+                    $form->add('roles', ChoiceType::class, [
+                        'label' => 'Rôles',
+                        'choices' => [
+                            'Gérant' => 'ROLE_ADMIN',
+                            'Propriétaire' => 'ROLE_SUPER_ADMIN',
+                        ],
+                        'help' => 'Sélectionner un rôle.',
+                        'multiple' => false,
+                        'expanded' => true,
+                        'model_transformer' => $this->rolesCallbackTransformer,
                     ]);
                 }
 
@@ -185,28 +188,8 @@ class UserType extends AbstractType
                         // la propriété $password de $user ne sera pas modifiée par le traitement du form
                         'mapped' => false,
                     ]);
-                }
-                
+                }   
             });
-
-            
-
-        // Ajout d'un Data Transformer
-        // pour convertir la chaine choisie en un tableau
-        // qui contient cette chaine et vice-versa
-        // $builder->get('roles')
-        // ->addModelTransformer(new CallbackTransformer(
-        //     // De l'Entité vers le Form (affiche form)
-        //     function ($rolesAsArray) {
-        //         // transform the array to a string
-        //         return implode(', ', $rolesAsArray);
-        //     },
-        //     // Du Form vers l'Entité (traite form)
-        //     function ($rolesAsString) {
-        //         // transform the string back to an array
-        //         return explode(', ', $rolesAsString);
-        //     }
-        // ));
     }
 
 
