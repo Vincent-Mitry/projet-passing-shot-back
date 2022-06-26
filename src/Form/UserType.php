@@ -123,20 +123,9 @@ class UserType extends AbstractType
                         'expanded' => true,
                         'model_transformer' => $this->rolesCallbackTransformer,
                     ]);
-                } elseif($routeName === "app_user_staff_new") {
-                    // Route name = staff
-                    $form->add('roles', ChoiceType::class, [
-                        'label' => 'Rôles',
-                        'choices' => [
-                            'Gérant' => 'ROLE_ADMIN',
-                            'Propriétaire' => 'ROLE_SUPER_ADMIN',
-                        ],
-                        'help' => 'Sélectionner un rôle.',
-                        'multiple' => false,
-                        'expanded' => true,
-                        'model_transformer' => $this->rolesCallbackTransformer,
-                    ]);
-                } elseif($routeName === "app_user_staff_edit") {
+                }
+                // If route name == app_user_staff_new or app_user_staff_edit  
+                elseif($routeName === "app_user_staff_new" || $routeName === "app_user_staff_edit") {
                     // Route name = staff
                     $form->add('roles', ChoiceType::class, [
                         'label' => 'Rôles',
@@ -150,7 +139,6 @@ class UserType extends AbstractType
                         'model_transformer' => $this->rolesCallbackTransformer,
                     ]);
                 }
-
             })
             ->addEventListener(FormEvents::PRE_SET_DATA, function(FormEvent $event) {
                 // Le user (qui est l'entité mappée sur le form) se trouve là
