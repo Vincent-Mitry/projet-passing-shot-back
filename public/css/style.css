@@ -2,6 +2,16 @@ body {
     font-family: 'Montserrat', sans-serif;
 }
 
+.wrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.main {
+    flex-grow: 1;
+}
+
 .list {
     font-size: 0.84em;
 }
@@ -26,6 +36,14 @@ body {
     color: black;
 }
 
+.col-form-label, .form-label {
+    font-weight:400;
+    color: #EA5C0A;
+}
+
+.col-form-label.required::after, .form-label.required::after {
+    content: " *";
+}
 a:link {
     text-decoration: none;
   }

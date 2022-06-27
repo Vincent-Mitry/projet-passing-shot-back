@@ -6,10 +6,12 @@ use App\Entity\User;
 use App\Entity\Court;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ClubRepository;
+use DateTime;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Ignore;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\Time;
 
 /**
  * @ORM\Entity(repositoryClass=ClubRepository::class)
@@ -27,21 +29,25 @@ class Club
 
     /**
      * @ORM\Column(type="time")
+     * @Assert\NotNull(message = "Veuillez sélectionner une heure d'ouverture.")
      * @Assert\Type("\DateTimeInterface")
-     * @Assert\NotBlank
      */
     private $startingTime;
 
     /**
      * @ORM\Column(type="time")
+     * @Assert\NotNull(message = "Veuillez sélectionner une heure de fermeture.")
      * @Assert\Type("\DateTimeInterface")
-     * @Assert\NotBlank
+     * @Assert\GreaterThan(
+     *  propertyPath = "startingTime",
+     *  message = "L'heure de fermeture doit être supérieure à celle de d'ouverture."
+     * )
      */
     private $endingTime;
 
     /**
      * @ORM\Column(type="string", length=200)
-     * @Assert\NotBlank
+     * @Assert\NotBlank(message = "Le nom du club ne peut pas être vide.")
      */
     private $name;
 
@@ -52,7 +58,7 @@ class Club
 
     /**
      * @ORM\Column(type="text")
-     * @Assert\NotBlank
+     * @Assert\NotBlank(message = "Veuillez insérer une description.")
      */
     private $description;
 
@@ -70,9 +76,7 @@ class Club
 
     /**
      * @ORM\OneToOne(targetEntity=User::class, inversedBy="club")
-
      * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
-
      */
     private $user;
 
@@ -97,7 +101,7 @@ class Club
         return $this->startingTime;
     }
 
-    public function setStartingTime(\DateTimeInterface $startingTime): self
+    public function setStartingTime(?\DateTimeInterface $startingTime): self
     {
         $this->startingTime = $startingTime;
 
@@ -109,7 +113,7 @@ class Club
         return $this->endingTime;
     }
 
-    public function setEndingTime(\DateTimeInterface $endingTime): self
+    public function setEndingTime(?\DateTimeInterface $endingTime): self
     {
         $this->endingTime = $endingTime;
 

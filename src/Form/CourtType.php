@@ -29,7 +29,7 @@ class CourtType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-                'label' => 'Nom :',
+                'label' => 'Nom',
             ])
             ->add('surface', EntityType::class, [
                 'label' => 'Surface :',
@@ -37,7 +37,7 @@ class CourtType extends AbstractType
                 'choice_label' => 'name',
                 'multiple' => false,
                 'expanded' => true,
-                'help' => 'Sélectionner au moins une surface.',
+                'help' => 'Sélectionner une surface.',
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('s')
                         ->orderBy('s.name', 'ASC');
@@ -46,65 +46,71 @@ class CourtType extends AbstractType
             ->add('indoor', CheckboxType::class, [
                 'label' => 'Couvert',
                 'attr' => ['class' => 'form-row p-0'],
+                'help' => 'Cocher si le terrain est couvert.',
                 'required' => false,
-                ])
+            ])
             ->add('lightning', CheckboxType::class, [
-            'label' => 'Éclairé',
-            'attr' => ['class' => 'form-row p-0'],
-            'required' => false,
+                'label' => 'Éclairé',
+                'attr' => ['class' => 'form-row p-0'],
+                'help' => 'Cocher si le terrain est éclairé.',
+                'required' => false,
             ])
             ->add('startTime', TimeType::class, [
-                'label' => 'Heure d\'ouverture :'
+                'label' => 'Heure d\'ouverture :',
+                'placeholder' => [
+                    'hour' => 'Heure', 
+                    'minute' => 'Minutes', 
+                ],
+                'attr' => ['class' => 'col-4']
             ])
             ->add('endTime', TimeType::class, [
-                'label' => 'Heure de fermeture :',
+                'label' => 'Heure de fermeture',
+                'placeholder' => [
+                    'hour' => 'Heure', 
+                    'minute' => 'Minutes', 
+                ],
+                'attr' => ['class' => 'col-4']
             ])
             ->add('picture', UrlType::class, [
-                'label' => 'Photo :',
+                'label' => 'Photo',
                 'attr' => [
-                    'placeholder' => 'Champ non obligatoire'
+                    'placeholder' => 'Champ optionnel'
                 ],
+                'required' => false,
             ])
             ->add('detailed_map', UrlType::class, [
-                'label' => 'Plan :',
+                'label' => 'Plan',
                 'attr' => [
-                    'placeholder' => 'Champ non obligatoire'
+                    'placeholder' => 'Champ optionnel'
                 ],
+                'required' => false,
             ])
             ->add('slug', TextType::class, [
-                'label' => 'Slug :'
+                'label' => 'Slug'
             ])
             ->add('renovatedAt', DateType::class, [
                 'years' => range(date('Y'), date('Y')-10),
                 'label' => 'Date de rénovation :',
+                'required' => false,
+                'empty_data' => null,
                 'placeholder' => [
-                    'Année' => 'Year', 
-                    'Mois' => 'Month', 
-                    'Jour' => 'Day',
+                    'year' => 'Année', 
+                    'month' => 'Mois', 
+                    'day' => 'Jour',
                 ],
                 'format' => 'dd MM yyyy',
                 'input' => 'datetime_immutable',
-            ])
-
-            ->add('createdAt', DateType::class, [
-                'years' => range(date('1970'), date('Y')),
-                'label' => 'Date de création:',
-                'placeholder' => [
-                    'Année' => 'Year',
-                    'Mois' => 'Month',
-                    'Jour' => 'Day',
-                ],
-                'format' => 'dd MM yyyy',
-                'input' => 'datetime_immutable',
+                'help' => 'Champs optionnels.',
+                'attr' => ['class' => 'col-4']
             ])
         
             ->add('club', EntityType::class, [
-                'label' => 'Club :',
+                'label' => 'Club',
                 'class' => Club::class,
                 'choice_label' => 'name',
                 'multiple' => false,
                 'expanded' => true,
-                'help' => 'Sélectionner au moins un club.',
+                'help' => 'Sélectionner un club.',
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('c')
                         ->orderBy('c.name', 'ASC');
@@ -118,7 +124,7 @@ class CourtType extends AbstractType
             'data_class' => Court::class,
             'attr' => [
                 'novalidate' => 'novalidate'
-            ]
+            ],
         ]);
     }
 }

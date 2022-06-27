@@ -20,49 +20,69 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class UserType extends AbstractType
 {
+    protected $request;
+
+    public function __construct(RequestStack $request)
+    {
+        $this->request = $request;
+        $this->rolesCallbackTransformer = new CallbackTransformer(
+            // De l'Entité vers le Form (affiche form)
+            function ($rolesAsArray) {
+                // transform the array to a string
+                return implode(', ', $rolesAsArray);
+            },
+            // Du Form vers l'Entité (traite form)
+            function ($rolesAsString) {
+                // transform the string back to an array
+                return explode(', ', $rolesAsString);
+            }
+        );
+    }
+    
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('picture', UrlType::class, [
-                'label' => 'Photo :',
+                'label' => 'Photo',
                 'attr' => [
-                    'placeholder' => 'Champ non obligatoire'
+                    'placeholder' => 'Champ optionnel'
                 ],
+                'required' => false,
             ])
             ->add('lastname', TextType::class, [
-                'label' => 'Nom :'
+                'label' => 'Nom'
             ])
             ->add('firstname', TextType::class, [
-                'label' => 'Prénom :'
+                'label' => 'Prénom'
             ])
             ->add('birthdate', BirthdayType::class, [
-                'label' => 'Date de naissance :',
+                'label' => 'Date de naissance',
                 'placeholder' => [
-                    'Année' => 'Year', 'Mois' => 'Month', 'Jour' => 'Day',
+                    'year' => 'Année', 'month' => 'Mois', 'day' => 'Jour',
                 ],
                 'format' => 'dd MM yyyy',
                 'input' => 'datetime_immutable',
             ])
             ->add('email', EmailType::class, [
-                'label' => 'Adresse mail :',
+                'label' => 'Adresse mail',
             ])
             ->add('gender', EntityType::class, [
-                'label' => 'Genre :',
+                'label' => 'Genre',
                 'class' => Gender::class,
                 'choice_label' => 'type',
                 'multiple' => false,
                 'expanded' => true,
-                'help' => 'Sélectionner au moins un genre.',
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('g')
                         ->orderBy('g.type', 'ASC');
                 }
             ])
             ->add('level', ChoiceType::class, [
-                'label' => 'Niveau :',
+                'label' => 'Niveau',
                 'choices' => [
                     'Débutant' => 'Débutant',
                     'Intermédiaire' => 'Intermédiaire',
@@ -70,30 +90,47 @@ class UserType extends AbstractType
                 ],
                 'multiple' => false,
                 'expanded' => true,
-                'help' => 'Sélectionner au moins un niveau.',
             ])
             ->add('phone', TextType::class, [
-                'label' => 'Téléphone :',
-                'constraints' => [
-                    new NotBlank(),
-                    // Regex pour numéro de téléphone (10 chiffres)
-                    new Regex("/^(?=.*[0-9]).{10,10}$/")
-                ],
+                'label' => 'Téléphone',
                 'attr' => [
-                    'placeholder' => '0000000000'
+                    'placeholder' => '0606060606'
                 ],
             ])
-            ->add('roles', ChoiceType::class, [
-                'label' => 'Rôles :',
-                'choices' => [
-                    'Membre' => 'ROLE_MEMBER',
-                    'Gérant' => 'ROLE_ADMIN',
-                    'Propriétaire' => 'ROLE_SUPER_ADMIN',
-                ],
-                'help' => 'Sélectionner au moins un rôle.',
-                'multiple' => false,
-                'expanded' => true,
-	        ])
+            // Add Choice Type For Roles depending on route name
+            ->addEventListener(FormEvents::PRE_SET_DATA, function(FormEvent $event) {
+                
+                $form = $event->getForm();
+
+                $routeName = $this->request->getCurrentRequest()->attributes->get('_route');
+
+                // New User Member Form
+                if ($routeName === "app_user_member_new") {
+                    $form->add('roles', ChoiceType::class, [
+                        'label' => 'Rôles',
+                        'choices' => [
+                            'Membre' => 'ROLE_MEMBER',
+                        ],
+                        'multiple' => false,
+                        'expanded' => true,
+                        'model_transformer' => $this->rolesCallbackTransformer,
+                    ]);
+                }
+                // New and Edit Back-Office User Form  
+                elseif($routeName === "app_user_back-office_new" || $routeName === "app_user_back-office_edit") {
+                    $form->add('roles', ChoiceType::class, [
+                        'label' => 'Rôles',
+                        'choices' => [
+                            'Gérant' => 'ROLE_ADMIN',
+                            'Propriétaire' => 'ROLE_SUPER_ADMIN',
+                        ],
+                        'help' => 'Sélectionner un rôle.',
+                        'multiple' => false,
+                        'expanded' => true,
+                        'model_transformer' => $this->rolesCallbackTransformer,
+                    ]);
+                }
+            })
             ->addEventListener(FormEvents::PRE_SET_DATA, function(FormEvent $event) {
                 // Le user (qui est l'entité mappée sur le form) se trouve là
                 $user = $event->getData();
@@ -105,14 +142,8 @@ class UserType extends AbstractType
                 if ($user->getId() === null) {
                     // Add (new)
                     $form->add('password', PasswordType::class, [
-                        'label' => 'Mot de passe :',
-                        'constraints' => [
-                            new NotBlank(),
-                            // Regex pour le mot de passe
-                            new Regex("/^(?=.*[0-9])(?=.*[a-z])(?=.*['_' , '|', '%', '&', '*', '=', '@', '$', -]).{6,}$/")
-                        ],
+                        'label' => 'Mot de passe',
                         'help' => 'Au moins 6 caractères,
-                            au moins une majuscule,
                             un chiffre
                             et un caractère spécial parmi _, -, |, %, &, *, =, @, $'
                     ]);
@@ -120,7 +151,7 @@ class UserType extends AbstractType
                     // Edit
                     $form->add('password', PasswordType::class, [
                         // Pour l'edit
-                        'label' => 'Mot de passe :',
+                        'label' => 'Mot de passe',
                         'empty_data' => '',
                         'attr' => [
                             'placeholder' => 'Laissez vide si inchangé'
@@ -130,27 +161,8 @@ class UserType extends AbstractType
                         // la propriété $password de $user ne sera pas modifiée par le traitement du form
                         'mapped' => false,
                     ]);
-                }
+                }   
             });
-
-            
-
-        // Ajout d'un Data Transformer
-        // pour convertir la chaine choisie en un tableau
-        // qui contient cette chaine et vice-versa
-        $builder->get('roles')
-        ->addModelTransformer(new CallbackTransformer(
-            // De l'Entité vers le Form (affiche form)
-            function ($rolesAsArray) {
-                // transform the array to a string
-                return implode(', ', $rolesAsArray);
-            },
-            // Du Form vers l'Entité (traite form)
-            function ($rolesAsString) {
-                // transform the string back to an array
-                return explode(', ', $rolesAsString);
-            }
-        ));
     }
 
 

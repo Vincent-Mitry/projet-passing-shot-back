@@ -44,9 +44,6 @@ class CourtController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // default id for the club is 1
-            // $club = $clubRepository->findOneById(1);
-            // $court->setClub($club);
 
             $courtRepository->add($court, true);
 
@@ -81,9 +78,6 @@ class CourtController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $club = $clubRepository->findOneById(1);
-            $court->setClub($club);
-
             $courtRepository->add($court, true);
 
             $this->addFlash('success', 'Terrain modifé');
@@ -111,15 +105,9 @@ class CourtController extends AbstractController
         return $this->redirectToRoute('app_court', [], Response::HTTP_SEE_OTHER);
     }
 
-    /**
-     * @Route("/liste-terrains-bloqués", name="app_blocked_court_list", methods={"GET"})
-     */
-    public function listBlockedCourts(BlockedCourtRepository $blockedCourtRepository): Response
-    {
-        return $this->render('court/blocked/index.html.twig', [
-            'blockedCourts' => $blockedCourtRepository->findAll(),
-        ]);
-    }
+      //----------------------------------//
+     //--------- BLOCKED COURTS ---------//
+    //----------------------------------//
 
     /**
      * @Route("/{court_id}/bloquer", name="app_court_block", methods={"GET", "POST"}, requirements={"court_id"="\d+"})
@@ -157,14 +145,105 @@ class CourtController extends AbstractController
 
             $blockedCourtRepository->add($blockedCourt, true);
 
-            $this->addFlash('success', 'Terrain bloqué');
+            $this->addFlash('success', 'Fermeture temporaire ajoutée ('. $court->getName() .')');
 
-            return $this->redirectToRoute('app_blocked_court_list', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_blocked_courts_by_court', ['court_id' => $court->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('court/blocked/new.html.twig', [
             'form' => $form,
             'court' => $court,
         ]);
+    }
+
+    /**
+     * List of blocked courts for current court
+     * 
+     * @Route("/{court_id}/fermetures-temporaires", name="app_blocked_courts_by_court", methods={"GET"}, requirements={"court_id"="\d+", "id"="\d+"})
+     * @ParamConverter("court", options={"id" = "court_id"})
+     */
+    public function listBlockedCourts(BlockedCourtRepository $blockedCourtRepository, Court $court = null): Response
+    {
+        if ($court === null) {
+            throw $this->createNotFoundException('Terrain non trouvé');
+        }
+        
+        return $this->render('court/blocked/blocked_courts_by_court.html.twig', [
+            'blockedCourts' => $blockedCourtRepository->findBlockedCourtsByCourt($court->getId()),
+            'court' => $court
+        ]);
+    }
+
+    /**
+     * @Route("/{court_id}/fermetures-temporaires/{id}", name="app_blocked_court_show", methods={"GET"}, requirements={"court_id"="\d+", "id"="\d+"})
+     * @ParamConverter("court", options={"id" = "court_id"})
+     * @ParamConverter("blocked_court", options={"id" = "id"})
+     */
+    public function showBlocked(Court $court = null, BlockedCourt $blockedCourt = null): Response
+    {
+        if ($court === null) {
+            throw $this->createNotFoundException('Terrain non trouvé');
+        }
+
+        if ($blockedCourt === null) {
+            throw $this->createNotFoundException('Fermeture temporaire non trouvée');
+        }
+        
+        return $this->render('court/blocked/show.html.twig', [
+            'court' => $court,
+            'blockedCourt' => $blockedCourt,
+        ]);
+    }
+
+    /**
+     * @Route("/{court_id}/fermetures-temporaires/modification/{id}", name="app_blocked_court_edit", methods={"GET", "POST"}, requirements={"court_id"="\d+", "id"="\d+"})
+     * @ParamConverter("court", options={"id" = "court_id"})
+     * @ParamConverter("blocked_court", options={"id" = "id"})
+     */
+    public function editBlocked(
+        Request $request,
+        Court $court = null,
+        BlockedCourt $blockedCourt = null,
+        BlockedCourtRepository $blockedCourtRepository
+    ): Response {
+        if ($court === null) {
+            throw $this->createNotFoundException('Terrain non trouvé');
+        }
+
+        if ($blockedCourt === null) {
+            throw $this->createNotFoundException('Fermeture temporaire non trouvée');
+        }
+
+        $form = $this->createForm(BlockedCourtType::class, $blockedCourt);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $blockedCourtRepository->add($blockedCourt, true);
+
+            $this->addFlash('success', 'Fermeture temporaire modifée ('. $court->getName() .')');
+
+            return $this->redirectToRoute('app_blocked_courts_by_court', ['court_id' => $court->getId()], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('court/blocked/edit.html.twig', [
+            'court' => $court,
+            'form' => $form,
+            'blockedCourt' => $blockedCourt,
+        ]);
+    }
+
+    /**
+     * @Route("/fermeture-temporaire/{id}", name="app_blocked_court_delete", methods={"POST"}, requirements={"id"="\d+"})
+     */
+    public function deleteBlocked(Request $request, BlockedCourt $blockedCourt, BlockedCourtRepository $blockedCourtRepository): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$blockedCourt->getId(), $request->request->get('_token'))) {
+            $blockedCourtRepository->remove($blockedCourt, true);
+        }
+
+        $this->addFlash('success', 'Fermeture temporaire supprimée ('. $blockedCourt->getCourt()->getName() .')');
+
+        return $this->redirectToRoute('app_court', [], Response::HTTP_SEE_OTHER);
     }
 }

@@ -34,8 +34,9 @@ class ClubController extends AbstractController
         $club = new Club();
         $form = $this->createForm(ClubType::class, $club);
         $form->handleRequest($request);
-
+        
         if ($form->isSubmitted() && $form->isValid()) {
+            
             $clubRepository->add($club, true);
 
             $this->addFlash('success', $club->getName() . ' ajouté !');

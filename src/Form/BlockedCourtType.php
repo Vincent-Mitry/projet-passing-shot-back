@@ -22,7 +22,11 @@ class BlockedCourtType extends AbstractType
             ->add('startDatetime', DateTimeType::class, [
                 'label' => 'Date et heure de début',
                 'placeholder' => [
-                    'Année' => 'Year', 'Mois' => 'Month', 'Jour' => 'Day',
+                    'year' => 'Année',
+                    'month' => 'Mois',
+                    'day' => 'Jour',
+                    'hour' => 'Heure',
+                    'minute' => 'Minutes'
                 ],
                 'input' => 'datetime_immutable',
                 'years' => range(date('Y')+1, date('Y')),
@@ -30,7 +34,11 @@ class BlockedCourtType extends AbstractType
             ->add('endDatetime', DateTimeType::class, [
                 'label' => 'Date et heure de fin',
                 'placeholder' => [
-                    'Année' => 'Year', 'Mois' => 'Month', 'Jour' => 'Day',
+                    'year' => 'Année',
+                    'month' => 'Mois',
+                    'day' => 'Jour',
+                    'hour' => 'Heure',
+                    'minute' => 'Minutes'
                 ],
                 'input' => 'datetime_immutable',
                 'years' => range(date('Y')+1, date('Y')),
@@ -45,6 +53,9 @@ class BlockedCourtType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => BlockedCourt::class,
+            'attr' => [
+                'novalidate' => 'novalidate'
+            ]
         ]);
     }
 }

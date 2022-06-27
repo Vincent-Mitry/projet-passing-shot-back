@@ -74,7 +74,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=64)
-     * @Assert\NotBlank(message = "Veuillez sélectionner votre niveau.")
+     * @Assert\NotBlank(message = "Veuillez sélectionner le niveau de l'utilisateur.")
      * @Assert\Choice(choices = {"Débutant", "Intermédiaire", "Confirmé"})
      * 
      * @Groups ({"user_list", "user_detail", "user_update"})
@@ -83,14 +83,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=10)
-     * @Assert\NotBlank(message = "Veuillez renseigner votre numéro de téléphone.")
-     * @Assert\Length(
-     *      min = 10,
-     *      max = 10,
-     *      exactMessage = "Le numéro de téléphone doit se comporter de 10 chiffres (format français sans indicatif)."
+     * @Assert\NotBlank(message = "Veuillez insérer votre numéro de téléphone.")
+     * @Assert\Regex(
+     *  pattern = "/^(?=.*[0-9]).{10,10}$/",
+     *  message = "Le numéro de téléphone doit se comporter de 10 chiffres (format français sans indicatif)."
      * )
      * 
      * @Groups ({"user_list", "user_detail", "user_update"})
+     * 
      */
     private $phone;
 
@@ -100,6 +100,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="string", length=100)
      * @Assert\Length(max = 100)
      * @Assert\NotBlank(message = "Veuillez saisir un mot de passe.")
+     * @Assert\Regex(
+     *  pattern = "/^(?=.*[0-9])(?=.*[a-z])(?=.*['_' , '|', '%', '&', '*', '=', '@', '$', -]).{6,}$/",
+     *  message = "Le mot de passe saisi ne correspond pas aux règles mentionnées ci-dessus."
+     * )
      * 
      */
     private $password;
@@ -133,7 +137,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="datetime_immutable")
      * @Assert\Type("\DateTimeInterface")
-     * @Assert\NotNull(message = "Veuillez ajouter votre date de naissance.")
+     * @Assert\NotNull(message = "Veuillez ajouter la date de naissance de l'utilisateur.")
      * 
      * @Groups ({"user_list", "user_detail", "user_update"})
      */
@@ -326,7 +330,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->birthdate;
     }
 
-    public function setBirthdate(\DateTimeImmutable $birthdate): self
+    public function setBirthdate(?\DateTimeImmutable $birthdate): self
     {
         $this->birthdate = $birthdate;
 

@@ -17,7 +17,7 @@ class SurfaceType extends AbstractType
         $builder
 
         ->add('name', TextType::class, [
-            'label' => 'Nom du terrain :',
+            'label' => 'Nom du terrain',
         ])
 
         ;

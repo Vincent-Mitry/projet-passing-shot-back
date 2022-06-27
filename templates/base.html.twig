@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="fr">
 
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Google font -->
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- Google font -->
 
     <!-- Our custom CSS -->
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
@@ -17,63 +17,84 @@
     <!-- favicon -->
     <link rel="shortcut icon" href="{{ asset('images/logoorange.png') }}" type="image/x-icon">
 
-    <title>{% block title %}{% endblock %} - BackOffice Passing ShO't</title>
-</head>
+        <title>{% block title %}{% endblock %} - BackOffice Passing ShO't</title>
+    </head>
     <body>
-    <!-- Nav -->
-        <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
-            <div class="container-fluid">
-            <a href="{{ path('app_home') }}" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none header-logo">
-                <img src="{{ asset('images/logoorange.png') }}" height="60" alt="Logo Passing ShO't">
-            </a>
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                      <a class="nav-link active" aria-current="page" href="{{ path('app_home') }}">Accueil</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_club') }}">Clubs</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_reservation') }}">Réservations</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_court') }}">Terrains</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_user') }}">Utilisateurs</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_surface') }}">Surfaces</a>
-                    </li>
-                        <a class="nav-link" href="{{ path('app_gender') }}">Genres</a>
-                    </li>
-
-                </ul>
-                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                <ul class="navbar-nav flex-nowrap ms-auto">
-                    <div class="shadow"></div>
-                    <div class="d-none d-sm-block topbar-divider"></div>
-                        <li class="nav-item no-arrow">
-                            <div class="nav-item  no-arrow">
-                                <a class="nav-link" aria-expanded="false" href="#">
-                                    <span class="d-none d-lg-inline me-2 text-gray-600 small">{{ app.user.firstname }} {{ app.user.lastname }}</span>
-                                        <img class="rounded-circle me-2" width="50" height="50" src="{{ app.user.picture }}">
-                                </a>
-                            </div>
-                        </li>
-                </ul>
-                    <a href="{{ path('logout') }}">
-                        <button type="button" class="btn m-3" style="color: white; background-color: #EA5C0A; border-color: white;">Deconnexion</button>
+        <div class="wrapper">
+            {# route name attributes #}
+            {% set route_name = app.request.attributes.get('_route') %}
+            <!-- Nav -->
+            <div class="main">
+                <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
+                    <div class="container-fluid">
+                    <a href="{{ path('app_home') }}" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none header-logo">
+                        <img src="{{ asset('images/logoorange.png') }}" height="60" alt="Logo Passing ShO't">
                     </a>
-                {% endif %}
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link {{ route_name matches '{^app_home}' ? 'active' }}" aria-current="page" href="{{ path('app_home') }}">Accueil</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {{ route_name matches '{^app_club}' ? 'active' }}" href="{{ path('app_club') }}">Clubs</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {{ route_name matches '{^app_reservation}' ? 'active' }}" href="{{ path('app_reservation') }}">Réservations</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {{ route_name matches '{^app_court|^app_blocked}' ? 'active' }}" href="{{ path('app_court') }}">Terrains</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle {{ route_name matches '{^app_user}' ? 'active' }}" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Utilisateurs
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                    <li><a class="dropdown-item" href="{{ path('app_user_member') }}">Membres</a></li>
+                                    <li><a class="dropdown-item" href="{{ path('app_user_back-office') }}">Back-Office</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {{ route_name matches '{^app_surface}' ? 'active' }}" href="{{ path('app_surface') }}">Surfaces</a>
+                            </li>
+                            <li>
+                                <a class="nav-link {{ route_name matches '{^app_gender}' ? 'active' }}" href="{{ path('app_gender') }}">Genres</a>
+                            </li>
+                        </ul>
+                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                        <ul class="navbar-nav flex-nowrap ms-auto">
+                            <div class="shadow"></div>
+                            <div class="d-none d-sm-block topbar-divider"></div>
+                            <li class="nav-item no-arrow">
+                                <div class="nav-item  no-arrow">
+                                    <a class="nav-link" aria-expanded="false" href="#">
+                                        <span class="d-none d-lg-inline me-2 text-gray-600 small">{{ app.user.firstname }} {{ app.user.lastname }}</span>
+                                        {% if app.user.picture is not null %}
+                                            <img class="rounded-circle me-2" width="40" height="40" src="{{ app.user.picture }}">
+                                        {% endif %}
+                                    </a>
+                                </div>
+                            </li>
+                        </ul>
+                            <a href="{{ path('logout') }}">
+                                <button type="button" class="btn m-3" style="color: white; background-color: #EA5C0A; border-color: white;">Deconnexion</button>
+                            </a>
+                        {% endif %}
+                    </div>
+                </nav>
+                <div class="container-fluid">
+                    {{ include('_flash_messages.html.twig') }}
+                </div>
+                {% block body %}{% endblock %}
             </div>
-        </nav>
-        {% block body %}{% endblock %}
 
-        <footer class="bg-white sticky-footer mt-5">
-            <div class="container my-auto">
-                <div class="text-center my-auto copyright"><span>Copyright © Passing ShO't 2022</span></div>
-            </div>
-        </footer>
+
+            <footer id="footer" class="bg-white sticky-footer mt-5 mb-3">
+                <div class="container my-auto">
+                    <div class="text-center my-auto copyright"><span>Copyright © Passing ShO't 2022</span></div>
+                </div>
+            </footer>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     </body>
+
 </html>

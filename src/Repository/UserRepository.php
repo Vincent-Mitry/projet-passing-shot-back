@@ -45,15 +45,14 @@ class UserRepository extends ServiceEntityRepository
     */
     public function findLastThree()
     {
-        $entityManager = $this->getEntityManager();
-
-        $query = $entityManager->createQuery(
-            'SELECT u
-            FROM App\Entity\User u
-            ORDER BY u.id DESC'
-        )->setMaxResults(3);
-
-        return $query->getResult();
+        return $this->createQueryBuilder('u')
+            ->where('u.roles LIKE :role')
+            ->setParameter('role', '%ROLE_MEMBER%')
+            ->orderBy('u.id', 'DESC')
+            ->setMaxResults('3')
+            ->getQuery()
+            ->getResult()
+        ;
     }
 
     /**
@@ -65,6 +64,36 @@ class UserRepository extends ServiceEntityRepository
             ->where('u.lastname LIKE :search')
             ->setParameter('search', $search.'%')
             ->orderBy('u.firstname', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
+    * Get all users member
+    */
+    public function getUsersMemberList()
+    {
+        return $this->createQueryBuilder('u')
+            ->where('u.roles LIKE :role')
+            ->setParameter('role', '%ROLE_MEMBER%')
+            ->orderBy('u.lastname', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
+    * Get all users staff
+    */
+    public function getUsersBackOffice()
+    {
+        return $this->createQueryBuilder('u')
+            ->where('u.roles LIKE :admin')
+            ->orWhere('u.roles LIKE :superadmin')
+            ->setParameter('admin', '%ROLE_ADMIN%')
+            ->setParameter('superadmin', '%ROLE_SUPER_ADMIN%')
+            ->orderBy('u.lastname', 'ASC')
             ->getQuery()
             ->getResult()
         ;
