@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Accueil {% endblock %}
+{% block title %}Accueil
+{% endblock %}
 
 {% block body %}
 <div class="container"></div>
@@ -151,4 +152,43 @@
         </div>
     </div>    
 </div>
-{% endblock %}
+<div class="row m-5 text-center">
+	<div class="col-12">
+		<div class="card text-white mb-3">
+			<div class="card-header text-center" style="color: white; background-color: #EA5C0A; border-color: white;">Terrains disponibles aujourd'hui</div>
+			<div class="card-body">
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th scope="col">Nom du terrain</th>
+							<th scope="col">Heures</th>
+						</tr>
+					</thead>
+					<tbody>
+
+						{# Je boucle sur mon tableau 'courts' en lui demandant la clé et le tableau associé nommé ici 'hours' #}
+						{% for key, hours in timeslots %}
+							<tr>
+								{# J'affiche le numéro du court dans la première colonne de mon tableau dynamiquement #}
+								<td>Terrain n°{{ key }}</td>
+
+								{# Je boucle sur mon tableau 'hours' #}
+								{% for hour in hours %}
+								
+									
+									{% if hour is null %}
+										<td class="mt-2 badge rounded-pill bg-danger mx-5">xx</td>
+										
+									{% else %}
+									<td class="mt-2 badge rounded-pill bg-success mx-5">{{ hour }}</td>
+										
+									{% endif %}
+								{% endfor %}
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>{% endblock %}

@@ -37,6 +37,8 @@ class GenderController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $genderRepository->add($gender, true);
 
+            $this->addFlash('success', $gender->getType() . ' ajouté !');
+
             return $this->redirectToRoute('app_gender', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -67,6 +69,8 @@ class GenderController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $genderRepository->add($gender, true);
 
+            $this->addFlash('success', $gender->getType() . ' modifié !');
+
             return $this->redirectToRoute('app_gender', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -83,6 +87,8 @@ class GenderController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete'.$gender->getId(), $request->request->get('_token'))) {
             $genderRepository->remove($gender, true);
+
+            $this->addFlash('warning', $gender->getType() . ' supprimé!');
         }
 
         return $this->redirectToRoute('app_gender', [], Response::HTTP_SEE_OTHER);

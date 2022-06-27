@@ -49,8 +49,8 @@
 							<td class="col-6">{{ club.description }}</td>
 							<td>{{ club.startingTime|date('H:i') }}</td>
 							<td>{{ club.endingTime|date('H:i') }}</td>
-							<td>{{ club.user ? club.user.firstname : '-' }}
-								{{ club.user ? club.user.lastname : '' }}</td>
+							<td>{{ club.user.firstname|default('-') }}
+								{{ club.user.lastname|default('-') }}</td>
 							<td>
 								<a href="{{ path('app_club_show', {'id': club.id})}}" class="btn btn-sm" style="color: white; background-color: #EA5C0A; border-color: white;"><i class="bi bi-search"></i></a>
 								<a href="{{ path('app_club_edit', {'id': club.id})}}" class="btn btn-sm btn-success" style="color: white; background-color: #FFCA2C; border-color: white;"><i class="bi bi-pencil-square"></i></a>

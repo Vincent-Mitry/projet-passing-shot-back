@@ -3,6 +3,7 @@
 namespace App\Controller\Api\V1;
 
 use App\Entity\User;
+use App\Service\SendEmail;
 use App\Service\Api\ApiProblem;
 use App\Repository\UserRepository;
 use App\Service\Api\ApiConstraintErrors;
@@ -10,6 +11,7 @@ use App\Service\Api\ApiProblemException;
 use App\Repository\ReservationRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -89,7 +91,9 @@ class UserApiController extends AbstractController
         SerializerInterface $serializer,
         ManagerRegistry $doctrine,
         ApiConstraintErrors $apiConstraintErrors,
-        UserPasswordHasherInterface $passwordHasher
+        UserPasswordHasherInterface $passwordHasher,
+        MailerInterface $mailer,
+        SendEmail $sendEmail
     ) 
     {
         // Gathering Json content from $request
@@ -119,6 +123,16 @@ class UserApiController extends AbstractController
         $em->persist($user);
         $em->flush();
 
+        // Send email with SendEmail service
+        $adressFrom = 'contact.passingshot@gmail.com';
+        $addressTo = 'contact.passingshot@gmail.com';
+        $replyTo = $user->getEmail();
+        $subject = 'Inscription chez Passing ShO\'t validée ';
+        $htmlTemplate = '/email/signup.html.twig' ;
+        $context = ['user' => $user];
+
+        $sendEmail->execute($adressFrom, $addressTo, $replyTo, $subject, $htmlTemplate, $context, $mailer);
+    
         return $this->json(
             //ID of created User
             [

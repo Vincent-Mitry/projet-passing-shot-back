@@ -80,7 +80,9 @@ class ReservationRepository extends ServiceEntityRepository
                 //join user table ('u')
                 ->innerJoin('r.user', 'u')
                 //comparing reservation date is > to current date
-                ->where('(CAST(r.startDatetime as DATE) ) > CURRENT_TIMESTAMP()')
+
+                ->where('(CAST(r.startDatetime as DATE) ) >= CURRENT_DATE()')
+
                 //get reservations by user
                 ->andWhere('u.id = :user')
                 //displaying reservations by ascending dates
@@ -99,11 +101,11 @@ class ReservationRepository extends ServiceEntityRepository
                     //join user table ('u')
                 ->innerJoin('r.user', 'u')
                 //comparing reservation date is < to current date
-                ->where('(CAST(r.startDatetime as DATE) ) < CURRENT_TIMESTAMP()')
+                ->where('(CAST(r.startDatetime as DATE) ) < CURRENT_DATE()')
                 //get reservations by user
                 ->andWhere('u.id = :user')
                 //displaying reservations by ascending dates
-                ->orderBy('r.startDatetime', 'ASC')
+                ->orderBy('r.startDatetime', 'DESC')
                 //value of user is defined
                 ->setParameter('user', $user)
                 //limit the number of results by 5
