@@ -1,0 +1,4 @@
+<form method="post" action="{{ path('app_blocked_court_delete', {'id': court.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette fermeture temporaire ?');">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ court.id) }}">
+    <button class="btn btn-warning m-3">Supprimer</button>
+</form>
