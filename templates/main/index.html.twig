@@ -189,8 +189,8 @@
 								{% for hour in hours %}
 								
 									
-									{% if hour matches '/^[1-9]\d*$/' %}
-										<td class="mt-2 badge rounded-pill bg-danger mx-5"><a class="resTable" href="{{ path('app_reservation_show', {'id': hour})}}">xx</a></td>
+									{% if hour is null %}
+										<td class="mt-2 badge rounded-pill bg-danger mx-5">xx</td>
 										
 									{% else %}
 									<td class="mt-2 badge rounded-pill bg-success mx-5">{{ hour }}</td>

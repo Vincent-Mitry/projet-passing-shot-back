@@ -27,7 +27,7 @@ class MainController extends AbstractController
       
         $test = $timeslots->getAllAvailabletimeslots(date('y/m/d'));
 
-       
+     
         
 
         return $this->render('main/index.html.twig', [
