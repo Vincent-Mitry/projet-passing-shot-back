@@ -2,14 +2,16 @@
 
 namespace App\Controller\Api\V1;
 
-use App\Service\Api\ApiProblem;
-use App\Service\Api\ApiProblemException;
+use App\Service\SendEmail;
 use App\Entity\Reservation;
-use App\Service\Api\ApiConstraintErrors;
-use App\Service\AvailableTimeslots;
 use App\Service\RatingAverage;
+use App\Service\Api\ApiProblem;
+use App\Service\AvailableTimeslots;
+use App\Service\Api\ApiConstraintErrors;
+use App\Service\Api\ApiProblemException;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -44,7 +46,9 @@ class ReservationController extends AbstractController
         SerializerInterface $serializer,
         ManagerRegistry $doctrine,
         ApiConstraintErrors $apiConstraintErrors,
-        AvailableTimeslots $availableTimeslots
+        AvailableTimeslots $availableTimeslots,
+        MailerInterface $mailer,
+        SendEmail $sendEmail
     ): Response
      {
         $jsonContent = $request->getContent();
@@ -70,6 +74,18 @@ class ReservationController extends AbstractController
         $em = $doctrine->getManager();
         $em->persist($reservation);
         $em->flush();
+
+        // Send email with SendEmail service
+        $adressFrom = 'contact.passingshot@gmail.com';
+        $addressTo = 'contact.passingshot@gmail.com';
+        $replyTo = 'contact.passingshot@gmail.com';
+        $subject = 'Votre réservation a été validée ';
+        $htmlTemplate = '/email/reservation.html.twig' ;
+        $context = [
+            'reservation' => $reservation
+        ];
+
+        $sendEmail->execute($adressFrom, $addressTo, $replyTo, $subject, $htmlTemplate, $context, $mailer);
 
         $location = $this->generateUrl('api_v1_reservations_get_item', ['id' => $reservation->getId()]);
 
