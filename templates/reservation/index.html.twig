@@ -51,8 +51,8 @@
                             <td>{{ reservation.endDateTime|date('d-m-Y-H:i') }}</td>
                             <td>{{ reservation.status }}</td>
                             <td>{{ reservation.score }}</td>
-                            <td>{{ reservation.user.id|default('') }}</td>
-                            <td>{{ reservation.court.id|default('')}}</td>
+                            <td>{{ reservation.user.id |default('') }}</td>
+                            <td>{{ reservation.court.id|default('') }}</td>
                             <td>{{ reservation.courtRating }}</td>
                             <td>{{ reservation.countPlayers }}</td>
                             <td>{{ reservation.createdAt|date('d-m-Y')}}</td>

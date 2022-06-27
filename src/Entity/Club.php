@@ -70,7 +70,9 @@ class Club
 
     /**
      * @ORM\OneToOne(targetEntity=User::class, inversedBy="club")
-     * @ORM\JoinColumn(nullable=true)
+
+     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
+
      */
     private $user;
 

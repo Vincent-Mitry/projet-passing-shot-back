@@ -91,6 +91,7 @@ class ReservationController extends AbstractController
           
             $status = $reservation->setStatus(false);
 
+
             $reservationRepository->add($status, true);
 
             
