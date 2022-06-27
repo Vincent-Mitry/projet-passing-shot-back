@@ -79,7 +79,9 @@ class ReservationRepository extends ServiceEntityRepository
                 //join user table ('u')
                 ->innerJoin('r.user', 'u')
                 //comparing reservation date is > to current date
+
                 ->where('(CAST(r.startDatetime as DATE) ) >= CURRENT_DATE()')
+
                 //get reservations by user
                 ->andWhere('u.id = :user')
                 //displaying reservations by ascending dates
