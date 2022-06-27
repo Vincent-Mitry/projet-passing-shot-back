@@ -30,9 +30,9 @@ final class Version20220624152417 extends AbstractMigration
         $this->addSql('ALTER TABLE reservation CHANGE court_id court_id INT NOT NULL, CHANGE user_id user_id INT NOT NULL');
         $this->addSql('ALTER TABLE reservation ADD CONSTRAINT FK_42C84955A76ED395 FOREIGN KEY (user_id) REFERENCES user (id)');
         $this->addSql('ALTER TABLE reservation ADD CONSTRAINT FK_42C84955E3184009 FOREIGN KEY (court_id) REFERENCES court (id)');
-        $this->addSql('ALTER TABLE user DROP FOREIGN KEY FK_8D93D64961190A32');
-        $this->addSql('DROP INDEX UNIQ_8D93D64961190A32 ON user');
-        $this->addSql('ALTER TABLE user DROP club_id');
+        // $this->addSql('ALTER TABLE user DROP FOREIGN KEY FK_8D93D64961190A32');
+        // $this->addSql('DROP INDEX UNIQ_8D93D64961190A32 ON user');
+        // $this->addSql('ALTER TABLE user DROP club_id');
     }
 
     public function down(Schema $schema): void
