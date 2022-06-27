@@ -62,7 +62,7 @@ class UserType extends AbstractType
             ->add('birthdate', BirthdayType::class, [
                 'label' => 'Date de naissance',
                 'placeholder' => [
-                    'Année' => 'Year', 'Mois' => 'Month', 'Jour' => 'Day',
+                    'year' => 'Année', 'month' => 'Mois', 'day' => 'Jour',
                 ],
                 'format' => 'dd MM yyyy',
                 'input' => 'datetime_immutable',
@@ -76,7 +76,6 @@ class UserType extends AbstractType
                 'choice_label' => 'type',
                 'multiple' => false,
                 'expanded' => true,
-                'help' => 'Sélectionner au moins un genre.',
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('g')
                         ->orderBy('g.type', 'ASC');
@@ -91,42 +90,34 @@ class UserType extends AbstractType
                 ],
                 'multiple' => false,
                 'expanded' => true,
-                'help' => 'Sélectionner un niveau.',
             ])
             ->add('phone', TextType::class, [
                 'label' => 'Téléphone',
-                'constraints' => [
-                    new NotBlank(),
-                    // Regex pour numéro de téléphone (10 chiffres)
-                    new Regex("/^(?=.*[0-9]).{10,10}$/")
-                ],
                 'attr' => [
-                    'placeholder' => '0000000000'
+                    'placeholder' => '0606060606'
                 ],
             ])
-            // Add Choicy Type For Roles depending on route name
+            // Add Choice Type For Roles depending on route name
             ->addEventListener(FormEvents::PRE_SET_DATA, function(FormEvent $event) {
-                // Le form, pour continuer de travailler avec (car par accès aux variables en dehors de la fonction anonyme)
+                
                 $form = $event->getForm();
 
                 $routeName = $this->request->getCurrentRequest()->attributes->get('_route');
 
-                // If route name == app_user_member_new"
+                // New User Member Form
                 if ($routeName === "app_user_member_new") {
                     $form->add('roles', ChoiceType::class, [
                         'label' => 'Rôles',
                         'choices' => [
                             'Membre' => 'ROLE_MEMBER',
                         ],
-                        'help' => 'Sélectionner un rôle.',
                         'multiple' => false,
                         'expanded' => true,
                         'model_transformer' => $this->rolesCallbackTransformer,
                     ]);
                 }
-                // If route name == app_user_staff_new or app_user_staff_edit  
-                elseif($routeName === "app_user_staff_new" || $routeName === "app_user_staff_edit") {
-                    // Route name = staff
+                // New and Edit Back-Office User Form  
+                elseif($routeName === "app_user_back-office_new" || $routeName === "app_user_back-office_edit") {
                     $form->add('roles', ChoiceType::class, [
                         'label' => 'Rôles',
                         'choices' => [
@@ -152,13 +143,7 @@ class UserType extends AbstractType
                     // Add (new)
                     $form->add('password', PasswordType::class, [
                         'label' => 'Mot de passe',
-                        'constraints' => [
-                            new NotBlank(),
-                            // Regex pour le mot de passe
-                            new Regex("/^(?=.*[0-9])(?=.*[a-z])(?=.*['_' , '|', '%', '&', '*', '=', '@', '$', -]).{6,}$/")
-                        ],
                         'help' => 'Au moins 6 caractères,
-                            au moins une majuscule,
                             un chiffre
                             et un caractère spécial parmi _, -, |, %, &, *, =, @, $'
                     ]);

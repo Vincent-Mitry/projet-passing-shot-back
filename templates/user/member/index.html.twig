@@ -46,7 +46,13 @@
                     {% for user in users %}
                             <tr>
                                 <td>{{ user.id }}</td>
-                                <td><img class="rounded-circle me-2" width="30" height="30" src="{{ user.picture }}"></td></td>
+                                <td>
+                                    {% if user.picture is not null %}
+                                        <img class="rounded-circle me-2" width="30" height="30" src="{{ user.picture }}">
+                                    {% else %}
+                                        -
+                                    {% endif %}
+                                </td>
                                 <td>{{ user.firstname }}</td>
                                 <td>{{ user.lastname }}</td>
                                 <td>{{ user.birthdate|date('d-m-Y')}}</td>

@@ -87,7 +87,7 @@ class UserRepository extends ServiceEntityRepository
     /**
     * Get all users staff
     */
-    public function getUsersMemberStaff()
+    public function getUsersBackOffice()
     {
         return $this->createQueryBuilder('u')
             ->where('u.roles LIKE :admin')

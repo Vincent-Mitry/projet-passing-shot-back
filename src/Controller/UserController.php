@@ -113,19 +113,19 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/staff", name="app_user_staff", methods={"GET"})
+     * @Route("/back-office", name="app_user_back-office", methods={"GET"})
      */
-    public function listStaff(UserRepository $userRepository): Response
+    public function listBackOffice(UserRepository $userRepository): Response
     {
-        return $this->render('user/staff/index.html.twig', [
-            'users' => $userRepository->getUsersMemberStaff(),
+        return $this->render('user/back-office/index.html.twig', [
+            'users' => $userRepository->getUsersBackOffice(),
         ]);
     }
 
     /**
-     * @Route("/staff/ajout", name="app_user_staff_new", methods={"GET", "POST"})
+     * @Route("/back-office/ajout", name="app_user_back-office_new", methods={"GET", "POST"})
      */
-    public function newStaff(Request $request, UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher): Response
+    public function newBackOffice(Request $request, UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher): Response
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
@@ -142,29 +142,29 @@ class UserController extends AbstractController
 
             $this->addFlash('success', 'Utilisateur ajouté');
 
-            return $this->redirectToRoute('app_user_staff', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_user_back-office', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('user/staff/new.html.twig', [
+        return $this->renderForm('user/back-office/new.html.twig', [
             'user' => $user,
             'form' => $form,
         ]);
     }
 
     /**
-     * @Route("/staff/{id}", name="app_user_staff_show", methods={"GET"}, requirements={"id"="\d+"})
+     * @Route("/back-office/{id}", name="app_user_back-office_show", methods={"GET"}, requirements={"id"="\d+"})
      */
-    public function showStaff(User $user): Response
+    public function showBackOffice(User $user): Response
     {
-        return $this->render('user/staff/show.html.twig', [
+        return $this->render('user/back-office/show.html.twig', [
             'user' => $user,
         ]);
     }
 
     /**
-     * @Route("/staff/{id}/modification", name="app_user_staff_edit", methods={"GET", "POST"})
+     * @Route("/back-office/{id}/modification", name="app_user_back-office_edit", methods={"GET", "POST"})
      */
-    public function editStaff(Request $request, User $user, UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher): Response
+    public function editBackOffice(Request $request, User $user, UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher): Response
     {
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
@@ -185,25 +185,25 @@ class UserController extends AbstractController
 
             $this->addFlash('success', 'Utilisateur modifié');
 
-            return $this->redirectToRoute('app_user_staff', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_user_back-office', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('user/staff/edit.html.twig', [
+        return $this->renderForm('user/back-office/edit.html.twig', [
             'user' => $user,
             'form' => $form,
         ]);
     }
 
     /**
-     * @Route("/staff/{id}", name="app_user_staff_delete", methods={"POST"})
+     * @Route("/back-office/{id}", name="app_user_back-office_delete", methods={"POST"})
      */
-    public function deleteStaff(Request $request, User $user, UserRepository $userRepository): Response
+    public function deleteBackOffice(Request $request, User $user, UserRepository $userRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
             $userRepository->remove($user, true);
             $this->addFlash('success', 'Utilisateur supprimé.');
         }
 
-        return $this->redirectToRoute('app_user_staff', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_user_back-office', [], Response::HTTP_SEE_OTHER);
     }
 }
