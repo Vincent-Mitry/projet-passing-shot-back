@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Surfaces{% endblock %}
+{% block title %}Détails de la surface{{ surface.name }}{% endblock %}
 
 {% block body %}
 <div class="container-fluid">
@@ -11,8 +11,7 @@
 	</div>
 	<div class="card shadow">
 		<div class="card-header py-3">
-			<p class="text-danger m-0 fw-bold text-center">Détails de la surface
-				{{ surface.name }}</p>
+			<p class="text-danger m-0 fw-bold text-center">Détails de la surface{{ surface.name }}</p>
 		</div>
 		<div class="card-body">
 			<div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
@@ -27,12 +26,12 @@
 							<td>{{ surface.name }}</td>
 						</tr>
 						<tr>
-							<th>CreatedAt</th>
-							<td>{{ surface.createdAt ? surface.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+							<th>Date de création</th>
+							<td>{{ surface.createdAt ? surface.createdAt|date('Y-m-d H:i:s') : '-' }}</td>
 						</tr>
 						<tr>
-							<th>UpdatedAt</th>
-							<td>{{ surface.updatedAt ? surface.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+							<th>Date do modification</th>
+							<td>{{ surface.updatedAt ? surface.updatedAt|date('Y-m-d H:i:s') : '-' }}</td>
 						</tr>
 					</tbody>
 				</table>

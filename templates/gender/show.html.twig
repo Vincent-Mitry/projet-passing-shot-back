@@ -1,7 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Genre
-{% endblock %}
+{% block title %}Détails du genre  : {{ gender.type }}{% endblock %}
 
 {% block body %}
 <div class="container-fluid">
@@ -12,8 +11,7 @@
 	</div>
 	<div class="card shadow">
 		<div class="card-header py-3">
-			<p class="text-danger m-0 fw-bold text-center">Détails
-				{{ gender.type }}</p>
+			<p class="text-danger m-0 fw-bold text-center">Détails du genre : {{ gender.type }}</p>
 		</div>
 		<div class="card-body">
 			<div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
@@ -29,8 +27,12 @@
 							<td>{{ gender.type }}</td>
 						</tr>
 						<tr>
-							<th>UpdatedAt</th>
-							<td>{{ gender.updatedAt ? gender.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+							<th>Date création</th>
+							<td>{{ gender.createdAt ? gender.createdAt|date('Y-m-d H:i:s') : '-' }}</td>
+						</tr>
+						<tr>
+							<th>Date do modification</th>
+							<td>{{ gender.updatedAt ? gender.updatedAt|date('Y-m-d H:i:s') : '-' }}</td>
 						</tr>
 					</tbody>
 				</table>

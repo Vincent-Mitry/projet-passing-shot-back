@@ -31,8 +31,9 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>type</th>
-                            <th>Mise à jour le</th>
+                            <th>Type</th>
+                            <th>Date de création</th>
+                            <th>Date de modification</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -41,7 +42,8 @@
                         <tr>
                             <td>{{ gender.id }}</td>
                             <td>{{ gender.type }}</td>
-                            <td>{{ gender.updatedAt ? gender.updatedAt|date('Y-m-d') : '' }}</td>
+                            <td>{{ gender.createdAt ? gender.createdAt|date('Y-m-d') : '-' }}</td>
+                            <td>{{ gender.updatedAt ? gender.updatedAt|date('Y-m-d') : '-' }}</td>
                             <td>
                                 <a href="{{ path('app_gender_show', {'id': gender.id})}}" class="btn btn-sm" style="color: white; background-color: #EA5C0A; border-color: white;"><i class="bi bi-search"></i></a>
                                 <a href="{{ path('app_gender_edit', {'id': gender.id})}}" class="btn btn-sm" style="color: white; background-color: #FFCA2C; border-color: white;"><i class="bi bi-pencil-square"></i></a>
