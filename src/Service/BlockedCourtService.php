@@ -34,7 +34,7 @@ class BlockedCourtService
     SendEmail $sendEmail)
     {
         // Check if existing reservations between blocked court startDatetime and endDatetime
-        $reservationsList = $this->reservationRepository->getReservationsInBlockedCourt($court, $blockedStartDatetime, $blockedEndDatetime);
+        $reservationsList = $this->reservationRepository->getReservationsInBlockedCourt($court, $blockedStartDatetime, $blockedEndDatetime, $blockedCourt);
 
         // Set Reservation Status to False
                                       /** @var Reservation */
@@ -45,17 +45,15 @@ class BlockedCourtService
                 $adressFrom = 'contact.passingshot@gmail.com';
                 $addressTo = 'contact.passingshot@gmail.com';
                 $replyTo = 'contact.passingshot@gmail.com';
-                $subject = 'Votre réservation annulée ';
+                $subject = 'Votre réservation (n°'. $reservation->getId() .') est annulée';
                 $htmlTemplate = '/email/court_blocked.html.twig' ;
                 $context = [
+                    // 'blockedCourt' => $blockedCourt
+                    'reservation' => $reservation,
                     'blockedCourt' => $blockedCourt
                 ];
         
                 $sendEmail->execute($adressFrom, $addressTo, $replyTo, $subject, $htmlTemplate, $context, $mailer);
-           
-        
-        
-        
         }
     }
 }

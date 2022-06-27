@@ -3,25 +3,29 @@
 {% block title %} - Réservation annulée{% endblock %}
 
 {% block body %}
-            <h3 style="color: #C23D12;">
-                Bonjour {{ reservation.user.firstname }}, </h3>
-            <h3>    
-               Malheureusement votre réservation du {{ reservation.start_datetime }} au {{ reservation.end_datetime }} a été annulée.
-            </h3>
+    <h3 style="color: #C23D12;">
+        Bonjour {{ reservation.user.firstname }}, </h3>
+    <h3>    
+        Nous regrettons de vous informer que votre réservation du {{ reservation.startDatetime|date('d/m/Y') }} est annulée.
+    </h3>
 
-            <h3 style="color: #C23D12;">La raison :</h3>
-            <p>{{ blocked_court.reason }}</p>
+    <p> <span style="color: #C23D12;">La raison : </span>{{ blockedCourt.blockedReason }}</p>
 
-            <p>
-                Nous tenons à nous excuser pour se désagrément.<br>
-                Vous pouvez <a href="http://localhost:8080/reserver-un-terrain">réserver un autre terrain</a>.
-            </p>
+    <p>
+        Horaires : {{ reservation.startDatetime|date('H:i') }} - {{ reservation.endDatetime|date('H:i') }} <br>
+        Terrain : {{ reservation.court.name }} <br>
+        Numéro de la réservation : {{ reservation.id }}
+    </p>
 
-            <br>
+    <p>
+        Nous tenons à nous excuser pour ce désagrément.<br>
+        Nous vous invitons à <a href="http://localhost:8080/reserver-un-terrain">réserver un autre terrain</a>.
+    </p>
 
-            <p>
-                Cordialement, <br>
-                L’équipe <span style="color: #C23D12;">Passing ShO't</span>
-            </p>
+    <br>
+
+    <p>
+        Cordialement, <br>
+        L’équipe <span style="color: #C23D12;">Passing ShO't</span>
+    </p>
 {% endblock %}
-

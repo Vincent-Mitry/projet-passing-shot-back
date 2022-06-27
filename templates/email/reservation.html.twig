@@ -6,7 +6,7 @@
             <h3 style="color: #C23D12;">
                 Bonjour {{ reservation.user.firstname }}, </h3>
             <h3>    
-               Votre réservation du <span style="color: #C23D12;">{{ reservation.start_datetime|date('d-m-Y-H:i') }}</span> au <span style="color: #C23D12;">{{ reservation.end_datetime|date('d-m-Y-H:i') }}</span> a été validée.
+               Votre réservation du <span style="color: #C23D12;">{{ reservation.startDatetime|date('d-m-Y-H:i') }}</span> au <span style="color: #C23D12;">{{ reservation.endDatetime|date('d-m-Y-H:i') }}</span> a été validée.
             </h3>
 
             <p>
