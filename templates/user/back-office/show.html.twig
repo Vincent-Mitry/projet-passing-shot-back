@@ -5,10 +5,12 @@
 {% block body %}
 
 <div class="container-fluid">
-    <div class=" d-flex justify-content-center">
-        <a href="{{ path('app_user_back-office') }}" class="btn btn-warning m-3">Retour</a>
-        <a href="{{ path('app_user_staff_back-office', {'id': user.id}) }}" class="btn btn-warning m-3">Modifier</a>
-        {{ include('user/back-office/_delete_form.html.twig') }}
+    <div class=" d-flex justify-content-between">
+        <a href="{{ path('app_user_back-office') }}" class="btn btn-warning m-3" style="color: white; background-color: #EA5C0A; border-color: white;">Retour</a>
+        <div class="d-flex justify-content-center">
+            <a href="{{ path('app_user_back-office_edit', {'id': user.id}) }}" class="btn btn-warning m-3">Modifier</a>
+            {{ include('user/back-office/_delete_form.html.twig') }}
+        </div>
     </div>
         <div class="card shadow">
             <div class="card-header py-3">
