@@ -45,15 +45,14 @@ class UserRepository extends ServiceEntityRepository
     */
     public function findLastThree()
     {
-        $entityManager = $this->getEntityManager();
-
-        $query = $entityManager->createQuery(
-            'SELECT u
-            FROM App\Entity\User u
-            ORDER BY u.id DESC'
-        )->setMaxResults(3);
-
-        return $query->getResult();
+        return $this->createQueryBuilder('u')
+            ->where('u.roles LIKE :role')
+            ->setParameter('role', '%ROLE_MEMBER%')
+            ->orderBy('u.id', 'DESC')
+            ->setMaxResults('3')
+            ->getQuery()
+            ->getResult()
+        ;
     }
 
     /**
