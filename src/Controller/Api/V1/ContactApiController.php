@@ -87,7 +87,7 @@ class ContactApiController extends AbstractController
         // Gathering Json content from $request
         $jsonContent = $request->getContent();
 
-        // We deserialize Json content in $user variable
+        // We deserialize Json content in $contact variable
         $contact = $serializer->deserialize($jsonContent, Contact::class, 'json');
 
         // Check Validation Constraint Errors

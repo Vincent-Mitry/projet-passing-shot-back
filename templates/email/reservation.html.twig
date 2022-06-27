@@ -1,0 +1,17 @@
+{% extends '/email/base_email.html.twig' %}
+
+{% block title %} - Réservation{% endblock %}
+
+{% block body %}
+            <h3 style="color: #C23D12;">
+                Bonjour {{ reservation.user.firstname }}, </h3>
+            <h3>    
+               Votre réservation du <span style="color: #C23D12;">{{ reservation.startDatetime|date('d-m-Y-H:i') }}</span> au <span style="color: #C23D12;">{{ reservation.endDatetime|date('d-m-Y-H:i') }}</span> a été validée.
+            </h3>
+
+            <p>
+                Cordialement, <br>
+                L’équipe <span style="color: #C23D12;">Passing ShO't</span>
+            </p>
+{% endblock %}
+
