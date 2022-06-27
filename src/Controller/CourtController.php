@@ -4,13 +4,16 @@ namespace App\Controller;
 
 use App\Entity\Court;
 use App\Form\CourtType;
+use App\Service\SendEmail;
 use App\Entity\BlockedCourt;
 use App\Form\BlockedCourtType;
 use App\Repository\ClubRepository;
 use App\Repository\CourtRepository;
-use App\Repository\BlockedCourtRepository;
 use App\Service\BlockedCourtService;
+use App\Repository\BlockedCourtRepository;
+use App\Repository\ReservationRepository;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -125,13 +128,16 @@ class CourtController extends AbstractController
     public function block(
         Request $request,
         Court $court = null,
+        ReservationRepository $reservationRepository,
         BlockedCourtRepository $blockedCourtRepository,
-        BlockedCourtService $blockedCourtService
+        BlockedCourtService $blockedCourtService,
+        MailerInterface $mailer,
+        SendEmail $sendEmail
     ): Response {
         if ($court === null) {
             throw $this->createNotFoundException('Terrain non trouvé');
         }
-        
+
         $blockedCourt = new BlockedCourt();
 
         $blockedCourt->setUser($this->getUser())
@@ -141,7 +147,13 @@ class CourtController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $blockedCourtService->handleExistingReservationsOnBlocked($court, $blockedCourt->getStartDatetime(), $blockedCourt->getEndDatetime());
+            $blockedCourtService->handleExistingReservationsOnBlocked($court,
+            $blockedCourt,
+            $blockedCourt->getStartDatetime(),
+            $blockedCourt->getEndDatetime(),
+            $mailer,
+            $sendEmail
+        );
 
             $blockedCourtRepository->add($blockedCourt, true);
 
