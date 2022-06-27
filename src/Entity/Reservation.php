@@ -117,7 +117,7 @@ class Reservation
 
     /**
      * @ORM\ManyToOne(targetEntity=Court::class, inversedBy="reservations")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(onDelete="SET NULL", nullable=true)
      * @Assert\NotNull(message = "Veuillez attribuer un terrain à la réservation")
      * 
      * @Groups({"reservations_get_item"})
@@ -128,7 +128,7 @@ class Reservation
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="reservations")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(onDelete="SET NULL", nullable=true)
      * @Assert\NotNull(message = "Une réservation doit être reliée à un membre.")
      * 
      * @Groups({"reservations_get_item"})
@@ -336,5 +336,5 @@ class Reservation
 
         return $this;
     }
-
 }
+
