@@ -12,7 +12,7 @@ use App\Repository\ReservationRepository;
 /**
  * Manages the available time-slots for courts and reservations 
  */
-class AvailableTimeslots
+class Timeslots
 {
     private $reservationRepository;
     private $courtRepository;
@@ -107,7 +107,7 @@ class AvailableTimeslots
             // Removal of each time slot based on the current reservation's start and end time
             for ($i= $reservationStartHour; $i < $reservationEndHour; $i++) { 
                 if (($key = array_search($i, $availabletimeSlots)) !== false){
-                    unset($availabletimeSlots[$key]);
+                    $availabletimeSlots[$key] = strval($reservation->getId());
                 }
             } 
         }

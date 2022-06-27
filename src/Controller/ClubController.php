@@ -38,6 +38,8 @@ class ClubController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $clubRepository->add($club, true);
 
+            $this->addFlash('success', $club->getName() . ' ajouté !');
+
             return $this->redirectToRoute('app_club', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -52,6 +54,7 @@ class ClubController extends AbstractController
      */
     public function show(Club $club): Response
     {
+       
         return $this->render('club/show.html.twig', [
             'club' => $club,
         ]);
@@ -67,6 +70,8 @@ class ClubController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $clubRepository->add($club, true);
+
+            $this->addFlash('success', $club->getName() . ' modifié !');
 
             return $this->redirectToRoute('app_club', [], Response::HTTP_SEE_OTHER);
         }
@@ -84,6 +89,8 @@ class ClubController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete'.$club->getId(), $request->request->get('_token'))) {
             $clubRepository->remove($club, true);
+
+            $this->addFlash('warning', $club->getName() . ' supprimé!');
         }
 
         return $this->redirectToRoute('app_club', [], Response::HTTP_SEE_OTHER);

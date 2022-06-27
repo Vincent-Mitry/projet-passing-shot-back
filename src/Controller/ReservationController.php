@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Entity\Reservation;
 use App\Form\ReservationType;
 use App\Repository\ReservationRepository;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -27,7 +28,7 @@ class ReservationController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="app_reservation_new", methods={"GET", "POST"})
+     * @Route("/ajout", name="app_reservation_new", methods={"GET", "POST"})
      */
     public function new(Request $request, ReservationRepository $reservationRepository): Response
     {
@@ -38,7 +39,9 @@ class ReservationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $reservationRepository->add($reservation, true);
 
-            return $this->redirectToRoute('app_reservation_index', [], Response::HTTP_SEE_OTHER);
+            $this->addFlash('success', 'Réservation pour '. $reservation->getId() . ' ajouté !');
+
+            return $this->redirectToRoute('app_reservation', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('reservation/new.html.twig', [
@@ -59,7 +62,7 @@ class ReservationController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="app_reservation_edit", methods={"GET", "POST"})
+     * @Route("/{id}/modification", name="app_reservation_edit", methods={"GET", "POST"})
      */
     public function edit(Request $request, Reservation $reservation, ReservationRepository $reservationRepository): Response
     {
@@ -69,7 +72,9 @@ class ReservationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $reservationRepository->add($reservation, true);
 
-            return $this->redirectToRoute('app_reservation_index', [], Response::HTTP_SEE_OTHER);
+            $this->addFlash('success', 'réservation numéro ' .$reservation->getId() . ' modifié !');
+
+            return $this->redirectToRoute('app_reservation', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('reservation/edit.html.twig', [
@@ -79,14 +84,23 @@ class ReservationController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="app_reservation_delete", methods={"POST"})
+     * @Route("/{id}/suppression", name="app_reservation_deactivate", methods={"GET", "PATCH"})
      */
-    public function delete(Request $request, Reservation $reservation, ReservationRepository $reservationRepository): Response
+    public function deactivate(Request $request, Reservation $reservation, ReservationRepository $reservationRepository, ManagerRegistry $doctrine): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$reservation->getId(), $request->request->get('_token'))) {
-            $reservationRepository->remove($reservation, true);
-        }
+          
+            $status = $reservation->setStatus(false);
+
+
+            $reservationRepository->add($status, true);
+
+            
+            
+            $this->addFlash('warning', 'La réservation numéro ' . $reservation->getId() . ' a été supprimé!');
+        
 
         return $this->redirectToRoute('app_reservation', [], Response::HTTP_SEE_OTHER);
     }
+
+   
 }

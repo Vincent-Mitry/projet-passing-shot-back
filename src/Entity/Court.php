@@ -135,7 +135,7 @@ class Court
 
     /**
      * @ORM\ManyToOne(targetEntity=Club::class, inversedBy="courts")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(onDelete="SET NULL", nullable=true)
      * @Assert\NotBlank(message="Veuillez associer un club au terrain.")
      * 
      * @Ignore()
@@ -154,7 +154,7 @@ class Court
 
     /**
      * @ORM\ManyToOne(targetEntity=Surface::class, inversedBy="courts")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(onDelete="SET NULL", nullable=true)
      * @Assert\NotBlank(message = "Veuillez sélectionner un terrain.")
      * 
      * @Groups ({"court_list"})
