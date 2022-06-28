@@ -21,7 +21,7 @@ class MainController extends AbstractController
         ReservationRepository $reservationRepository,
         CourtRepository $courtRepository,
         UserRepository $userRepository,
-        Timeslots $timeslots,
+        Timeslots $timeslots
     ): Response {
         return $this->render('main/index.html.twig', [
             'clubs' => $clubRepository->findLastThree(),
