@@ -2,62 +2,71 @@
 
 namespace App\Service;
 
-use Twig\Environment;
-use Symfony\Component\Mime\Address;
-use Symfony\Component\Mailer\Mailer;
-use Symfony\Component\Mailer\Transport;
-use Symfony\Bridge\Twig\Mime\BodyRenderer;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
-use Symfony\Component\Mailer\MailerInterface;
+use App\Entity\User;
+use App\Entity\Contact;
+use App\Entity\Reservation;
+use App\Entity\BlockedCourt;
 
 class SendEmail
 {
+    private $configureEmail;
     
-    public function __construct(
-        MailerInterface $mailer
-    ) {
-        $this->mailer = $mailer;
+    public function __construct(ConfigureEmail $configureEmail)
+    {
+        $this->configureEmail = $configureEmail;
     }
 
-    // Function who send email
-    public function execute(
-    $adressFrom,
-    $addressTo,
-    $replyTo,
-    $subject,
-    $htmlTemplate,
-    $context,
-    MailerInterface $mailer)
+    public function toUserBlockedCourt(Reservation $reservation, BlockedCourt $blockedCourt)
     {
-        // We define the address of the sender and the address of the recipient
-        $from = new Address($adressFrom);
-        $to = new Address($addressTo);
+        $adressFrom = 'contact.passingshot@gmail.com';
+        $addressTo = 'contact.passingshot@gmail.com'; // $reservation->getUser()->getEmail();
+        $replyTo = 'contact.passingshot@gmail.com';
+        $subject = 'Votre réservation (n°'. $reservation->getId() .') est annulée';
+        $htmlTemplate = '/email/court_blocked.html.twig' ;
+        $context = [
+            'reservation' => $reservation,
+            'blockedCourt' => $blockedCourt
+        ];
 
+        $this->configureEmail->emailConfig($adressFrom, $addressTo, $replyTo, $subject, $htmlTemplate, $context);
+    }
+
+    public function toUserReservationConfirmation(Reservation $reservation)
+    {
+        $adressFrom = 'contact.passingshot@gmail.com';
+        $addressTo = 'contact.passingshot@gmail.com'; // $reservation->getUser()->getEmail();
+        $replyTo = 'contact.passingshot@gmail.com';
+        $subject = 'Votre réservation (n°'. $reservation->getId() .') a été validée ';
+        $htmlTemplate = '/email/reservation.html.twig' ;
+        $context = [
+            'reservation' => $reservation
+        ];
+
+        $this->configureEmail->emailConfig($adressFrom, $addressTo, $replyTo, $subject, $htmlTemplate, $context);
+    }
+
+    public function toAdminContactForm(Contact $contact)
+    {
+        // Send email with SendEmail service
+        $adressFrom = 'contact.passingshot@gmail.com';
+        $addressTo = 'contact.passingshot@gmail.com';
+        $replyTo = $contact->getEmail();
+        $subject = 'Formulaire de contact : '.  $contact->getLastname() . ' ' . $contact->getFirstname();
+        $htmlTemplate = '/email/contact.html.twig' ;
+        $context = ['contact' => $contact];
+
+        $this->configureEmail->emailConfig($adressFrom, $addressTo, $replyTo, $subject, $htmlTemplate, $context);
+    }
+
+    public function toUserRegistrationValidation(User $user)
+    {
+        $adressFrom = 'contact.passingshot@gmail.com';
+        $addressTo = 'contact.passingshot@gmail.com';
+        $replyTo = $user->getEmail();
+        $subject = 'Inscription chez Passing ShO\'t validée ';
+        $htmlTemplate = '/email/signup.html.twig' ;
+        $context = ['user' => $user];
         
-        $email = new TemplatedEmail();
-        $email->from($from)
-            ->to($to)
-            ->replyTo($replyTo)
-            ->subject($subject)
-            ->htmlTemplate($htmlTemplate)
-            ->context($context);
-            
-
-
-        $loader = new \Twig\Loader\FilesystemLoader('../templates');
-
-        $twigEnv = new Environment($loader);
-
-        $twigBodyRenderer = new BodyRenderer($twigEnv);
-
-        $twigBodyRenderer->render($email);
-
-        // We send the mail
-
-        $transport = Transport::fromDsn($_ENV['MAILER_DSN']);
-        
-        $mailer = new Mailer($transport);
-        
-        $mailer->send($email);
+        $this->configureEmail->emailConfig($adressFrom, $addressTo, $replyTo, $subject, $htmlTemplate, $context);
     }
 }

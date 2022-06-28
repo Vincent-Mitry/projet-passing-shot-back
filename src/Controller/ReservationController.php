@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Entity\Reservation;
 use App\Form\ReservationType;
 use App\Repository\ReservationRepository;
+use App\Service\SendEmail;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,7 +31,7 @@ class ReservationController extends AbstractController
     /**
      * @Route("/ajout", name="app_reservation_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, ReservationRepository $reservationRepository): Response
+    public function new(Request $request, ReservationRepository $reservationRepository, SendEmail $sendEmail): Response
     {
         $reservation = new Reservation();
         $form = $this->createForm(ReservationType::class, $reservation);
@@ -41,7 +42,10 @@ class ReservationController extends AbstractController
 
             $reservationRepository->add($reservation, true);
 
-            $this->addFlash('success', 'Réservation pour '. $reservation->getId() . ' ajouté !');
+            // Send email with SendEmail service
+            $sendEmail->toUserReservationConfirmation($reservation);
+
+            $this->addFlash('success', 'Réservation pour '. $reservation->getId() . ' ajoutée !');
 
             return $this->redirectToRoute('app_reservation', [], Response::HTTP_SEE_OTHER);
         }

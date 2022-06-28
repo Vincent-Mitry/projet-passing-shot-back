@@ -135,12 +135,11 @@ class CourtController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $blockedCourtService->handleExistingReservationsOnBlocked($court,
+            $blockedCourtService->handleExistingReservationsOnBlocked(
+            $court,
             $blockedCourt,
             $blockedCourt->getStartDatetime(),
             $blockedCourt->getEndDatetime(),
-            $mailer,
-            $sendEmail
         );
 
             $blockedCourtRepository->add($blockedCourt, true);

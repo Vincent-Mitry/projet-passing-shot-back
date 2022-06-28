@@ -47,7 +47,6 @@ class ReservationController extends AbstractController
         ManagerRegistry $doctrine,
         ApiConstraintErrors $apiConstraintErrors,
         AvailableTimeslots $availableTimeslots,
-        MailerInterface $mailer,
         SendEmail $sendEmail
     ): Response
      {
@@ -76,16 +75,7 @@ class ReservationController extends AbstractController
         $em->flush();
 
         // Send email with SendEmail service
-        $adressFrom = 'contact.passingshot@gmail.com';
-        $addressTo = 'contact.passingshot@gmail.com';
-        $replyTo = 'contact.passingshot@gmail.com';
-        $subject = 'Votre réservation a été validée ';
-        $htmlTemplate = '/email/reservation.html.twig' ;
-        $context = [
-            'reservation' => $reservation
-        ];
-
-        $sendEmail->execute($adressFrom, $addressTo, $replyTo, $subject, $htmlTemplate, $context, $mailer);
+        $sendEmail->toUserReservationConfirmation($reservation);
 
         $location = $this->generateUrl('api_v1_reservations_get_item', ['id' => $reservation->getId()]);
 
