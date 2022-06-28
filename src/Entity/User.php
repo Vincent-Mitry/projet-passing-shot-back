@@ -101,7 +101,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @Assert\Length(max = 100)
      * @Assert\NotBlank(message = "Veuillez saisir un mot de passe.")
      * @Assert\Regex(
-     *  pattern = "/^(?=.*[0-9])(?=.*[a-z])(?=.*['_' , '|', '%', '&', '*', '=', '@', '$', -]).{6,}$/",
+     *  pattern = "/^(?=.*[0-9])(?=.*[a-z])(?=.*['_' , '|', '%', '&', '*', '=', '@', '$', '!', -]).{6,}$/",
      *  message = "Le mot de passe saisi ne correspond pas aux règles mentionnées ci-dessus."
      * )
      * 

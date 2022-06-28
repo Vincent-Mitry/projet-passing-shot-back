@@ -145,7 +145,7 @@ class UserType extends AbstractType
                         'label' => 'Mot de passe',
                         'help' => 'Au moins 6 caractères,
                             un chiffre
-                            et un caractère spécial parmi _, -, |, %, &, *, =, @, $'
+                            et un caractère spécial parmi _, -, |, %, &, *, =, @, $, !'
                     ]);
                 } else {
                     // Edit

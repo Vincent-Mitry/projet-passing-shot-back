@@ -5,15 +5,15 @@
 {% block body %}
 <div class="container-fluid">
 	<div class=" d-flex justify-content-between">
-		<a href="{{ path('app_court') }}" class="btn btn-warning m-3" style="color: white; background-color: #EA5C0A; border-color: white;">Retour</a>
+		<a href="{{ path('app_surface') }}" class="btn btn-warning m-3" style="color: white; background-color: #EA5C0A; border-color: white;">Retour</a>
 	{% if is_granted('ROLE_SUPER_ADMIN') %}	<div class="d-flex justify-content-center">
-			<a href="{{ path('app_court_edit', {'id': surface.id}) }}" class="btn btn-warning m-3">Modifier</a>
+			<a href="{{ path('app_surface_edit', {'id': surface.id}) }}" class="btn btn-warning m-3">Modifier</a>
 			{{ include('surface/_delete_form.html.twig') }}
 		</div> {% endif %}
 	</div>
 	<div class="card shadow">
 		<div class="card-header py-3">
-			<p class="text-danger m-0 fw-bold text-center">Détails de la surface{{ surface.name }}</p>
+			<p class="text-danger m-0 fw-bold text-center">Détails de la surface : {{ surface.name }}</p>
 		</div>
 		<div class="card-body">
 			<div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
