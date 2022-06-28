@@ -100,7 +100,7 @@ class CourtType extends AbstractType
                 ],
                 'format' => 'dd MM yyyy',
                 'input' => 'datetime_immutable',
-                'help' => 'Champs optionnels.',
+                'help' => 'Champ optionnel',
                 'attr' => ['class' => 'col-4']
             ])
         

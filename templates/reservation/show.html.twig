@@ -40,7 +40,7 @@
 						</tr>
 						<tr>
 							<th>Nom du terrain</th>
-							<td>{{ reservation.court.name }}</td>
+							<td>{{ reservation.court.name|default('') }}</td>
 						</tr>
 						<tr>
 							<th>Statut</th>
@@ -54,16 +54,16 @@
 							<th>Nombre de joueur</th>
 							<td>{{ reservation.countPlayers}}</td>
 						</tr>
-						<tr>
+						 <tr>
 							<th>Notation du terrain</th>
 							<td>
-								{% if reservation.court.ratingAvg == null %}
+								{% if reservation.court.ratingAvg|default('') == null %}
 									-
 								{% else %}
-									{{reservation.court.ratingAvg}}
+									{{ reservation.court.ratingAvg|default('') }}
 								{% endif %}
 							</td>
-						</tr>
+						</tr> 
 						<tr>
 							<th>Date de création</th>
 							<td>{{ reservation.createdAt ? reservation.createdAt|date('d-m-Y') : '-' }}</td>
