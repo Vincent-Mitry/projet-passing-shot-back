@@ -2,62 +2,44 @@
 
 namespace App\Service;
 
-use Twig\Environment;
-use Symfony\Component\Mime\Address;
-use Symfony\Component\Mailer\Mailer;
-use Symfony\Component\Mailer\Transport;
-use Symfony\Bridge\Twig\Mime\BodyRenderer;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
-use Symfony\Component\Mailer\MailerInterface;
+use App\Entity\BlockedCourt;
+use App\Entity\Reservation;
 
 class SendEmail
 {
+    private $configureEmail;
     
-    public function __construct(
-        MailerInterface $mailer
-    ) {
-        $this->mailer = $mailer;
+    public function __construct(ConfigureEmail $configureEmail)
+    {
+        $this->configureEmail = $configureEmail;
     }
 
-    // Function who send email
-    public function execute(
-    $adressFrom,
-    $addressTo,
-    $replyTo,
-    $subject,
-    $htmlTemplate,
-    $context,
-    MailerInterface $mailer)
+    public function toUserBlockedCourt(Reservation $reservation, BlockedCourt $blockedCourt)
     {
-        // We define the address of the sender and the address of the recipient
-        $from = new Address($adressFrom);
-        $to = new Address($addressTo);
+        $adressFrom = 'contact.passingshot@gmail.com';
+        $addressTo = 'contact.passingshot@gmail.com'; // $reservation->getUser()->getEmail();
+        $replyTo = 'contact.passingshot@gmail.com';
+        $subject = 'Votre réservation (n°'. $reservation->getId() .') est annulée';
+        $htmlTemplate = '/email/court_blocked.html.twig' ;
+        $context = [
+            'reservation' => $reservation,
+            'blockedCourt' => $blockedCourt
+        ];
 
-        
-        $email = new TemplatedEmail();
-        $email->from($from)
-            ->to($to)
-            ->replyTo($replyTo)
-            ->subject($subject)
-            ->htmlTemplate($htmlTemplate)
-            ->context($context);
-            
+        $this->configureEmail->emailConfig($adressFrom, $addressTo, $replyTo, $subject, $htmlTemplate, $context);
+    }
 
+    public function toUserReservationConfirmation(Reservation $reservation)
+    {
+        $adressFrom = 'contact.passingshot@gmail.com';
+        $addressTo = 'contact.passingshot@gmail.com'; // $reservation->getUser()->getEmail();
+        $replyTo = 'contact.passingshot@gmail.com';
+        $subject = 'Votre réservation (n°'. $reservation->getId() .') a été validée ';
+        $htmlTemplate = '/email/reservation.html.twig' ;
+        $context = [
+            'reservation' => $reservation
+        ];
 
-        $loader = new \Twig\Loader\FilesystemLoader('../templates');
-
-        $twigEnv = new Environment($loader);
-
-        $twigBodyRenderer = new BodyRenderer($twigEnv);
-
-        $twigBodyRenderer->render($email);
-
-        // We send the mail
-
-        $transport = Transport::fromDsn($_ENV['MAILER_DSN']);
-        
-        $mailer = new Mailer($transport);
-        
-        $mailer->send($email);
+        $this->configureEmail->emailConfig($adressFrom, $addressTo, $replyTo, $subject, $htmlTemplate, $context);
     }
 }

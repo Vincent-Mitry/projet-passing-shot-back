@@ -39,7 +39,7 @@ class ReservationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $reservationRepository->add($reservation, true);
 
-            $this->addFlash('success', 'Réservation pour '. $reservation->getId() . ' ajouté !');
+            $this->addFlash('success', 'Réservation pour '. $reservation->getId() . ' ajoutée !');
 
             return $this->redirectToRoute('app_reservation', [], Response::HTTP_SEE_OTHER);
         }
