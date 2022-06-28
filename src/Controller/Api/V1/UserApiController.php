@@ -92,7 +92,6 @@ class UserApiController extends AbstractController
         ManagerRegistry $doctrine,
         ApiConstraintErrors $apiConstraintErrors,
         UserPasswordHasherInterface $passwordHasher,
-        MailerInterface $mailer,
         SendEmail $sendEmail
     ) 
     {
@@ -124,14 +123,7 @@ class UserApiController extends AbstractController
         $em->flush();
 
         // Send email with SendEmail service
-        $adressFrom = 'contact.passingshot@gmail.com';
-        $addressTo = 'contact.passingshot@gmail.com';
-        $replyTo = $user->getEmail();
-        $subject = 'Inscription chez Passing ShO\'t validée ';
-        $htmlTemplate = '/email/signup.html.twig' ;
-        $context = ['user' => $user];
-
-        $sendEmail->execute($adressFrom, $addressTo, $replyTo, $subject, $htmlTemplate, $context, $mailer);
+        $sendEmail->toUserRegistrationValidation($user);
     
         return $this->json(
             //ID of created User

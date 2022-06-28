@@ -4,13 +4,14 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
-use App\Repository\UserRepository;
 use DateTimeImmutable;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Service\SendEmail;
+use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 /**
  * @Route("/utilisateurs")
@@ -30,7 +31,8 @@ class UserController extends AbstractController
     /**
      * @Route("/membres/ajout", name="app_user_member_new", methods={"GET", "POST"})
      */
-    public function newMember(Request $request, UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher): Response
+    public function newMember(Request $request, UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher, 
+    SendEmail $sendEmail): Response
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
@@ -44,6 +46,9 @@ class UserController extends AbstractController
             $user->setPassword($hashedPassword);
             
             $userRepository->add($user, true);
+
+            // Send email with SendEmail service
+            $sendEmail->toUserRegistrationValidation($user);
 
             $this->addFlash('success', 'Utilisateur ajouté');
 
@@ -125,7 +130,7 @@ class UserController extends AbstractController
     /**
      * @Route("/back-office/ajout", name="app_user_back-office_new", methods={"GET", "POST"})
      */
-    public function newBackOffice(Request $request, UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher): Response
+    public function newBackOffice(Request $request, UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher, SendEmail $sendEmail): Response
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
@@ -139,6 +144,9 @@ class UserController extends AbstractController
             $user->setPassword($hashedPassword);
             
             $userRepository->add($user, true);
+
+            // Send email with SendEmail service
+            $sendEmail->toUserRegistrationValidation($user);
 
             $this->addFlash('success', 'Utilisateur ajouté');
 

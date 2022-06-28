@@ -2,8 +2,10 @@
 
 namespace App\Service;
 
-use App\Entity\BlockedCourt;
+use App\Entity\User;
+use App\Entity\Contact;
 use App\Entity\Reservation;
+use App\Entity\BlockedCourt;
 
 class SendEmail
 {
@@ -40,6 +42,31 @@ class SendEmail
             'reservation' => $reservation
         ];
 
+        $this->configureEmail->emailConfig($adressFrom, $addressTo, $replyTo, $subject, $htmlTemplate, $context);
+    }
+
+    public function toAdminContactForm(Contact $contact)
+    {
+        // Send email with SendEmail service
+        $adressFrom = 'contact.passingshot@gmail.com';
+        $addressTo = 'contact.passingshot@gmail.com';
+        $replyTo = $contact->getEmail();
+        $subject = 'Formulaire de contact : '.  $contact->getLastname() . ' ' . $contact->getFirstname();
+        $htmlTemplate = '/email/contact.html.twig' ;
+        $context = ['contact' => $contact];
+
+        $this->configureEmail->emailConfig($adressFrom, $addressTo, $replyTo, $subject, $htmlTemplate, $context);
+    }
+
+    public function toUserRegistrationValidation(User $user)
+    {
+        $adressFrom = 'contact.passingshot@gmail.com';
+        $addressTo = 'contact.passingshot@gmail.com';
+        $replyTo = $user->getEmail();
+        $subject = 'Inscription chez Passing ShO\'t validée ';
+        $htmlTemplate = '/email/signup.html.twig' ;
+        $context = ['user' => $user];
+        
         $this->configureEmail->emailConfig($adressFrom, $addressTo, $replyTo, $subject, $htmlTemplate, $context);
     }
 }
