@@ -3,7 +3,6 @@
 {% block title %}Listes des Terrains{% endblock %}
 
 {% block body %}
-
 <div class="container-fluid">
    {% if is_granted('ROLE_SUPER_ADMIN') %} <div class=" d-flex justify-content-center">
         <a href="{{ path('app_court_new') }}" class="btn btn-warning m-3">Créer un nouveau terrain</a>

@@ -1,86 +1,81 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Réservations
-{% endblock %}
+{% block title %}Détails de la réservation n°{{ reservation.id }}{% endblock %}
 
 {% block body %}
-	<div class="container-fluid">
+<div class="container-fluid">
+	<div class="d-flex justify-content-between">
+		<a href="{{ path('app_reservation') }}" class="btn btn-warning m-3">Retour</a>
 		<div class=" d-flex justify-content-center">
-			<a href="{{ path('app_reservation') }}" class="btn btn-warning m-3">Retour</a>
 			<a href="{{ path('app_reservation_edit', {'id': reservation.id}) }}" class="btn btn-warning m-3">Modifier</a>
-			<a href="{{ path('app_reservation_deactivate', {'id': reservation.id})}}" class="btn btn-warning m-3">Supprimer</a>
+			<a href="{{ path('app_reservation_deactivate', {'id': reservation.id})}}" class="btn btn-danger m-3">Annuler</a>
 		</div>
-		<div class="card shadow">
-			<div class="card-header py-3">
-				<p class="text-danger m-0 fw-bold text-center">Information sur la réservation de
-					{{ reservation.user.firstname }}
-					{{ reservation.user.lastname }}
-				</p>
-			</div>
-			<div class="card-body">
-				<div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
-					<table class="table table-striped table-hover my-0" id="dataTable ">
-						<tbody></tbody>
-						<tbody>
-							<tr>
-								<th>Id</th>
-								<td>{{ reservation.id }}</td>
-							</tr>
-							<tr>
-								<th>A partir de
-								</th>
-								<td>{{ reservation.startDatetime ? reservation.startDatetime|date('d M H:i') : '' }}</td>
-							</tr>
-							<tr>
-								<th>Jusqu'à</th>
-								<td>{{ reservation.endDatetime ? reservation.endDatetime|date('d M H:i') : '' }}</td>
-							</tr>
-							<tr>
-								<th>Nom du terrain</th>
-								<td>{{ reservation.court.name }}</td>
-							</tr>
-							<tr>
-								<th>Status</th>
-								<td>
-									{% if reservation.status == 1 %}Actif{% else %}Inactif
-									{% endif %}
-								</td>
-							</tr>
-							<tr>
-								<th>Nombre de joueur</th>
-								<td>{{ reservation.countPlayers}}</td>
-							</tr>
-							{# <tr>
-							                <th>Nom des autres joueurs</th>
-							                <td>{% if reservation.user.player2Id == null %}Invité {% else %}
-							                    {{reservation.user.player2Id}} {% endif %}</td>
-							                    <td>{% if reservation.countPlayers == 4 and reservation.player3Id.user == null %}Invité {% else %}
-							                    {{reservation.player3Id}} {% endif %}</td>
-							                    <td>{% if reservation.countPlayers == 4 and reservation.player4Id == null %}Invité {% else %}
-							                    {{reservation.player4Id}} {% endif %}</td>
-							            </tr> #}
+	</div>
+	<div class="card shadow">
+		<div class="card-header py-3">
+			<p class="text-danger m-0 fw-bold text-center">Détails de la réservation n°{{ reservation.id }}
+				{{ reservation.user.firstname }}
+				{{ reservation.user.lastname }}
+			</p>
+		</div>
+		<div class="card-body">
+			<div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
+				<table class="table table-striped table-hover my-0" id="dataTable ">
+					<tbody>
+						<tr>
+							<th>Id</th>
+							<td>{{ reservation.id }}</td>
+						</tr>
+						<tr>
+							<th>Date</th>
+							<td>{{ reservation.startDatetime ? reservation.startDatetime|date('d/m/Y') : '-' }}</td>
+						</tr>
+						<tr>
+							<th>Heure de début</th>
+							<td>{{ reservation.startDatetime ? reservation.startDatetime|date('H:i') : '-' }}</td>
+						</tr>
+						<tr>
+							<th>Heure de fin</th>
+							<td>{{ reservation.endDatetime ? reservation.endDatetime|date('H:i') : '-' }}</td>
+						</tr>
+						<tr>
+							<th>Nom du terrain</th>
+							<td>{{ reservation.court.name }}</td>
+						</tr>
+						<tr>
+							<th>Statut</th>
+							{% if reservation.status == 1 %}
+								<td style="color:green">Réservée</td>
+							{% else %}
+								<td style="color:red">Annulée</td>
+							{% endif %}
+						</tr>
+						<tr>
+							<th>Nombre de joueur</th>
+							<td>{{ reservation.countPlayers}}</td>
+						</tr>
+						<tr>
 							<th>Notation du terrain</th>
 							<td>
 								{% if reservation.court.ratingAvg == null %}
-									Pas de notation
+									-
 								{% else %}
 									{{reservation.court.ratingAvg}}
 								{% endif %}
 							</td>
-						</tbody>
-					</tr>
-
-				</tr>
-				<tr>
-					<th>Réservation faite le
-					</th>
-					<td>{{ reservation.createdAt ? reservation.createdAt|date('d-m-Y') : '' }}</td>
-				</tr>
-				<tr>
-					<th>Dernière mise à jour</th>
-					<td>{{ reservation.updatedAt ? reservation.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-				</tr>
-			</tbody>
-		</table>
+						</tr>
+						<tr>
+							<th>Date de création</th>
+							<td>{{ reservation.createdAt ? reservation.createdAt|date('d-m-Y') : '-' }}</td>
+						</tr>
+						<tr>
+							<th>Date de modification</th>
+							<td>{{ reservation.updatedAt ? reservation.updatedAt|date('Y-m-d H:i:s') : '-' }}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
 	</div>
-</div></div>{% endblock %}
+</div>
+{% endblock %}

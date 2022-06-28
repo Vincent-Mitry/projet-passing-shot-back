@@ -175,7 +175,7 @@ class Timeslots
             // Removal of each time slot based on the current day's start hour to remove until the end hour
             for ($i= $startHourToRemoveFrom; $i < $endHourToStop; $i++) { 
                 if (($key = array_search($i, $availabletimeSlots)) !== false){
-                    unset($availabletimeSlots[$key]);
+                    $availabletimeSlots[$key] = null;
                 }
             }
         }

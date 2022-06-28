@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Liste des Clubs{% endblock %}
+{% block title %}Liste des Clubs
+{% endblock %}
 
 {% block body %}
 <div class="container-fluid">
@@ -12,18 +13,14 @@
 		<div class="card-header py-3">
 			<p class="text-danger m-0 fw-bold text-center">Liste des clubs</p>
 		</div>
-		<div class="card-body">
-			<div class="row">
-				<div class="col-md- text-nowrap">
-					<div id="dataTable_length" class="dataTables_length" aria-controls="dataTable">
-						<label class="form-label">Page
-							<select class="d-inline-block form-select form-select-sm">
-								<option value="10" selected="">10</option>
-								<option value="25">25</option>
-								<option value="50">50</option>
-								<option value="100">100</option>
-							</select>
-						</label>
+		<div class="card shadow">
+			<div class="card-header py-3">
+				<p class="text-danger m-0 fw-bold text-center">Liste des clubs</p>
+			</div>
+			<div class="card-body">
+				<div class="row">
+					<div class="col-md- text-nowrap">
+						<div id="dataTable_length" class="dataTables_length" aria-controls="dataTable"></div>
 					</div>
 				</div>
 			</div>
@@ -63,5 +60,4 @@
 			</div>
 		</div>
 	</div>
-</div>
 {% endblock %}

@@ -23,64 +23,67 @@ class ReservationType extends AbstractType
         $builder
         ->add('startDatetime', DateTimeType::class, [
             'widget' => 'choice',
+            'placeholder' => [
+                'year' => 'Année',
+                'month' => 'Mois',
+                'day' => 'Jour',
+                'hour' => 'Heure',
+                'minute' => 'Minutes'
+            ],
             'input' => 'datetime_immutable',
             'label' => 'Date et heure de début',
             'years' => range(date('Y'), date('Y')+1),
-            ],
-            
-        )
+            'attr' => ['class' => 'col-5']
+        ])
         ->add('endDatetime', DateTimeType::class, [
             'widget' => 'choice',
+            'placeholder' => [
+                'year' => 'Année',
+                'month' => 'Mois',
+                'day' => 'Jour',
+                'hour' => 'Heure',
+                'minute' => 'Minutes'
+            ],
             'input' => 'datetime_immutable',
             'label' => 'Date et heure de fin',
             'years' => range(date('Y'), date('Y')+1),
+            'attr' => ['class' => 'col-5']
+            
+        ])
+        ->add('countPlayers', ChoiceType::class, [
+            'choices' => [
+                'Simple' => 2,
+                'Double' => 4,
             ],
+            'placeholder' => 'Sélectionner le nombre de joueurs',
+            'label' => 'Nombre de joueurs',
             
-        )
-            ->add('status', ChoiceType::class, [
-                'choices' => [
-                    'Inactif' => 0,
-                    'Actif' => 1,
-                ],
-                'placeholder' => 'Status de la réservation',
-                'label' => false,
-                'help' => 'choisir dans les choix suivants'
-            ])
             
-            ->add('countPlayers', ChoiceType::class, [
-                'choices' => [
-                    'Simple' => 2,
-                    'Double' => 4,
-                ],
-                'placeholder' => 'Nombre de joueurs',
-                'label' => false,
-                'help' => 'choisir dans les choix suivants'
-            ])
-
-            ->add('court', EntityType::class, [
-                'label' => 'Nom du terrain:',
-                'class' => Court::class,
-                'choice_label' => 'name',
-                'multiple' => false,
-                'expanded' => false,
-                'help' => 'Sélectionner un terrain.',
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('c')
-                        ->orderBy('c.name');
-                },
-            ])
-            ->add('user', EntityType::class, [
-                'label' => 'Nom du membre :',
-                'class' => User::class,
-                'choice_label'=> 'lastname',   
-                'multiple' => false,
-                'expanded' => false,
-                'help' => 'Sélectionner un membre.',
-                'query_builder' => function (EntityRepository $ef) {
-                    return $ef->createQueryBuilder('u')
-                        ->orderBy('u.lastname', 'ASC');
-                },
-            ])
+        ])
+        ->add('court', EntityType::class, [
+            'label' => 'Nom du terrain',
+            'class' => Court::class,
+            'choice_label' => 'name',
+            'multiple' => false,
+            'expanded' => false,
+            'placeholder' => 'Sélectionner un terrain',
+            'query_builder' => function (EntityRepository $er) {
+                return $er->createQueryBuilder('c')
+                    ->orderBy('c.name');
+            },
+        ])
+        ->add('user', EntityType::class, [
+            'label' => 'Nom du membre',
+            'class' => User::class,
+            // 'choice_label'=> 'lastname',   
+            'multiple' => false,
+            'expanded' => false,
+            'help' => 'Sélectionner un membre.',
+            'query_builder' => function (EntityRepository $ef) {
+                return $ef->createQueryBuilder('u')
+                    ->orderBy('u.lastname', 'ASC');
+            },
+        ])
         ;
     }
 
