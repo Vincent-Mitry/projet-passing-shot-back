@@ -166,7 +166,7 @@ class AppFixtures extends Fixture
         $admin = new User();
         $hashedPassword = $this->passwordHasher->hashPassword($admin, 'admin');
         $admin->setLastname('Paul')
-                   ->setFirstname('Paul')
+                   ->setFirstname('Sean')
                    ->setEmail('admin@admin.com')
                    ->setGender($male)
                    ->setLevel('Confirmé')
