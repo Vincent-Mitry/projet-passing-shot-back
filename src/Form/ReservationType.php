@@ -40,12 +40,14 @@ class ReservationType extends AbstractType
         ])
             ->add('status', ChoiceType::class, [
                 'choices' => [
-                    'Inactif' => 0,
                     'Actif' => 1,
+                    'Inactif' => 0,
                 ],
-                'placeholder' => 'Status de la réservation',
-                'label' => false,
+                'label' => 'Status de la réservation',
+                'placeholder' => 'Sélectionner le status',
                 'help' => 'choisir dans les choix suivants',
+                
+                
                
             ])
             
@@ -54,8 +56,8 @@ class ReservationType extends AbstractType
                     'Simple' => 2,
                     'Double' => 4,
                 ],
-                'placeholder' => 'Nombre de joueurs',
-                'label' => false,
+                'placeholder' => 'Sélectionner le nombre de joueurs',
+                'label' => 'Nombre de joueurs',
                 'help' => 'choisir dans les choix suivants',
                
             ])

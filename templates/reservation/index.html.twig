@@ -27,7 +27,7 @@
 								<th>Début</th>
 								<th>Fin</th>
 								<th>Status</th>
-								<th class="text-center">Score</th>
+								<th>Score</th>
 								<th>Prénom du joueur</th>
 								<th>Nom du joueur</th>
 								<th>Terrain</th>
@@ -52,7 +52,7 @@
 									</td>
 									<td>
 										{% if reservation.score == null %}
-											pas de score pour le moment
+											-
 										{% else %}
 											{{ reservation.score }}
 										{% endif %}
@@ -62,14 +62,14 @@
 									<td>{{ reservation.court.name|default('') }}</td>
 									<td>
 										{% if reservation.court.ratingAvg == null %}
-											Pas de notation
+											-
 										{% else %}
 											{{reservation.court.ratingAvg}}
 										{% endif %}
 									</td>
 									<td>{{ reservation.countPlayers }}</td>
-									<td>{{ reservation.createdAt|date('d-m-Y')}}</td>
-									<td>{{ reservation.updatedAt|date('d-m-Y')}}</td>
+									<td>{{ reservation.createdAt ? reservation.createdAt|date('d-m-Y') : '-' }}</td>
+									<td>{{ reservation.updatedAt ? reservation.updatedAt|date('d-m-Y') : '-' }}</td>
 									<td>
 										<a href="{{ path('app_reservation_show', {'id': reservation.id}) }}" class="btn btn-sm" style="color: white; background-color: #EA5C0A; border-color: white;">
 											<i class="bi bi-search"></i>
