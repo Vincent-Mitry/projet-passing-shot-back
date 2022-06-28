@@ -56,9 +56,9 @@
 										{{ reservation.score }}
 									{% endif %}
 								</td>
-								<td>{{ reservation.user.firstname }}</td>
-								<td>{{ reservation.user.lastname }}</td>
-								<td>{{ reservation.court.name|default('') }}</td>
+								<td>{{ reservation.user.firstname|default('-') }}</td>
+								<td>{{ reservation.user.lastname|default('-') }}</td>
+								<td>{{ reservation.court.name|default('-') }}</td>
 								<td>
 									{% if reservation.court.ratingAvg == null %}
 										-

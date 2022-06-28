@@ -27,10 +27,11 @@ class CourtController extends AbstractController
     /**
      * @Route("", name="app_court", methods={"GET"})
      */
-    public function list(CourtRepository $courtRepository): Response
+    public function list(CourtRepository $courtRepository, BlockedCourtService $blockedCourtService): Response
     {
         return $this->render('court/index.html.twig', [
             'courts' => $courtRepository->findAll(),
+            'currentBlockedCourts' => $blockedCourtService->currentBlockedCourts()
         ]);
     }
 

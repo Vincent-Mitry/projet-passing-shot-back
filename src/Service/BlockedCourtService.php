@@ -7,6 +7,7 @@ use App\Entity\Reservation;
 use App\Entity\BlockedCourt;
 use App\Repository\BlockedCourtRepository;
 use App\Repository\ReservationRepository;
+use DateTimeImmutable;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 
@@ -14,12 +15,17 @@ use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 class BlockedCourtService
 {
     private $reservationRepository;
+    private $blockedCourtRepository;
     private $sendEmail;
     
-    public function __construct(ReservationRepository $reservationRepository, SendEmail $sendEmail)
-    {
+    public function __construct(
+        ReservationRepository $reservationRepository,
+        SendEmail $sendEmail,
+        BlockedCourtRepository $blockedCourtRepository
+    ) {
         $this->reservationRepository = $reservationRepository;
         $this->sendEmail = $sendEmail;
+        $this->blockedCourtRepository = $blockedCourtRepository;
     }
 
     // Add Confirmation message : "Etes vous sûr(e) de vouloir bloquer le terrain ? Les réservations faisant partie
@@ -42,5 +48,41 @@ class BlockedCourtService
             // Send email with SendEmail service
             $this->sendEmail->toUserBlockedCourt($reservation, $blockedCourt);
         }
+    }
+
+    /**
+     * Returns an array of court objects that are currently blocked
+     *
+     * @return array|null
+     */
+    public function currentBlockedCourts(): ?array
+    {
+        $now = new DateTimeImmutable('now');
+        $blockedCourtsList = $this->blockedCourtRepository->getCurrentBlockedCourts($now);
+
+        // We initialize the array that will contain the court objects that are currently blocked
+        $currentCourtsBlocked = [];
+    
+        if(empty($blockedCourtsList)) {
+            return null;
+        }
+
+        // We insert the court objects that are currently blocked in the array
+        foreach ($blockedCourtsList as $blockedCourt) {
+            $court = $blockedCourt->getCourt();
+            $currentCourtsBlocked[] = $court;
+        }
+
+        return $currentCourtsBlocked;
+    }
+
+    public function willBeBlocked()
+    {
+        
+    }
+
+    public function wasBlocked()
+    {
+        
     }
 }
