@@ -82,29 +82,94 @@ class AppFixtures extends Fixture
 
         //User
         // Creates super_admin
-        $superAdmin = new User();
-        $hashedPassword = $this->passwordHasher->hashPassword($superAdmin, 'superadmin');
-        $superAdmin->setLastname($faker->lastName())
-                   ->setFirstname($faker->firstName())
-                   ->setEmail('superadmin@superadmin.com')
-                   ->setGender($faker->randomElement([$male, $female, $neutral]))
-                   ->setLevel($faker->randomElement(['Débutant', 'Intermédiaire', 'Confirmé']))
+        // Julien
+        $superAdmin1 = new User();
+        $hashedPassword = $this->passwordHasher->hashPassword($superAdmin1, 'superadmin');
+        $superAdmin1->setLastname('Dabadie')
+                   ->setFirstname('Julien')
+                   ->setEmail('julien@passingshot.com')
+                   ->setGender($male)
+                   ->setLevel('Confirmé')
                    ->setPhone('0123456789')
                    ->setPassword($hashedPassword)
                    ->setRoles(['ROLE_SUPER_ADMIN'])
                    ->setCreatedAt(new DateTimeImmutable('now'))
                    ->setBirthdate($faker->immutableDateTimeBetween('-60 years', '-30 years'));
         
-        $manager->persist($superAdmin);
+        $manager->persist($superAdmin1);
+
+        // Vincent
+        $superAdmin2 = new User();
+        $hashedPassword = $this->passwordHasher->hashPassword($superAdmin2, 'superadmin');
+        $superAdmin2->setLastname('Mitry')
+                   ->setFirstname('Vincent')
+                   ->setEmail('vincent@passingshot.com')
+                   ->setGender($male)
+                   ->setLevel('Intermédiaire')
+                   ->setPhone('0123456789')
+                   ->setPassword($hashedPassword)
+                   ->setRoles(['ROLE_SUPER_ADMIN'])
+                   ->setCreatedAt(new DateTimeImmutable('now'))
+                   ->setBirthdate($faker->immutableDateTimeBetween('-60 years', '-30 years'));
+        
+        $manager->persist($superAdmin2);
+
+        // Simon
+        $superAdmin3 = new User();
+        $hashedPassword = $this->passwordHasher->hashPassword($superAdmin3, 'superadmin');
+        $superAdmin3->setLastname('Daussy')
+                   ->setFirstname('Simon')
+                   ->setEmail('simon@passingshot.com')
+                   ->setGender($male)
+                   ->setLevel('Débutant')
+                   ->setPhone('0123456789')
+                   ->setPassword($hashedPassword)
+                   ->setRoles(['ROLE_SUPER_ADMIN'])
+                   ->setCreatedAt(new DateTimeImmutable('now'))
+                   ->setBirthdate($faker->immutableDateTimeBetween('-60 years', '-30 years'));
+        
+        $manager->persist($superAdmin3);
+
+        // Jérémy
+        $superAdmin4 = new User();
+        $hashedPassword = $this->passwordHasher->hashPassword($superAdmin4, 'superadmin');
+        $superAdmin4->setLastname('Poinas')
+                   ->setFirstname('Jérémy')
+                   ->setEmail('jeremy@passingshot.com')
+                   ->setGender($male)
+                   ->setLevel('Débutant')
+                   ->setPhone('0123456789')
+                   ->setPassword($hashedPassword)
+                   ->setRoles(['ROLE_SUPER_ADMIN'])
+                   ->setCreatedAt(new DateTimeImmutable('now'))
+                   ->setBirthdate($faker->immutableDateTimeBetween('-60 years', '-30 years'));
+        
+        $manager->persist($superAdmin4);
+
+        // Yannis
+        $superAdmin5 = new User();
+        $hashedPassword = $this->passwordHasher->hashPassword($superAdmin5, 'superadmin');
+        $superAdmin5->setLastname('Thalgott')
+                   ->setFirstname('Yannis')
+                   ->setEmail('yannis@passingshot.com')
+                   ->setGender($male)
+                   ->setLevel('Débutant')
+                   ->setPhone('0123456789')
+                   ->setPassword($hashedPassword)
+                   ->setRoles(['ROLE_SUPER_ADMIN'])
+                   ->setCreatedAt(new DateTimeImmutable('now'))
+                   ->setBirthdate($faker->immutableDateTimeBetween('-60 years', '-30 years'));
+        
+        $manager->persist($superAdmin5);
 
         // Creates admin 
         $admin = new User();
         $hashedPassword = $this->passwordHasher->hashPassword($admin, 'admin');
-        $admin->setLastname($faker->lastName())
-                   ->setFirstname($faker->firstName())
+        $admin->setLastname('Paul')
+                   ->setFirstname('Sean')
                    ->setEmail('admin@admin.com')
-                   ->setGender($faker->randomElement([$male, $female, $neutral]))
-                   ->setLevel($faker->randomElement(['Débutant', 'Intermédiaire', 'Confirmé']))
+                   ->setGender($male)
+                   ->setLevel('Confirmé')
                    ->setPhone('0123456789')
                    ->setPassword($hashedPassword)
                    ->setRoles(['ROLE_ADMIN'])
@@ -142,7 +207,7 @@ class AppFixtures extends Fixture
               ->setName('Passing ShO\'t')
               ->setDescription($faker->paragraph())
               ->setCreatedAt(new DateTimeImmutable())
-              ->setUser($superAdmin);
+              ->setUser($superAdmin1);
 
         $manager->persist($club);
 
