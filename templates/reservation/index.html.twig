@@ -56,14 +56,15 @@
 										{{ reservation.score }}
 									{% endif %}
 								</td>
-								<td>{{ reservation.user.firstname|default('') }}</td>
-								<td>{{ reservation.user.lastname|default('') }}</td>
-								<td>{{ reservation.court.name|default('') }}</td>
+								<td>{{ reservation.user.firstname|default('-') }}</td>
+								<td>{{ reservation.user.lastname|default('-') }}</td>
+								<td>{{ reservation.court.name|default('-') }}</td>
+								<td>
 								<td>								
-									{% if reservation.courtRating|default('') == null %}
+									{% if reservation.courtRating == null %}
 										-
 									{% else %}
-										{{ reservation.courtRating|default('') }}
+										{{ reservation.courtRating }}
 									{% endif %}
 								</td> 
 								<td>{{ reservation.countPlayers }}</td>

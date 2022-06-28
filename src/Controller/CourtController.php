@@ -27,10 +27,11 @@ class CourtController extends AbstractController
     /**
      * @Route("", name="app_court", methods={"GET"})
      */
-    public function list(CourtRepository $courtRepository): Response
+    public function list(CourtRepository $courtRepository, BlockedCourtService $blockedCourtService): Response
     {
         return $this->render('court/index.html.twig', [
             'courts' => $courtRepository->findAll(),
+            'currentCourtsListBlocked' => $blockedCourtService->currentCourtsListBlocked()
         ]);
     }
 
@@ -61,10 +62,11 @@ class CourtController extends AbstractController
     /**
      * @Route("/{id}", name="app_court_show", methods={"GET"}, requirements={"id"="\d+"})
      */
-    public function show(Court $court): Response
+    public function show(Court $court, BlockedCourtService $blockedCourtService): Response
     {
         return $this->render('court/show.html.twig', [
             'court' => $court,
+            'isCurrentlyBlocked' => $blockedCourtService->currentBlockedCourts()
         ]);
     }
 
@@ -116,11 +118,8 @@ class CourtController extends AbstractController
     public function block(
         Request $request,
         Court $court = null,
-        ReservationRepository $reservationRepository,
         BlockedCourtRepository $blockedCourtRepository,
-        BlockedCourtService $blockedCourtService,
-        MailerInterface $mailer,
-        SendEmail $sendEmail
+        BlockedCourtService $blockedCourtService
     ): Response {
         if ($court === null) {
             throw $this->createNotFoundException('Terrain non trouvé');
@@ -161,15 +160,21 @@ class CourtController extends AbstractController
      * @Route("/{court_id}/fermetures-temporaires", name="app_blocked_courts_by_court", methods={"GET"}, requirements={"court_id"="\d+", "id"="\d+"})
      * @ParamConverter("court", options={"id" = "court_id"})
      */
-    public function listBlockedCourts(BlockedCourtRepository $blockedCourtRepository, Court $court = null): Response
-    {
+    public function listBlockedCourts(
+        BlockedCourtRepository $blockedCourtRepository,
+        Court $court = null,
+        BlockedCourtService $blockedCourtService
+    ): Response {
         if ($court === null) {
             throw $this->createNotFoundException('Terrain non trouvé');
         }
         
         return $this->render('court/blocked/blocked_courts_by_court.html.twig', [
             'blockedCourts' => $blockedCourtRepository->findBlockedCourtsByCourt($court->getId()),
-            'court' => $court
+            'court' => $court,
+            'currentBlockedCourts' => $blockedCourtService->currentBlockedCourts(),
+            'futureBlockedCourts' => $blockedCourtService->futureBlockedCourts(),
+            'pastBlockedCourts' => $blockedCourtService->pastBlockedCourts()
         ]);
     }
 
