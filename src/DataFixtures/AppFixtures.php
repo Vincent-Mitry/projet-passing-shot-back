@@ -16,6 +16,7 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use App\DataFixtures\Provider\DateTimeImmutableFaker;
 use App\Entity\Gender;
 use App\Entity\Surface;
+use Faker\Core\File;
 use Proxies\__CG__\App\Entity\Surface as EntitySurface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
@@ -162,24 +163,141 @@ class AppFixtures extends Fixture
         // Courts
         $courtList = [];
 
-        for ($i=1; $i <11 ; $i++) { 
-            $court = new Court();
-            $court->setName('Terrain'.$i)
-                  ->setSurface($faker->randomElement([$clay, $greenset]))
-                  ->setLightning($faker->boolean())
-                  ->setIndoor($faker->boolean())
+        //Court 1
+        $court1 = new Court();
+        $court1->setName('Arthur Ashe')
+                  ->setSurface($clay)
+                  ->setLightning(true)
+                  ->setIndoor(false)
                   ->setStartTime(new DateTime('12:00'))
                   ->setEndTime(new DateTime('20:00'))
                   ->setClub($club)
                   ->setPicture('https://picsum.photos/200/300')
                   ->setDetailedMap('https://picsum.photos/200/300')
-                  ->setSlug('terrain'.$i)
+                  ->setSlug('arthur-ashe')
+                  ->setCreatedAt(new DateTimeImmutable());
+        
+        $courtList[] = $court1;
+        $manager->persist($court1);
+
+        //Court 2
+        $court2 = new Court();
+        $court2->setName('Ken Rosewall')
+                  ->setSurface($clay)
+                  ->setLightning(true)
+                  ->setIndoor(false)
+                  ->setStartTime(new DateTime('12:00'))
+                  ->setEndTime(new DateTime('20:00'))
+                  ->setClub($club)
+                  ->setPicture('https://picsum.photos/200/300')
+                  ->setDetailedMap('https://picsum.photos/200/300')
+                  ->setSlug('ken-rosewall')
+                  ->setCreatedAt(new DateTimeImmutable());
+        
+        $courtList[] = $court2;
+        $manager->persist($court2);
+
+        //Court 3
+        $court3 = new Court();
+        $court3->setName('River Oaks')
+                  ->setSurface($greenset)
+                  ->setLightning(true)
+                  ->setIndoor(false)
+                  ->setStartTime(new DateTime('12:00'))
+                  ->setEndTime(new DateTime('20:00'))
+                  ->setClub($club)
+                  ->setPicture('https://picsum.photos/200/300')
+                  ->setDetailedMap('https://picsum.photos/200/300')
+                  ->setSlug('river-oaks')
                   ->setCreatedAt(new DateTimeImmutable());
 
-            $courtList[] = $court;
-            
-            $manager->persist($court);
-        }
+        $courtList[] = $court3;
+        $manager->persist($court3);
+
+        //Court 4
+        $court4 = new Court();
+        $court4->setName('Olimpiisky')
+                  ->setSurface($greenset)
+                  ->setLightning(true)
+                  ->setIndoor(true)
+                  ->setStartTime(new DateTime('12:00'))
+                  ->setEndTime(new DateTime('20:00'))
+                  ->setClub($club)
+                  ->setPicture('https://picsum.photos/200/300')
+                  ->setDetailedMap('https://picsum.photos/200/300')
+                  ->setSlug('olimpiisky')
+                  ->setCreatedAt(new DateTimeImmutable());
+        
+        $courtList[] = $court4;
+        $manager->persist($court4);
+
+        //Court 5
+        $court5 = new Court();
+        $court5->setName('Suzanne Lenglen')
+                  ->setSurface($clay)
+                  ->setLightning(true)
+                  ->setIndoor(true)
+                  ->setStartTime(new DateTime('12:00'))
+                  ->setEndTime(new DateTime('20:00'))
+                  ->setClub($club)
+                  ->setPicture('https://picsum.photos/200/300')
+                  ->setDetailedMap('https://picsum.photos/200/300')
+                  ->setSlug('suzanne-lenglen')
+                  ->setCreatedAt(new DateTimeImmutable());
+        
+        $courtList[] = $court5;                  
+        $manager->persist($court5);
+
+        //Court 6
+        $court6 = new Court();
+        $court6->setName('Weissenhof')
+                  ->setSurface($greenset)
+                  ->setLightning(false)
+                  ->setIndoor(false)
+                  ->setStartTime(new DateTime('12:00'))
+                  ->setEndTime(new DateTime('20:00'))
+                  ->setClub($club)
+                  ->setPicture('https://picsum.photos/200/300')
+                  ->setDetailedMap('https://picsum.photos/200/300')
+                  ->setSlug('weissenhof')
+                  ->setCreatedAt(new DateTimeImmutable());
+        
+        $courtList[] = $court6;
+        $manager->persist($court6);
+
+        //Court 7
+        $court7 = new Court();
+        $court7->setName('Rod Laver')
+                  ->setSurface($greenset)
+                  ->setLightning(false)
+                  ->setIndoor(false)
+                  ->setStartTime(new DateTime('12:00'))
+                  ->setEndTime(new DateTime('20:00'))
+                  ->setClub($club)
+                  ->setPicture('https://picsum.photos/200/300')
+                  ->setDetailedMap('https://picsum.photos/200/300')
+                  ->setSlug('rod-laver')
+                  ->setCreatedAt(new DateTimeImmutable());
+        
+        $courtList[] = $court7;
+        $manager->persist($court7);
+
+        //Court 8
+        $court8 = new Court();
+        $court8->setName('Philippe Chatrier')
+                  ->setSurface($clay)
+                  ->setLightning(false)
+                  ->setIndoor(false)
+                  ->setStartTime(new DateTime('12:00'))
+                  ->setEndTime(new DateTime('20:00'))
+                  ->setClub($club)
+                  ->setPicture('https://picsum.photos/200/300')
+                  ->setDetailedMap('https://picsum.photos/200/300')
+                  ->setSlug('philippe-chatrier')
+                  ->setCreatedAt(new DateTimeImmutable());
+        
+        $courtList[] = $court8;
+        $manager->persist($court8);
 
         // Reservation
         for ($i=1; $i < 21 ; $i++) { 
