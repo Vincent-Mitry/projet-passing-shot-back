@@ -37,6 +37,8 @@ class ReservationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $reservation->setStatus(true);
+
             $reservationRepository->add($reservation, true);
 
             $this->addFlash('success', 'Réservation pour '. $reservation->getId() . ' ajouté !');
@@ -84,23 +86,18 @@ class ReservationController extends AbstractController
     }
 
     /**
+     * 
+     * 
      * @Route("/{id}/suppression", name="app_reservation_deactivate", methods={"GET", "PATCH"})
      */
     public function deactivate(Request $request, Reservation $reservation, ReservationRepository $reservationRepository, ManagerRegistry $doctrine): Response
-    {
-          
-            $status = $reservation->setStatus(false);
+    {   
+        $status = $reservation->setStatus(false);
 
+        $reservationRepository->add($status, true);
 
-            $reservationRepository->add($status, true);
-
-            
-            
-            $this->addFlash('warning', 'La réservation numéro ' . $reservation->getId() . ' a été supprimé!');
+        $this->addFlash('warning', 'La réservation numéro ' . $reservation->getId() . ' a été annulée!');
         
-
         return $this->redirectToRoute('app_reservation', [], Response::HTTP_SEE_OTHER);
-    }
-
-   
+    }   
 }

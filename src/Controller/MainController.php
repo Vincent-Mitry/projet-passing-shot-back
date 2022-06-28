@@ -24,21 +24,14 @@ class MainController extends AbstractController
     Timeslots $timeslots,
     Request $request): Response
     {
-      
-        $test = $timeslots->getAllAvailabletimeslots(date('y/m/d'));
-
-     
-        
+        $test = $timeslots->getAllAvailabletimeslots(date('Y-m-d'));
 
         return $this->render('main/index.html.twig', [
             'clubs' => $clubRepository->findLastThree(),
             'reservations' => $reservationRepository->findLastThree(),
             'courts' => $courtRepository->findLastThree(),
             'users' => $userRepository->findLastThree(),
-            'timeslots' => $timeslots->getAllAvailabletimeslots(date('y/m/d')),         
-           
-            
-
+            'timeslots' => $timeslots->getAllAvailabletimeslots(date('Y-m-d')),         
         ]);
     }
 }

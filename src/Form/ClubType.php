@@ -59,7 +59,6 @@ class ClubType extends AbstractType
                 'placeholder' => '--- Sélectionner le propriétaire ---',
                 'label' => 'Propriétaire',
                 'class' => User::class,
-                'choice_label' => 'email',
                 'multiple' => false,
                 'expanded' => false,
                 'query_builder' => function (EntityRepository $pr) {
