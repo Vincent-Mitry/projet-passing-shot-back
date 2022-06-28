@@ -59,6 +59,15 @@
                     <tr>
                         <th class="">Rôle</th>
                         <td>{{ user.roles ? user.roles|json_encode : '-' }}</td>
+                        <td>
+                            {% for role in user.roles %}
+                                {% if loop.first %}   
+                                    <span>{{ role }}</span>
+                                {% else %}
+                                    <span>, {{ role }}</span>
+                                {% endif %}
+                            {% endfor %}
+                        </td>
                     </tr>
                     <tr>
                         <th class="">Date de création</th>

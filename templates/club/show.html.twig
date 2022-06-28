@@ -6,10 +6,11 @@
 <div class="container-fluid">
 	<div class=" d-flex justify-content-between">
 		<a href="{{ path('app_club') }}" class="btn m-3" style="color: white; background-color: #EA5C0A; border-color: white;">Retour</a>
-		<div class="d-flex justify-content-center">
+		{% if is_granted('ROLE_SUPER_ADMIN') %} <div class="d-flex justify-content-center">
 			<a href="{{ path('app_club_edit', {'id': club.id}) }}" class="btn btn-warning m-3">Modifier</a>
 			{{ include('club/_delete_form.html.twig') }}
 		</div>
+		{% endif %}
 	</div>
 	<div class="card shadow">
 		<div class="card-header py-3">
