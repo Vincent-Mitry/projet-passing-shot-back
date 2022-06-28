@@ -55,7 +55,7 @@ class BlockedCourtService
      *
      * @return array|null
      */
-    public function currentBlockedCourts(): ?array
+    public function currentCourtsListBlocked(): ?array
     {
         $now = new DateTimeImmutable('now');
         $blockedCourtsList = $this->blockedCourtRepository->getCurrentBlockedCourts($now);
@@ -76,13 +76,39 @@ class BlockedCourtService
         return $currentCourtsBlocked;
     }
 
-    public function willBeBlocked()
+    public function currentBlockedCourts()
     {
+        $now = new DateTimeImmutable('now');
+        $currentBlockedCourts = $this->blockedCourtRepository->getCurrentBlockedCourts($now);
+
+        if(empty($currentBlockedCourts)) {
+            return null;
+        }
         
+        return$currentBlockedCourts;
+    }
+    
+    public function futureBlockedCourts()
+    {
+        $now = new DateTimeImmutable('now');
+        $currentBlockedCourts = $this->blockedCourtRepository->getFutureBlockedCourts($now);
+
+        if(empty($currentBlockedCourts)) {
+            return null;
+        }
+        
+        return$currentBlockedCourts;
     }
 
-    public function wasBlocked()
+    public function pastBlockedCourts()
     {
+        $now = new DateTimeImmutable('now');
+        $currentBlockedCourts = $this->blockedCourtRepository->getPastBlockedCourts($now);
+
+        if(empty($currentBlockedCourts)) {
+            return null;
+        }
         
+        return$currentBlockedCourts;
     }
 }

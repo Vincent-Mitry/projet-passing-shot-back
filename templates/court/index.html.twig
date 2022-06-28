@@ -42,16 +42,13 @@
                                 <th>Note</th>
                                 <th>Date de rénovation</th>
                                 <th>Fermetures temporaires</th>
-                                {% if currentBlockedCourts is not null %}
+                                {% if currentCourtsListBlocked is not null %}
                                     <th>Terrain Fermé</th>
                                 {% endif %}
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                        <pre>
-                            {{ dump(currentBlockedCourts) }}
-                        </pre>
                         {% for court in courts %}
                             <tr>
                                 <td>{{ court.id }}</td>
@@ -72,9 +69,9 @@
                                 <td>{{ court.ratingAvg ? court.ratingAvg : '-' }}</td>
                                 <td>{{ court.renovatedAt ? court.renovatedAt|date('d-m-Y') : '-' }}</td>
                                 <td><a href="{{ path('app_blocked_courts_by_court', {'court_id': court.id})}}" class="btn btn-sm" style="color: white; background-color: #EA5C0A; border-color: white;">Voir la liste</a></td>
-                                {% if currentBlockedCourts is not null %}
-                                    {% if court in currentBlockedCourts %}
-                                        <td><span class="badge bg-danger mb-0">Fermé</span></td>
+                                {% if currentCourtsListBlocked is not null %}
+                                    {% if court in currentCourtsListBlocked %}
+                                        <td><span class="badge mb-0" style="color: white; background-color: #A82300; border-color: white;">Fermé</span></td>
                                     {% else %}
                                         <td>-</td>
                                     {% endif %}

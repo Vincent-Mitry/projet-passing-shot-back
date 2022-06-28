@@ -73,6 +73,26 @@ class BlockedCourtRepository extends ServiceEntityRepository
         ;
     }
 
+    public function getPastBlockedCourts($now)
+    {
+        return $this->createQueryBuilder('b')
+            ->where('b.endDatetime < :now')
+            ->setParameter('now', $now)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function getFutureBlockedCourts($now)
+    {
+        return $this->createQueryBuilder('b')
+            ->where(':now < b.startDatetime')
+            ->setParameter('now', $now)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
 //    /**
 //     * @return BlockedCourt[] Returns an array of BlockedCourt objects
 //     */
