@@ -5,10 +5,12 @@
 
 {% block body %}
 	<div class="container-fluid">
-		<div class=" d-flex justify-content-center">
+		<div class=" d-flex justify-content-between">
 			<a href="{{ path('app_reservation') }}" class="btn btn-warning m-3">Retour</a>
+			 <div class=" d-flex justify-content-center">
 			<a href="{{ path('app_reservation_edit', {'id': reservation.id}) }}" class="btn btn-warning m-3">Modifier</a>
-			<a href="{{ path('app_reservation_deactivate', {'id': reservation.id})}}" class="btn btn-warning m-3">Supprimer</a>
+			<a href="{{ path('app_reservation_deactivate', {'id': reservation.id})}}" class="btn btn-danger m-3">Supprimer</a>
+		</div>
 		</div>
 		<div class="card shadow">
 			<div class="card-header py-3">
@@ -41,8 +43,8 @@
 							</tr>
 							<tr>
 								<th>Status</th>
-								<td>
-									{% if reservation.status == 1 %}Actif{% else %}Inactif
+								
+									{% if reservation.status == 1 %}<td style="color:green">Actif</td>{% else %}<td style="color:red">Inactif
 									{% endif %}
 								</td>
 							</tr>
@@ -50,15 +52,7 @@
 								<th>Nombre de joueur</th>
 								<td>{{ reservation.countPlayers}}</td>
 							</tr>
-							{# <tr>
-							                <th>Nom des autres joueurs</th>
-							                <td>{% if reservation.user.player2Id == null %}Invité {% else %}
-							                    {{reservation.user.player2Id}} {% endif %}</td>
-							                    <td>{% if reservation.countPlayers == 4 and reservation.player3Id.user == null %}Invité {% else %}
-							                    {{reservation.player3Id}} {% endif %}</td>
-							                    <td>{% if reservation.countPlayers == 4 and reservation.player4Id == null %}Invité {% else %}
-							                    {{reservation.player4Id}} {% endif %}</td>
-							            </tr> #}
+							
 							<th>Notation du terrain</th>
 							<td>
 								{% if reservation.court.ratingAvg == null %}

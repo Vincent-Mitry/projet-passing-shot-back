@@ -26,6 +26,7 @@ class ReservationType extends AbstractType
             'input' => 'datetime_immutable',
             'label' => 'Date et heure de début',
             'years' => range(date('Y'), date('Y')+1),
+            'attr' => ['class' => 'col-4']
             ],
             
         )
@@ -34,9 +35,9 @@ class ReservationType extends AbstractType
             'input' => 'datetime_immutable',
             'label' => 'Date et heure de fin',
             'years' => range(date('Y'), date('Y')+1),
-            ],
+            'attr' => ['class' => 'col-4']
             
-        )
+        ])
             ->add('status', ChoiceType::class, [
                 'choices' => [
                     'Inactif' => 0,
@@ -44,7 +45,8 @@ class ReservationType extends AbstractType
                 ],
                 'placeholder' => 'Status de la réservation',
                 'label' => false,
-                'help' => 'choisir dans les choix suivants'
+                'help' => 'choisir dans les choix suivants',
+               
             ])
             
             ->add('countPlayers', ChoiceType::class, [
@@ -54,7 +56,8 @@ class ReservationType extends AbstractType
                 ],
                 'placeholder' => 'Nombre de joueurs',
                 'label' => false,
-                'help' => 'choisir dans les choix suivants'
+                'help' => 'choisir dans les choix suivants',
+               
             ])
 
             ->add('court', EntityType::class, [
