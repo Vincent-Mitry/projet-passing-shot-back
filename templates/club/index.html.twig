@@ -4,9 +4,10 @@
 
 {% block body %}
 <div class="container-fluid">
-	<div class=" d-flex justify-content-center">
-		<a href="{{ path('app_club_new') }}" class="btn btn-warning m-3">Ajouter un nouveau club</a>
+	{% if is_granted('ROLE_SUPER_ADMIN') %}<div class=" d-flex justify-content-center">
+		 <a href="{{ path('app_club_new') }}" class="btn btn-warning m-3">Ajouter un nouveau club</a>
 	</div>
+	{% endif %}
 	<div class="card shadow">
 		<div class="card-header py-3">
 			<p class="text-danger m-0 fw-bold text-center">Liste des clubs</p>
@@ -52,8 +53,8 @@
 							<td>{{ club.user.firstname|default('-') }}
 								{{ club.user.lastname|default('-') }}</td>
 							<td>
-								<a href="{{ path('app_club_show', {'id': club.id})}}" class="btn btn-sm" style="color: white; background-color: #EA5C0A; border-color: white;"><i class="bi bi-search"></i></a>
-								<a href="{{ path('app_club_edit', {'id': club.id})}}" class="btn btn-sm btn-success" style="color: white; background-color: #FFCA2C; border-color: white;"><i class="bi bi-pencil-square"></i></a>
+								 <a href="{{ path('app_club_show', {'id': club.id})}}" class="btn btn-sm" style="color: white; background-color: #EA5C0A; border-color: white;"><i class="bi bi-search"></i></a> 
+								{% if is_granted('ROLE_SUPER_ADMIN') %}<a href="{{ path('app_club_edit', {'id': club.id})}}" class="btn btn-sm btn-success" style="color: white; background-color: #FFCA2C; border-color: white;"><i class="bi bi-pencil-square"></i></a>{% endif %}
 							</td>
 						</tr>
 					{% endfor %}

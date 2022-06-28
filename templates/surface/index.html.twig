@@ -4,9 +4,10 @@
 
 {% block body %}
 <div class="container-fluid">
+{% if is_granted('ROLE_SUPER_ADMIN') %}
 	<div class=" d-flex justify-content-center">
-		<a href="{{ path('app_surface_new') }}" class="btn btn-warning m-3">Ajouter une surface</a>
-	</div>
+		<a href="{{ path('app_surface_new') }}" class="btn btn-warning m-3">Ajouter une surface</a> 
+	</div>{% endif %}
 	<div class="card shadow">
 		<div class="card-header py-3">
 			<p class="text-danger m-0 fw-bold text-center">Details sur les surfaces</p>
@@ -48,8 +49,8 @@
 									<a href="{{ path('app_surface_show', {'id': surface.id})}}" class="btn btn-sm" style="color: white; background-color: #EA5C0A; border-color: white;">
 										<i class="bi bi-search"></i>
 									</a>
-									<a href="{{ path('app_surface_edit', {'id': surface.id})}}" class="btn btn-sm" style="color: white; background-color: #FFCA2C; border-color: white;">
-										<i class="bi bi-pencil-square"></i>
+									{% if is_granted('ROLE_SUPER_ADMIN') %} <a href="{{ path('app_surface_edit', {'id': surface.id})}}" class="btn btn-sm" style="color: white; background-color: #FFCA2C; border-color: white;">
+										<i class="bi bi-pencil-square"></i> {% endif %}
 									</a>
 								</td>
 							</tr>
