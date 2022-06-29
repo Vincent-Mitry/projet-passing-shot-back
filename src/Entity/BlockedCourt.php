@@ -90,7 +90,7 @@ class BlockedCourt
         return $this->startDatetime;
     }
 
-    public function setStartDatetime(\DateTimeInterface $startDatetime): self
+    public function setStartDatetime(?\DateTimeInterface $startDatetime): self
     {
         $this->startDatetime = $startDatetime;
 
@@ -102,7 +102,7 @@ class BlockedCourt
         return $this->endDatetime;
     }
 
-    public function setEndDatetime(\DateTimeInterface $endDatetime): self
+    public function setEndDatetime(?\DateTimeInterface $endDatetime): self
     {
         $this->endDatetime = $endDatetime;
 
@@ -114,7 +114,7 @@ class BlockedCourt
         return $this->blockedReason;
     }
 
-    public function setBlockedReason(string $blockedReason): self
+    public function setBlockedReason(?string $blockedReason): self
     {
         $this->blockedReason = $blockedReason;
 
@@ -126,7 +126,7 @@ class BlockedCourt
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): self
+    public function setCreatedAt(?\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
 

@@ -179,7 +179,7 @@ class Reservation
         return $this->startDatetime;
     }
 
-    public function setStartDatetime(\DateTimeImmutable $startDatetime): self
+    public function setStartDatetime(?\DateTimeImmutable $startDatetime): self
     {
         $this->startDatetime = $startDatetime;
 
@@ -191,7 +191,7 @@ class Reservation
         return $this->endDatetime;
     }
 
-    public function setEndDatetime(\DateTimeImmutable $endDatetime): self
+    public function setEndDatetime(?\DateTimeImmutable $endDatetime): self
     {
         $this->endDatetime = $endDatetime;
 
@@ -203,7 +203,7 @@ class Reservation
         return $this->status;
     }
 
-    public function setStatus(int $status): self
+    public function setStatus(?int $status): self
     {
         $this->status = $status;
 
@@ -239,7 +239,7 @@ class Reservation
         return $this->countPlayers;
     }
 
-    public function setCountPlayers(int $countPlayers): self
+    public function setCountPlayers(?int $countPlayers): self
     {
         $this->countPlayers = $countPlayers;
 
@@ -251,7 +251,7 @@ class Reservation
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): self
+    public function setCreatedAt(?\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
 

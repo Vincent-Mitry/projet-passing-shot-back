@@ -25,6 +25,9 @@ class GenderType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Gender::class,
+            'attr' => [
+                'novalidate' => 'novalidate'
+            ],
         ]);
     }
 }
