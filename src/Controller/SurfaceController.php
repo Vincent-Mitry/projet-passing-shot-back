@@ -53,7 +53,7 @@ class SurfaceController extends AbstractController
     public function show(Surface $surface = null): Response
     {
         if ($surface === null) {
-            throw $this->createNotFoundException('Pas de surface trouvée');
+            throw $this->createNotFoundException('la surface demandée est introuvable');
         }
         return $this->render('surface/show.html.twig', [
             'surface' => $surface,
@@ -66,7 +66,7 @@ class SurfaceController extends AbstractController
     public function edit(Request $request, Surface $surface = null, SurfaceRepository $surfaceRepository): Response
     {
         if ($surface === null) {
-            throw $this->createNotFoundException('Pas de surface trouvée');
+            throw $this->createNotFoundException('la surface demandée est introuvable');
         }
 
         $form = $this->createForm(SurfaceType::class, $surface);
@@ -90,7 +90,7 @@ class SurfaceController extends AbstractController
     public function delete(Request $request, Surface $surface = null, SurfaceRepository $surfaceRepository): Response
     {
         if ($surface === null) {
-            throw $this->createNotFoundException('Pas de surface trouvée');
+            throw $this->createNotFoundException('la surface demandée est introuvable');
         }
 
         if ($this->isCsrfTokenValid('delete' . $surface->getId(), $request->request->get('_token'))) {

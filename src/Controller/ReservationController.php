@@ -64,7 +64,7 @@ class ReservationController extends AbstractController
     public function show(Reservation $reservation = null): Response
     {
         if ($reservation === null) {
-            throw $this->createNotFoundException('Réservation introuvable');
+            throw $this->createNotFoundException('réservation introuvable');
         }
         return $this->render('reservation/show.html.twig', [
             'reservation' => $reservation,
@@ -77,7 +77,7 @@ class ReservationController extends AbstractController
     public function edit(Request $request, Reservation $reservation = null, ReservationRepository $reservationRepository): Response
     {
         if ($reservation === null) {
-            throw $this->createNotFoundException('Réservation introuvable');
+            throw $this->createNotFoundException('réservation introuvable');
         }
         $form = $this->createForm(ReservationType::class, $reservation);
         $form->handleRequest($request);
@@ -104,7 +104,7 @@ class ReservationController extends AbstractController
     public function deactivate(Reservation $reservation = null, ReservationRepository $reservationRepository): Response
     {
         if ($reservation === null) {
-            throw $this->createNotFoundException('Réservation introuvable');
+            throw $this->createNotFoundException('réservation introuvable');
         }
         $status = $reservation->setStatus(false);
 

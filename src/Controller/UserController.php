@@ -70,7 +70,7 @@ class UserController extends AbstractController
     public function showMember(User $user = null): Response
     {
         if ($user === null) {
-            throw $this->createNotFoundException('Ce membre est introuvable');
+            throw $this->createNotFoundException('ce membre est introuvable');
         }
         return $this->render('user/member/show.html.twig', [
             'user' => $user,
@@ -83,7 +83,7 @@ class UserController extends AbstractController
     public function editMember(Request $request, User $user = null, UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher): Response
     {
         if ($user === null) {
-            throw $this->createNotFoundException('Ce membre est introuvable');
+            throw $this->createNotFoundException('ce membre est introuvable');
         }
 
         $form = $this->createForm(UserType::class, $user);
@@ -120,7 +120,7 @@ class UserController extends AbstractController
     public function deleteMember(Request $request, User $user = null, UserRepository $userRepository): Response
     {
         if ($user === null) {
-            throw $this->createNotFoundException('Ce membre est introuvable');
+            throw $this->createNotFoundException('ce membre est introuvable');
         }
 
         if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->request->get('_token'))) {
@@ -179,7 +179,7 @@ class UserController extends AbstractController
     public function showBackOffice(User $user = null): Response
     {
         if ($user === null) {
-            throw $this->createNotFoundException('Cet utilisateur est introuvable');
+            throw $this->createNotFoundException('cet utilisateur est introuvable');
         }
 
         return $this->render('user/back-office/show.html.twig', [
@@ -193,7 +193,7 @@ class UserController extends AbstractController
     public function editBackOffice(Request $request, User $user = null , UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher): Response
     {
         if ($user === null) {
-            throw $this->createNotFoundException('Cet utilisateur est introuvable');
+            throw $this->createNotFoundException('cet utilisateur est introuvable');
         }
 
         $form = $this->createForm(UserType::class, $user);
@@ -230,7 +230,7 @@ class UserController extends AbstractController
     public function deleteBackOffice(Request $request, User $user = null, UserRepository $userRepository): Response
     {
         if ($user === null) {
-            throw $this->createNotFoundException('Cet utilisateur est introuvable');
+            throw $this->createNotFoundException('cet utilisateur est introuvable');
         }
 
         if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->request->get('_token'))) {

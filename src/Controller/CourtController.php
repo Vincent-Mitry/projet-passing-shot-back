@@ -65,7 +65,7 @@ class CourtController extends AbstractController
     public function show(Court $court = null, BlockedCourtService $blockedCourtService): Response
     {
         if ($court === null) {
-            throw $this->createNotFoundException('Terrain introuvable');
+            throw $this->createNotFoundException('terrain introuvable');
         }
 
         return $this->render('court/show.html.twig', [
@@ -79,7 +79,7 @@ class CourtController extends AbstractController
     public function edit(Request $request, Court $court = null, CourtRepository $courtRepository, ClubRepository $clubRepository): Response
     {
         if ($court === null) {
-            throw $this->createNotFoundException('Terrain introuvable');
+            throw $this->createNotFoundException('terrain introuvable');
         }
 
         $form = $this->createForm(CourtType::class, $court);
@@ -106,7 +106,7 @@ class CourtController extends AbstractController
     public function delete(Request $request, Court $court = null, CourtRepository $courtRepository): Response
     {
         if ($court === null) {
-            throw $this->createNotFoundException('Terrain introuvable');
+            throw $this->createNotFoundException('terrain introuvable');
         }
         if ($this->isCsrfTokenValid('delete' . $court->getId(), $request->request->get('_token'))) {
             $courtRepository->remove($court, true);
@@ -132,7 +132,7 @@ class CourtController extends AbstractController
         BlockedCourtService $blockedCourtService
     ): Response {
         if ($court === null) {
-            throw $this->createNotFoundException('Terrain introuvable');
+            throw $this->createNotFoundException('terrain introuvable');
         }
 
         $blockedCourt = new BlockedCourt();
@@ -176,7 +176,7 @@ class CourtController extends AbstractController
         BlockedCourtService $blockedCourtService
     ): Response {
         if ($court === null) {
-            throw $this->createNotFoundException('Terrain introuvable');
+            throw $this->createNotFoundException('terrain introuvable');
         }
 
         return $this->render('court/blocked/blocked_courts_by_court.html.twig', [
@@ -196,7 +196,7 @@ class CourtController extends AbstractController
     public function showBlocked(Court $court = null, BlockedCourt $blockedCourt = null): Response
     {
         if ($court === null) {
-            throw $this->createNotFoundException('Terrain introuvable');
+            throw $this->createNotFoundException('terrain introuvable');
         }
 
         if ($blockedCourt === null) {
@@ -221,7 +221,7 @@ class CourtController extends AbstractController
         BlockedCourtRepository $blockedCourtRepository
     ): Response {
         if ($court === null) {
-            throw $this->createNotFoundException('Terrain introuvable');
+            throw $this->createNotFoundException('terrain introuvable');
         }
 
         if ($blockedCourt === null) {

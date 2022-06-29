@@ -54,7 +54,7 @@ class GenderController extends AbstractController
     public function show(Gender $gender = null): Response
     {
         if ($gender === null) {
-            throw $this->createNotFoundException('Genre non trouvé');
+            throw $this->createNotFoundException('genre non trouvé');
         }
         return $this->render('gender/show.html.twig', [
             'gender' => $gender,
@@ -67,7 +67,7 @@ class GenderController extends AbstractController
     public function edit(Request $request, Gender $gender = null, GenderRepository $genderRepository): Response
     {
         if ($gender === null) {
-            throw $this->createNotFoundException('Genre non trouvé');
+            throw $this->createNotFoundException('genre non trouvé');
         }
         $form = $this->createForm(GenderType::class, $gender);
         $form->handleRequest($request);
@@ -92,7 +92,7 @@ class GenderController extends AbstractController
     public function delete(Request $request, Gender $gender = null, GenderRepository $genderRepository): Response
     {
         if ($gender === null) {
-            throw $this->createNotFoundException('Genre non trouvé');
+            throw $this->createNotFoundException('genre non trouvé');
         }
         if ($this->isCsrfTokenValid('delete' . $gender->getId(), $request->request->get('_token'))) {
             $genderRepository->remove($gender, true);
