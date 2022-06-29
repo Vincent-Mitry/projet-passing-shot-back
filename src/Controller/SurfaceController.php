@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 /**
  * @Route("/surface")
@@ -16,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class SurfaceController extends AbstractController
 {
     /**
-     * @Route("/", name="app_surface", methods={"GET"})
+     * @Route("", name="app_surface", methods={"GET"})
      */
     public function index(SurfaceRepository $surfaceRepository): Response
     {
@@ -26,7 +27,7 @@ class SurfaceController extends AbstractController
     }
 
     /**
-     * @Route("/ajout", name="app_surface_new", methods={"GET", "POST"})
+     * @Route("/ajout", name="app_surface_new", methods={"GET", "POST"}, requirements={"id"="\d+"})
      */
     public function new(Request $request, SurfaceRepository $surfaceRepository): Response
     {
@@ -47,9 +48,9 @@ class SurfaceController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="app_surface_show", methods={"GET"})
+     * @Route("/{id}", name="app_surface_show", methods={"GET"}, requirements={"id"="\d+"})
      */
-    public function show(Surface $surface): Response
+    public function show(Surface $surface = null): Response
     {
         if ($surface === null) {
             throw $this->createNotFoundException('Pas de surface trouvée');
@@ -62,7 +63,7 @@ class SurfaceController extends AbstractController
     /**
      * @Route("/{id}/modification", name="app_surface_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, Surface $surface, SurfaceRepository $surfaceRepository): Response
+    public function edit(Request $request, Surface $surface = null, SurfaceRepository $surfaceRepository): Response
     {
         if ($surface === null) {
             throw $this->createNotFoundException('Pas de surface trouvée');
@@ -86,7 +87,7 @@ class SurfaceController extends AbstractController
     /**
      * @Route("/{id}", name="app_surface_delete", methods={"POST"})
      */
-    public function delete(Request $request, Surface $surface, SurfaceRepository $surfaceRepository): Response
+    public function delete(Request $request, Surface $surface = null, SurfaceRepository $surfaceRepository): Response
     {
         if ($surface === null) {
             throw $this->createNotFoundException('Pas de surface trouvée');

@@ -51,7 +51,7 @@ class GenderController extends AbstractController
     /**
      * @Route("/{id}", name="app_gender_show", methods={"GET"})
      */
-    public function show(Gender $gender): Response
+    public function show(Gender $gender = null): Response
     {
         if ($gender === null) {
             throw $this->createNotFoundException('Genre non trouvé');
@@ -64,7 +64,7 @@ class GenderController extends AbstractController
     /**
      * @Route("/{id}/modification", name="app_gender_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, Gender $gender, GenderRepository $genderRepository): Response
+    public function edit(Request $request, Gender $gender = null, GenderRepository $genderRepository): Response
     {
         if ($gender === null) {
             throw $this->createNotFoundException('Genre non trouvé');
@@ -89,7 +89,7 @@ class GenderController extends AbstractController
     /**
      * @Route("/{id}", name="app_gender_delete", methods={"POST"})
      */
-    public function delete(Request $request, Gender $gender, GenderRepository $genderRepository): Response
+    public function delete(Request $request, Gender $gender = null, GenderRepository $genderRepository): Response
     {
         if ($gender === null) {
             throw $this->createNotFoundException('Genre non trouvé');

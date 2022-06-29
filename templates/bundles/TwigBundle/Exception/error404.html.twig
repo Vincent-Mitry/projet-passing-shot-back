@@ -1,13 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Page non trouvée!
-{% endblock %}
+{% block title %}Page non trouvée !{% endblock %}
 
 {% block body %}
 
 	<div class="container">
-		<img class="notFound" src="{{ asset('images/404-BackOffice.png') }}" width="950" height="800" alt="404 BO">
-		<h3>{{ exception.message }}</h3>
-	</div>
+		<h2 class="text-center out">Malheureusement : {{ exception.message }}</h2>
+		<img class="notFound" src="{{ asset('images/404-BackOffice.png') }}" width="1200" height="700" alt="404 BO">
 
+	</div>
 {% endblock %}

@@ -67,7 +67,7 @@ class UserController extends AbstractController
     /**
      * @Route("/membres/{id}", name="app_user_member_show", methods={"GET"}, requirements={"id"="\d+"})
      */
-    public function showMember(User $user): Response
+    public function showMember(User $user = null): Response
     {
         if ($user === null) {
             throw $this->createNotFoundException('Ce membre est introuvable');
@@ -80,7 +80,7 @@ class UserController extends AbstractController
     /**
      * @Route("/membres/{id}/modification", name="app_user_member_edit", methods={"GET", "POST"})
      */
-    public function editMember(Request $request, User $user, UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher): Response
+    public function editMember(Request $request, User $user = null, UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher): Response
     {
         if ($user === null) {
             throw $this->createNotFoundException('Ce membre est introuvable');
@@ -117,7 +117,7 @@ class UserController extends AbstractController
     /**
      * @Route("/membres/{id}", name="app_user_member_delete", methods={"POST"})
      */
-    public function deleteMember(Request $request, User $user, UserRepository $userRepository): Response
+    public function deleteMember(Request $request, User $user = null, UserRepository $userRepository): Response
     {
         if ($user === null) {
             throw $this->createNotFoundException('Ce membre est introuvable');
@@ -176,7 +176,7 @@ class UserController extends AbstractController
     /**
      * @Route("/back-office/{id}", name="app_user_back-office_show", methods={"GET"}, requirements={"id"="\d+"})
      */
-    public function showBackOffice(User $user): Response
+    public function showBackOffice(User $user = null): Response
     {
         if ($user === null) {
             throw $this->createNotFoundException('Cet utilisateur est introuvable');
@@ -190,7 +190,7 @@ class UserController extends AbstractController
     /**
      * @Route("/back-office/{id}/modification", name="app_user_back-office_edit", methods={"GET", "POST"})
      */
-    public function editBackOffice(Request $request, User $user, UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher): Response
+    public function editBackOffice(Request $request, User $user = null , UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher): Response
     {
         if ($user === null) {
             throw $this->createNotFoundException('Cet utilisateur est introuvable');
@@ -227,7 +227,7 @@ class UserController extends AbstractController
     /**
      * @Route("/back-office/{id}", name="app_user_back-office_delete", methods={"POST"})
      */
-    public function deleteBackOffice(Request $request, User $user, UserRepository $userRepository): Response
+    public function deleteBackOffice(Request $request, User $user = null, UserRepository $userRepository): Response
     {
         if ($user === null) {
             throw $this->createNotFoundException('Cet utilisateur est introuvable');
