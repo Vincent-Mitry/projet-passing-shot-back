@@ -6,7 +6,7 @@
     <h3 style="color: #C23D12;">
         Bonjour {{ reservation.user.firstname }}, </h3>
     <h3>    
-        Nous regrettons de vous informer que votre réservation du {{ reservation.startDatetime|date('d/m/Y') }} est annulée.
+        Nous regrettons de vous informer que votre réservation du <span style="color: #C23D12;">{{ reservation.startDatetime|date('d/m/Y') }}</span> est annulée.
     </h3>
 
     <p> <span style="color: #C23D12;">La raison : </span>{{ blockedCourt.blockedReason }}</p>
@@ -19,10 +19,8 @@
 
     <p>
         Nous tenons à nous excuser pour ce désagrément.<br>
-        Nous vous invitons à <a href="http://localhost:8080/reserver-un-terrain">réserver un autre terrain</a>.
+        Nous vous invitons à <a href="http://localhost:8080/reserver-un-terrain">réserver un autre terrain</a> ou à contacter l'accueil au 0606060606 pour plus de détails.
     </p>
-
-    <br>
 
     <p>
         Cordialement, <br>
