@@ -2,19 +2,13 @@
 
 namespace App\Controller\Api\V1;
 
-use Twig\Environment;
 use App\Entity\Contact;
 use App\Service\Api\ApiProblem;
-use Symfony\Component\Mime\Address;
-use Symfony\Component\Mailer\Mailer;
 use App\Repository\ContactRepository;
-use Symfony\Component\Mailer\Transport;
 use App\Service\Api\ApiConstraintErrors;
 use App\Service\Api\ApiProblemException;
 use App\Service\SendEmail;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Bridge\Twig\Mime\BodyRenderer;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
