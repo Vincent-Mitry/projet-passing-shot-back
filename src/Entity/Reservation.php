@@ -32,6 +32,7 @@ class Reservation
      * @ORM\Column(type="datetime_immutable")
      * @Assert\Type("\DateTimeInterface")
      * @Assert\NotNull(message="Veuillez sélectionner un horaire de début pour la réservation.")
+     * @Assert\GreaterThanOrEqual("now")
      * 
      * @Groups({"reservations_get_item"})
      * @Groups({"reservations_put_item"})
@@ -44,6 +45,10 @@ class Reservation
      * @ORM\Column(type="datetime_immutable")
      * @Assert\Type("\DateTimeInterface")
      * @Assert\NotNull(message="Veuillez sélectionner un horaire de fin pour la réservation.")
+     * @Assert\GreaterThan(
+     *  propertyPath = "startDatetime",
+     *  message = "La date et heure de fin doit être supérieure à celle de début."
+     * )
      * 
      * @Groups({"reservations_get_item"})
      * @Groups({"reservations_put_item"})
