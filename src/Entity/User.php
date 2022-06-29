@@ -161,7 +161,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\ManyToOne(targetEntity=Gender::class, inversedBy="users")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(onDelete="SET NULL", nullable=true)
      * @Assert\NotNull(message = "Veuillez sélectionner un genre.")
      * 
      * @Groups ({"user_list", "user_detail", "user_update"})
