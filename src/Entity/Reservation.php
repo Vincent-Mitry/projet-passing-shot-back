@@ -163,7 +163,11 @@ class Reservation
      * @Groups({"past_user_reservations"})
      */
     private $player4;
-
+    
+    public function __construct()
+    {
+        $this->setStatus(true);
+    }
     
     public function getId(): ?int
     {
