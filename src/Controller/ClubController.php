@@ -34,9 +34,9 @@ class ClubController extends AbstractController
         $club = new Club();
         $form = $this->createForm(ClubType::class, $club);
         $form->handleRequest($request);
-        
+
         if ($form->isSubmitted() && $form->isValid()) {
-            
+
             $clubRepository->add($club, true);
 
             $this->addFlash('success', $club->getName() . ' ajouté !');
@@ -55,7 +55,10 @@ class ClubController extends AbstractController
      */
     public function show(Club $club): Response
     {
-       
+        if ($club === null) {
+            throw $this->createNotFoundException('Club non trouvé');
+        }
+
         return $this->render('club/show.html.twig', [
             'club' => $club,
         ]);
@@ -66,6 +69,10 @@ class ClubController extends AbstractController
      */
     public function edit(Request $request, Club $club, ClubRepository $clubRepository): Response
     {
+        if ($club === null) {
+            throw $this->createNotFoundException('Club non trouvé');
+        }
+
         $form = $this->createForm(ClubType::class, $club);
         $form->handleRequest($request);
 
@@ -88,7 +95,10 @@ class ClubController extends AbstractController
      */
     public function delete(Request $request, Club $club, ClubRepository $clubRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$club->getId(), $request->request->get('_token'))) {
+        if ($club === null) {
+            throw $this->createNotFoundException('Club non trouvé');
+        }
+        if ($this->isCsrfTokenValid('delete' . $club->getId(), $request->request->get('_token'))) {
             $clubRepository->remove($club, true);
 
             $this->addFlash('warning', $club->getName() . ' supprimé!');

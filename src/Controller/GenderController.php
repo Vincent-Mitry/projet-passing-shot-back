@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class GenderController extends AbstractController
 {
     /**
-     * @Route("/", name="app_gender", methods={"GET"})
+     * @Route("", name="app_gender", methods={"GET"})
      */
     public function index(GenderRepository $genderRepository): Response
     {
@@ -53,6 +53,9 @@ class GenderController extends AbstractController
      */
     public function show(Gender $gender): Response
     {
+        if ($gender === null) {
+            throw $this->createNotFoundException('Genre non trouvé');
+        }
         return $this->render('gender/show.html.twig', [
             'gender' => $gender,
         ]);
@@ -63,6 +66,9 @@ class GenderController extends AbstractController
      */
     public function edit(Request $request, Gender $gender, GenderRepository $genderRepository): Response
     {
+        if ($gender === null) {
+            throw $this->createNotFoundException('Genre non trouvé');
+        }
         $form = $this->createForm(GenderType::class, $gender);
         $form->handleRequest($request);
 
@@ -85,7 +91,10 @@ class GenderController extends AbstractController
      */
     public function delete(Request $request, Gender $gender, GenderRepository $genderRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$gender->getId(), $request->request->get('_token'))) {
+        if ($gender === null) {
+            throw $this->createNotFoundException('Genre non trouvé');
+        }
+        if ($this->isCsrfTokenValid('delete' . $gender->getId(), $request->request->get('_token'))) {
             $genderRepository->remove($gender, true);
 
             $this->addFlash('warning', $gender->getType() . ' supprimé!');

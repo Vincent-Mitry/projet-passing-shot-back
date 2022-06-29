@@ -39,14 +39,14 @@ class ReservationController extends AbstractController
 
         $reservation->setStatus(true);
         if ($form->isSubmitted() && $form->isValid()) {
-            
+
 
             $reservationRepository->add($reservation, true);
 
             // Send email with SendEmail service
             $sendEmail->toUserReservationConfirmation($reservation);
 
-            $this->addFlash('success', 'Réservation pour '. $reservation->getId() . ' ajoutée !');
+            $this->addFlash('success', 'Réservation pour ' . $reservation->getId() . ' ajoutée !');
 
             return $this->redirectToRoute('app_reservation', [], Response::HTTP_SEE_OTHER);
         }
@@ -62,7 +62,9 @@ class ReservationController extends AbstractController
      */
     public function show(Reservation $reservation): Response
     {
-                
+        if ($reservation === null) {
+            throw $this->createNotFoundException('Réservation introuvable');
+        }
         return $this->render('reservation/show.html.twig', [
             'reservation' => $reservation,
         ]);
@@ -73,13 +75,16 @@ class ReservationController extends AbstractController
      */
     public function edit(Request $request, Reservation $reservation, ReservationRepository $reservationRepository): Response
     {
+        if ($reservation === null) {
+            throw $this->createNotFoundException('Réservation introuvable');
+        }
         $form = $this->createForm(ReservationType::class, $reservation);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $reservationRepository->add($reservation, true);
 
-            $this->addFlash('success', 'réservation numéro ' .$reservation->getId() . ' modifié !');
+            $this->addFlash('success', 'réservation numéro ' . $reservation->getId() . ' modifié !');
 
             return $this->redirectToRoute('app_reservation', [], Response::HTTP_SEE_OTHER);
         }
@@ -96,13 +101,16 @@ class ReservationController extends AbstractController
      * @Route("/{id}/suppression", name="app_reservation_deactivate", methods={"GET", "PATCH"})
      */
     public function deactivate(Request $request, Reservation $reservation, ReservationRepository $reservationRepository, ManagerRegistry $doctrine): Response
-    {   
+    {
+        if ($reservation === null) {
+            throw $this->createNotFoundException('Réservation introuvable');
+        }
         $status = $reservation->setStatus(false);
 
         $reservationRepository->add($status, true);
 
         $this->addFlash('warning', 'La réservation numéro ' . $reservation->getId() . ' a été annulée!');
-        
+
         return $this->redirectToRoute('app_reservation', [], Response::HTTP_SEE_OTHER);
-    }   
+    }
 }

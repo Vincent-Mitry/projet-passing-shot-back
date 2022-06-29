@@ -64,17 +64,24 @@ class CourtController extends AbstractController
      */
     public function show(Court $court, BlockedCourtService $blockedCourtService): Response
     {
+        if ($court === null) {
+            throw $this->createNotFoundException('Terrain non trouvé');
+        }
+
         return $this->render('court/show.html.twig', [
             'court' => $court,
             'isCurrentlyBlocked' => $blockedCourtService->currentBlockedCourts()
         ]);
     }
-
     /**
      * @Route("/{id}/modification", name="app_court_edit", methods={"GET", "POST"}, requirements={"id"="\d+"})
      */
     public function edit(Request $request, Court $court, CourtRepository $courtRepository, ClubRepository $clubRepository): Response
     {
+        if ($court === null) {
+            throw $this->createNotFoundException('Terrain non trouvé');
+        }
+
         $form = $this->createForm(CourtType::class, $court);
         $form->handleRequest($request);
 
@@ -98,7 +105,10 @@ class CourtController extends AbstractController
      */
     public function delete(Request $request, Court $court, CourtRepository $courtRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$court->getId(), $request->request->get('_token'))) {
+        if ($court === null) {
+            throw $this->createNotFoundException('Terrain non trouvé');
+        }
+        if ($this->isCsrfTokenValid('delete' . $court->getId(), $request->request->get('_token'))) {
             $courtRepository->remove($court, true);
         }
 
@@ -107,8 +117,8 @@ class CourtController extends AbstractController
         return $this->redirectToRoute('app_court', [], Response::HTTP_SEE_OTHER);
     }
 
-      //----------------------------------//
-     //--------- BLOCKED COURTS ---------//
+    //----------------------------------//
+    //--------- BLOCKED COURTS ---------//
     //----------------------------------//
 
     /**
@@ -128,22 +138,22 @@ class CourtController extends AbstractController
         $blockedCourt = new BlockedCourt();
 
         $blockedCourt->setUser($this->getUser())
-                    ->setCourt($court);
+            ->setCourt($court);
 
         $form = $this->createForm(BlockedCourtType::class, $blockedCourt);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $blockedCourtService->handleExistingReservationsOnBlocked(
-            $court,
-            $blockedCourt,
-            $blockedCourt->getStartDatetime(),
-            $blockedCourt->getEndDatetime(),
-        );
+                $court,
+                $blockedCourt,
+                $blockedCourt->getStartDatetime(),
+                $blockedCourt->getEndDatetime(),
+            );
 
             $blockedCourtRepository->add($blockedCourt, true);
 
-            $this->addFlash('success', 'Fermeture temporaire ajoutée ('. $court->getName() .')');
+            $this->addFlash('success', 'Fermeture temporaire ajoutée (' . $court->getName() . ')');
 
             return $this->redirectToRoute('app_blocked_courts_by_court', ['court_id' => $court->getId()], Response::HTTP_SEE_OTHER);
         }
@@ -168,7 +178,7 @@ class CourtController extends AbstractController
         if ($court === null) {
             throw $this->createNotFoundException('Terrain non trouvé');
         }
-        
+
         return $this->render('court/blocked/blocked_courts_by_court.html.twig', [
             'blockedCourts' => $blockedCourtRepository->findBlockedCourtsByCourt($court->getId()),
             'court' => $court,
@@ -192,7 +202,7 @@ class CourtController extends AbstractController
         if ($blockedCourt === null) {
             throw $this->createNotFoundException('Fermeture temporaire non trouvée');
         }
-        
+
         return $this->render('court/blocked/show.html.twig', [
             'court' => $court,
             'blockedCourt' => $blockedCourt,
@@ -225,7 +235,7 @@ class CourtController extends AbstractController
 
             $blockedCourtRepository->add($blockedCourt, true);
 
-            $this->addFlash('success', 'Fermeture temporaire modifée ('. $court->getName() .')');
+            $this->addFlash('success', 'Fermeture temporaire modifée (' . $court->getName() . ')');
 
             return $this->redirectToRoute('app_blocked_courts_by_court', ['court_id' => $court->getId()], Response::HTTP_SEE_OTHER);
         }
@@ -242,11 +252,12 @@ class CourtController extends AbstractController
      */
     public function deleteBlocked(Request $request, BlockedCourt $blockedCourt, BlockedCourtRepository $blockedCourtRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$blockedCourt->getId(), $request->request->get('_token'))) {
+        
+        if ($this->isCsrfTokenValid('delete' . $blockedCourt->getId(), $request->request->get('_token'))) {
             $blockedCourtRepository->remove($blockedCourt, true);
         }
 
-        $this->addFlash('success', 'Fermeture temporaire supprimée ('. $blockedCourt->getCourt()->getName() .')');
+        $this->addFlash('success', 'Fermeture temporaire supprimée (' . $blockedCourt->getCourt()->getName() . ')');
 
         return $this->redirectToRoute('app_court', [], Response::HTTP_SEE_OTHER);
     }
