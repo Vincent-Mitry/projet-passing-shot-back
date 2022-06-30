@@ -54,6 +54,8 @@ class ReservationType extends AbstractType
                 'Simple' => 2,
                 'Double' => 4,
             ],
+            'expanded' => true,
+            'multiple' => false,
             'placeholder' => 'Sélectionner le nombre de joueurs',
             'label' => 'Nombre de joueurs',
             
@@ -77,7 +79,8 @@ class ReservationType extends AbstractType
             // 'choice_label'=> 'lastname',   
             'multiple' => false,
             'expanded' => false,
-            'help' => 'Sélectionner un membre.',
+            'help' => 'Sélectionner un membre',
+            'placeholder' => 'Sélectionner le nom du joueur',
             'query_builder' => function (EntityRepository $ef) {
                 return $ef->createQueryBuilder('u')
                     ->orderBy('u.lastname', 'ASC');
