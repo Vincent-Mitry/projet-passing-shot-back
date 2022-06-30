@@ -21,13 +21,6 @@ class ReservationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-        ->add('status', ChoiceType::class, [
-            'choices' => [
-                'réservée' => 1,
-                'annulée' => 0
-            ],
-            'disabled' => true
-        ])
         ->add('startDatetime', DateTimeType::class, [
                'placeholder' => [
                 'year' => 'Année',

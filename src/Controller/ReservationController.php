@@ -37,11 +37,8 @@ class ReservationController extends AbstractController
         $reservation = new Reservation();
         $form = $this->createForm(ReservationType::class, $reservation);
         $form->handleRequest($request);
-
-        $reservation->setStatus(true);
+        
         if ($form->isSubmitted() && $form->isValid()) {
-
-
             $reservationRepository->add($reservation, true);
 
             // Send email with SendEmail service

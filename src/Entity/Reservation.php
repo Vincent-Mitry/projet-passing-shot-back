@@ -32,6 +32,7 @@ class Reservation
      * @ORM\Column(type="datetime_immutable")
      * @Assert\Type("\DateTimeInterface")
      * @Assert\NotNull(message="Veuillez sélectionner un horaire de début pour la réservation.")
+     * @Assert\GreaterThanOrEqual("now")
      * 
      * @Groups({"reservations_get_item"})
      * @Groups({"reservations_put_item"})
@@ -44,6 +45,10 @@ class Reservation
      * @ORM\Column(type="datetime_immutable")
      * @Assert\Type("\DateTimeInterface")
      * @Assert\NotNull(message="Veuillez sélectionner un horaire de fin pour la réservation.")
+     * @Assert\GreaterThan(
+     *  propertyPath = "startDatetime",
+     *  message = "La date et heure de fin doit être supérieure à celle de début."
+     * )
      * 
      * @Groups({"reservations_get_item"})
      * @Groups({"reservations_put_item"})
@@ -158,7 +163,11 @@ class Reservation
      * @Groups({"past_user_reservations"})
      */
     private $player4;
-
+    
+    public function __construct()
+    {
+        $this->setStatus(true);
+    }
     
     public function getId(): ?int
     {
@@ -170,7 +179,7 @@ class Reservation
         return $this->startDatetime;
     }
 
-    public function setStartDatetime(\DateTimeImmutable $startDatetime): self
+    public function setStartDatetime(?\DateTimeImmutable $startDatetime): self
     {
         $this->startDatetime = $startDatetime;
 
@@ -182,7 +191,7 @@ class Reservation
         return $this->endDatetime;
     }
 
-    public function setEndDatetime(\DateTimeImmutable $endDatetime): self
+    public function setEndDatetime(?\DateTimeImmutable $endDatetime): self
     {
         $this->endDatetime = $endDatetime;
 
@@ -194,7 +203,7 @@ class Reservation
         return $this->status;
     }
 
-    public function setStatus(int $status): self
+    public function setStatus(?int $status): self
     {
         $this->status = $status;
 
@@ -230,7 +239,7 @@ class Reservation
         return $this->countPlayers;
     }
 
-    public function setCountPlayers(int $countPlayers): self
+    public function setCountPlayers(?int $countPlayers): self
     {
         $this->countPlayers = $countPlayers;
 
@@ -242,7 +251,7 @@ class Reservation
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): self
+    public function setCreatedAt(?\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
 

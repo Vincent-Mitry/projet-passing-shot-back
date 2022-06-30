@@ -178,7 +178,7 @@ class Court
         return $this->name;
     }
 
-    public function setName(string $name): self
+    public function setName(?string $name): self
     {
         $this->name = $name;
 
@@ -190,7 +190,7 @@ class Court
         return $this->lightning;
     }
 
-    public function setLightning(bool $lightning): self
+    public function setLightning(?bool $lightning): self
     {
         $this->lightning = $lightning;
 
@@ -202,7 +202,7 @@ class Court
         return $this->indoor;
     }
 
-    public function setIndoor(bool $indoor): self
+    public function setIndoor(?bool $indoor): self
     {
         $this->indoor = $indoor;
 
@@ -238,7 +238,7 @@ class Court
         return $this->picture;
     }
 
-    public function setPicture(string $picture): self
+    public function setPicture(?string $picture): self
     {
         $this->picture = $picture;
 
@@ -250,7 +250,7 @@ class Court
         return $this->detailed_map;
     }
 
-    public function setDetailedMap(string $detailed_map): self
+    public function setDetailedMap(?string $detailed_map): self
     {
         $this->detailed_map = $detailed_map;
 
@@ -274,7 +274,7 @@ class Court
         return $this->slug;
     }
 
-    public function setSlug(string $slug): self
+    public function setSlug(?string $slug): self
     {
         $this->slug = $slug;
 
@@ -298,7 +298,7 @@ class Court
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): self
+    public function setCreatedAt(?\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
 
