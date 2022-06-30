@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20220630114419 extends AbstractMigration
+final class Version20220630125621 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,7 +20,7 @@ final class Version20220630114419 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE blocked_court DROP FOREIGN KEY blocked_court_ibfk_2');
+        $this->addSql('ALTER TABLE blocked_court DROP FOREIGN KEY FK_D4EF58C3E3184009');
         $this->addSql('ALTER TABLE blocked_court ADD CONSTRAINT FK_D4EF58C3E3184009 FOREIGN KEY (court_id) REFERENCES court (id) ON DELETE CASCADE');
     }
 
@@ -28,6 +28,6 @@ final class Version20220630114419 extends AbstractMigration
     {
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE blocked_court DROP FOREIGN KEY FK_D4EF58C3E3184009');
-        $this->addSql('ALTER TABLE blocked_court ADD CONSTRAINT blocked_court_ibfk_2 FOREIGN KEY (court_id) REFERENCES court (id)');
+        $this->addSql('ALTER TABLE blocked_court ADD CONSTRAINT FK_D4EF58C3E3184009 FOREIGN KEY (court_id) REFERENCES court (id)');
     }
 }
