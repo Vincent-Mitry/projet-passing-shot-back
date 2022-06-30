@@ -8,6 +8,8 @@ use App\Entity\Reservation;
 use App\Repository\BlockedCourtRepository;
 use App\Repository\CourtRepository;
 use App\Repository\ReservationRepository;
+use DateTime;
+use DateTimeImmutable;
 
 /**
  * Manages the available time-slots for courts and reservations 
@@ -76,12 +78,36 @@ class AvailableTimeslots
         if (empty($availabletimeSlots)) {
             return $availabletimeSlots;
         }
+
+        // Check current hour and remove previous hour slots from available time slots
+        $availabletimeSlots = $this->checkCurrentTime($courtStartHour, $availabletimeSlots);
         
         // Remove time slots from reservations
         $availabletimeSlots = $this->checkReservations($date, $court, $availabletimeSlots);
 
         // return clean data "removing" keys and keeping values
         $availabletimeSlots = array_values($availabletimeSlots);
+
+        return $availabletimeSlots;
+    }
+
+    /**
+     * Checks The current time and removes previous hours for the day from the available time slots
+     *
+     * @param int $courtStartHour
+     * @param array $availabletimeSlots
+     * @return array
+     */
+    public function checkCurrentTime($courtStartHour, $availabletimeSlots)
+    {
+        $currentTime = new DateTimeImmutable('now');
+        $currentHour = (int) $currentTime->format('H');
+
+        for ($i= $currentHour; $i >= $courtStartHour; $i--) { 
+            if (($key = array_search($i, $availabletimeSlots)) !== false){
+                unset($availabletimeSlots[$key]);
+            }
+        }
 
         return $availabletimeSlots;
     }
