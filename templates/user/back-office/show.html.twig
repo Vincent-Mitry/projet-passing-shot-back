@@ -53,7 +53,7 @@
 							</tr>
 							<tr>
 								<th class="">Genre</th>
-								<td>{{ user.gender.type }}</td>
+								<td>{{ user.gender.type|default('-') }}</td>
 							</tr>
 							<tr>
 								<th class="">Niveau</th>

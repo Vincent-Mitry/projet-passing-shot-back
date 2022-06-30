@@ -63,10 +63,10 @@
                             <tr>
                                 <th scope="row">{{ court.id }}</th>
                                 <td>{{ court.name}}</td>
-                                <td> {{court.surface.name}} </td>
-                                <td>{{ court.ratingAvg}}</td>
-                                <td>{{ court.lightning}}</td>
-                                <td>{{ court.indoor}}</td>
+                                <td>{{ court.surface.name|default('-') }} </td>
+                                <td>{{ court.ratingAvg }}</td>
+                                <td>{{ court.lightning }}</td>
+                                <td>{{ court.indoor }}</td>
                                 <td>
                                 <a href="{{ path('app_court_show', {'id': court.id})}}" class="btn btn-sm" style="color: white; background-color: #EA5C0A; border-color: white;"><i class="bi bi-search"></i></a>
                                 </td>
@@ -174,8 +174,7 @@
 
 								{# Je boucle sur mon tableau 'hours' #}
 								{% for hour in hours %}
-								
-									
+																	
 									{% if hour is null %}
 										<td class="mt-2 badge rounded-pill bg-danger mx-5">xx</td>
 										
