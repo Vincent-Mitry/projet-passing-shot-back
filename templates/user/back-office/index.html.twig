@@ -51,7 +51,7 @@
 									<td>{{ user.lastname }}</td>
 									<td>{{ user.birthdate|date('d-m-Y')}}</td>
 									<td>{{ user.email }}</td>
-									<td>{{ user.gender.type }}</td>
+									<td>{{ user.gender.type|default('-') }}</td>
 									<td>{{ user.level }}</td>
 									<td>{{ user.phone }}</td>
 									<td>
