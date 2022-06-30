@@ -80,7 +80,7 @@ class AvailableTimeslots
         }
 
         // Check current hour and remove previous hour slots from available time slots
-        $availabletimeSlots = $this->checkCurrentTime($courtStartHour, $availabletimeSlots);
+        $availabletimeSlots = $this->checkCurrentTime($date, $courtStartHour, $availabletimeSlots);
         
         // Remove time slots from reservations
         $availabletimeSlots = $this->checkReservations($date, $court, $availabletimeSlots);
@@ -92,16 +92,22 @@ class AvailableTimeslots
     }
 
     /**
-     * Checks The current time and removes previous hours for the day from the available time slots
+     * Checks The current time and removes previous hours for the current day from the available time slots
      *
+     * @param string $date
      * @param int $courtStartHour
      * @param array $availabletimeSlots
      * @return array
      */
-    public function checkCurrentTime($courtStartHour, $availabletimeSlots)
+    public function checkCurrentTime($date, $courtStartHour, $availabletimeSlots)
     {
         $currentTime = new DateTimeImmutable('now');
+        $currentDate = $currentTime->format('Y-m-d');
         $currentHour = (int) $currentTime->format('H');
+
+        if ($date !== $currentDate) {
+            return $availabletimeSlots;
+        }
 
         for ($i= $currentHour; $i >= $courtStartHour; $i--) { 
             if (($key = array_search($i, $availabletimeSlots)) !== false){
