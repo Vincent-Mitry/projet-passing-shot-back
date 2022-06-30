@@ -58,9 +58,11 @@
 										<a href="{{ path('app_user_back-office_show', {'id': user.id})}}" class="btn btn-sm" style="color: white; background-color: #EA5C0A; border-color: white;">
 											<i class="bi bi-search"></i>
 										</a>
-									{% if is_granted('ROLE_SUPER_ADMIN') %}<a href="{{ path('app_user_back-office_edit', {'id': user.id})}}" class="btn btn-sm" style="color: white; background-color: #FFCA2C; border-color: white;">
-											<i class="bi bi-pencil-square"></i> {% endif %}
+									{% if is_granted('ROLE_SUPER_ADMIN') %}
+										<a href="{{ path('app_user_back-office_edit', {'id': user.id})}}" class="btn btn-sm" style="color: white; background-color: #FFCA2C; border-color: white;">
+											<i class="bi bi-pencil-square"></i>
 										</a>
+									{% endif %}
 									</td>
 								</tr>
 							{% endfor %}

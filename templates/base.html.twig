@@ -43,6 +43,9 @@
                             <li class="nav-item">
                                 <a class="nav-link {{ route_name matches '{^app_court|^app_blocked}' ? 'active' }}" href="{{ path('app_court') }}">Terrains</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link {{ route_name matches '{^app_surface}' ? 'active' }}" href="{{ path('app_surface') }}">Surfaces</a>
+                            </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle {{ route_name matches '{^app_user}' ? 'active' }}" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     Utilisateurs
@@ -51,12 +54,6 @@
                                     <li><a class="dropdown-item" href="{{ path('app_user_member') }}">Membres</a></li>
                                   <li><a class="dropdown-item" href="{{ path('app_user_back-office') }}">Back-Office</a></li>
                                 </ul>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link {{ route_name matches '{^app_surface}' ? 'active' }}" href="{{ path('app_surface') }}">Surfaces</a>
-                            </li>
-                            <li>
-                                <a class="nav-link {{ route_name matches '{^app_gender}' ? 'active' }}" href="{{ path('app_gender') }}">Genres</a>
                             </li>
                         </ul>
                         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
