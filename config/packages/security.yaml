@@ -63,6 +63,7 @@ security:
         - { path: ^/clubs/\d+/modification, roles: ROLE_SUPER_ADMIN, methods: POST }
         - { path: ^/clubs/new, roles: ROLE_SUPER_ADMIN }
         - { path: ^/terrains/ajout, roles: ROLE_SUPER_ADMIN }
+        - { path: ^/genres, roles: ROLE_SUPER_ADMIN }
         - { path: ^/utilisateurs/back-office, roles: ROLE_SUPER_ADMIN, methods: POST }
         - { path: ^/, roles: ROLE_ADMIN }
         

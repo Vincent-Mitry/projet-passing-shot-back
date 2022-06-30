@@ -1,193 +1,205 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Accueil
-{% endblock %}
+{% block title %}Accueil{% endblock %}
 
 {% block body %}
-<div class="container"></div>
-    <div class="row m-5 text-center">
-        <!-- 3 last reservations -->
-        <div class="col-12 col-md-4 ms-auto" >
-            <div class="card text-white mb-3" >
-                <div class="card-header text-center" style="color: white; background-color: #EA5C0A; border-color: white;">Informations sur les réservations</div>
-                <div class="card-body">
-                    <table class="table table-hover">
-                        <thead>
+<div class="row m-5 text-center">
+    <div class="col-12">
+        <div class="card text-white mb-3">
+            <div class="card-header text-center" style="color: white; background-color: #EA5C0A; border-color: white;">Terrains disponibles aujourd'hui</div>
+            <div class="card-body">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Nom du terrain</th>
+                            <th scope="col">Heures</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        {# Je boucle sur mon tableau 'courts' en lui demandant la clé et le tableau associé nommé ici 'hours' #}
+                        {% for key, hours in timeslots %}
                             <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Date de création</th>
-                                <th scope="col">Terrain</th>
-                                <th scope="col">Début</th>
-                                <th scope="col"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        {% for reservation in reservations %}
-                            <tr>
-                                <th scope="row">{{ reservation.id }}</th>
-                                <td>{{ reservation.createdAt|date('d-m-Y')}}</td>
-                                <td>{{ reservation.court.id }}</td>
-                                <td>{{ reservation.startDateTime|date('d-m-Y-H:i') }}</td>
-                                <td>
-                                <a href="{{ path('app_reservation_show', {'id': reservation.id})}}" class="btn btn-sm" style="color: white; background-color: #EA5C0A; border-color: white;"><i class="bi bi-search"></i></a>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                    <div class="d-grid gap-4">
-                        <a href="{{ path('app_reservation') }}" class="btn" style="color: white; background-color: #EA5C0A; border-color: white;">Voir plus</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- 3 last courts -->
-        <div class="col-12 col-md-4 me-auto">
-            <div class="card text-white mb-3">
-                <div class="card-header text-center" style="color: white; background-color: #EA5C0A; border-color: white;">Informations sur les terrains</div>
-                <div class="card-body">
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Nom</th>
-                                <th scope="col">Surface</th>
-                                <th scope="col">Note</th>
-                                <th scope="col">Éclairage</th>
-                                <th scope="col">Type</th>
-                                <th scope="col"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        {% for court in courts %}
-                            <tr>
-                                <th scope="row">{{ court.id }}</th>
-                                <td>{{ court.name}}</td>
-                                <td>{{ court.surface.name|default('-') }} </td>
-                                <td>{{ court.ratingAvg }}</td>
-                                <td>{{ court.lightning }}</td>
-                                <td>{{ court.indoor }}</td>
-                                <td>
-                                <a href="{{ path('app_court_show', {'id': court.id})}}" class="btn btn-sm" style="color: white; background-color: #EA5C0A; border-color: white;"><i class="bi bi-search"></i></a>
-                                </td>
+                                {# J'affiche le numéro du court dans la première colonne de mon tableau dynamiquement #}
+                                <td>Terrain n°{{ key }}</td>
+
+                                {# Je boucle sur mon tableau 'hours' #}
+                                {% for hour in hours %}
+                                                                    
+                                    {% if hour is null %}
+                                        <td class="mt-2 badge rounded-pill bg-danger mx-5">xx</td>
+                                        
+                                    {% else %}
+                                    <td class="mt-2 badge rounded-pill bg-success mx-5">{{ hour }}</td>
+                                        
+                                    {% endif %}
+                                {% endfor %}
                             </tr>
                         {% endfor %}
-                        </tbody>
-                    </table>
-                    <div class="d-grid gap-4">
-                        <a href="{{ path('app_court') }}" class="btn" style="color: white; background-color: #EA5C0A; border-color: white;">Voir plus</a>
-                    </div>
-                </div>
+                    </tbody>
+                </table>
             </div>
         </div>
-    </div>   
-    <div class="row m-5 text-center">
-        <!-- 3 last members --> 
-        <div class="col-12 col-md-4 ms-auto">
-            <div class="card text-white mb-3">
-                <div class="card-header text-center" style="color: white; background-color: #EA5C0A; border-color: white;">Informations sur les membres</div>
-                <div class="card-body">
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Prénom</th>
-                                <th scope="col">Nom</th>
-                                <th scope="col">Date de naissance</th>
-                                <th scope="col"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        {% for user in users %}
-                            <tr>
-                                <th scope="row">{{ user.id }}</th>
-                                <td>{{ user.firstname }}</td>
-                                <td>{{ user.lastname }}</td>
-                                <td>{{ user.birthdate|date('d-m-Y')}}</td>
-                                <td>
-                                <a href="{{ path('app_user_member_show', {'id': user.id})}}" class="btn btn-sm" style="color: white; background-color: #EA5C0A; border-color: white;"><i class="bi bi-search"></i></a>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                    <div class="d-grid gap-4">
-                        <a href="{{ path('app_user_member') }}" class="btn" style="color: white; background-color: #EA5C0A; border-color: white;">Voir plus</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- 3 last clubs -->
-        <div class="col-12 col-md-4 me-auto">
-            <div class="card text-white mb-3">
-                <div class="card-header text-center" style="color: white; background-color: #EA5C0A; border-color: white;">Informations sur les clubs</div>
-                <div class="card-body">
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Nom</th>
-                                <th scope="col">Propriétaire</th>
-                                <th scope="col"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        {% for club in clubs %}
-                            <tr>
-                                <th scope="row">{{ club.id }}</th>
-                                <td>{{ club.name }}</td>
-                                <td>{{ club.user ? club.user.firstname : '-' }} {{ club.user ? club.user.lastname : '' }}</td>
-                                <td>
-                                <a href="{{ path('app_club_show', {'id': club.id})}}" class="btn btn-sm" style="color: white; background-color: #EA5C0A; border-color: white;"><i class="bi bi-search"></i></a>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                    <div class="d-grid gap-4">
-                        <a href="{{ path('app_club') }}" class="btn" style="color: white; background-color: #EA5C0A; border-color: white;">Voir plus</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>    
+    </div>
 </div>
 <div class="row m-5 text-center">
-	<div class="col-12">
-		<div class="card text-white mb-3">
-			<div class="card-header text-center" style="color: white; background-color: #EA5C0A; border-color: white;">Terrains disponibles aujourd'hui</div>
-			<div class="card-body">
-				<table class="table table-hover">
-					<thead>
-						<tr>
-							<th scope="col">Nom du terrain</th>
-							<th scope="col">Heures</th>
-						</tr>
-					</thead>
-					<tbody>
-
-						{# Je boucle sur mon tableau 'courts' en lui demandant la clé et le tableau associé nommé ici 'hours' #}
-						{% for key, hours in timeslots %}
-							<tr>
-								{# J'affiche le numéro du court dans la première colonne de mon tableau dynamiquement #}
-								<td>Terrain n°{{ key }}</td>
-
-								{# Je boucle sur mon tableau 'hours' #}
-								{% for hour in hours %}
-																	
-									{% if hour is null %}
-										<td class="mt-2 badge rounded-pill bg-danger mx-5">xx</td>
-										
-									{% else %}
-									<td class="mt-2 badge rounded-pill bg-success mx-5">{{ hour }}</td>
-										
-									{% endif %}
-								{% endfor %}
-							</tr>
-						{% endfor %}
-					</tbody>
-				</table>
-			</div>
-		</div>
-	</div>
-</div>{% endblock %}
+    <!-- 3 last reservations -->
+    <div class="col-12 col-md-4 ms-auto" >
+        <div class="card text-white mb-3" >
+            <div class="card-header text-center" style="color: white; background-color: #EA5C0A; border-color: white;">Informations sur les réservations</div>
+            <div class="card-body">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Date de création</th>
+                            <th scope="col">Terrain</th>
+                            <th scope="col">Début</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for reservation in reservations %}
+                        <tr>
+                            <th scope="row">{{ reservation.id }}</th>
+                            <td>{{ reservation.createdAt|date('d-m-Y')}}</td>
+                            <td>{{ reservation.court.id }}</td>
+                            <td>{{ reservation.startDateTime|date('d-m-Y-H:i') }}</td>
+                            <td>
+                            <a href="{{ path('app_reservation_show', {'id': reservation.id})}}" class="btn btn-sm" style="color: white; background-color: #EA5C0A; border-color: white;"><i class="bi bi-search"></i></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <div class="d-grid gap-4">
+                    <a href="{{ path('app_reservation') }}" class="btn" style="color: white; background-color: #EA5C0A; border-color: white;">Voir plus</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 3 last courts -->
+    <div class="col-12 col-md-4 me-auto">
+        <div class="card text-white mb-3">
+            <div class="card-header text-center" style="color: white; background-color: #EA5C0A; border-color: white;">Informations sur les terrains</div>
+            <div class="card-body">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Nom</th>
+                            <th scope="col">Surface</th>
+                            <th scope="col">Note</th>
+                            <th scope="col">Éclairage</th>
+                            <th scope="col">Type</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for court in courts %}
+                        <tr>
+                            <th scope="row">{{ court.id }}</th>
+                            <td>{{ court.name}}</td>
+                            <td>{{ court.surface.name|default('-') }} </td>
+                            <td>{{ court.ratingAvg }}</td>
+                            <td>{{ court.lightning }}</td>
+                            <td>{{ court.indoor }}</td>
+                            <td>
+                            <a href="{{ path('app_court_show', {'id': court.id})}}" class="btn btn-sm" style="color: white; background-color: #EA5C0A; border-color: white;"><i class="bi bi-search"></i></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <div class="d-grid gap-4">
+                    <a href="{{ path('app_court') }}" class="btn" style="color: white; background-color: #EA5C0A; border-color: white;">Voir plus</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>   
+<div class="row m-5 text-center">
+    <!-- 3 last members --> 
+    <div class="col-12 col-md-4 ms-auto">
+        <div class="card text-white mb-3">
+            <div class="card-header text-center" style="color: white; background-color: #EA5C0A; border-color: white;">Informations sur les membres</div>
+            <div class="card-body">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Prénom</th>
+                            <th scope="col">Nom</th>
+                            <th scope="col">Date de naissance</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for user in users %}
+                        <tr>
+                            <th scope="row">{{ user.id }}</th>
+                            <td>{{ user.firstname }}</td>
+                            <td>{{ user.lastname }}</td>
+                            <td>{{ user.birthdate|date('d-m-Y')}}</td>
+                            <td>
+                            <a href="{{ path('app_user_member_show', {'id': user.id})}}" class="btn btn-sm" style="color: white; background-color: #EA5C0A; border-color: white;"><i class="bi bi-search"></i></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <div class="d-grid gap-4">
+                    <a href="{{ path('app_user_member') }}" class="btn" style="color: white; background-color: #EA5C0A; border-color: white;">Voir plus</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 3 last clubs -->
+    <div class="col-12 col-md-4 me-auto">
+        <div class="card text-white mb-3">
+            <div class="card-header text-center" style="color: white; background-color: #EA5C0A; border-color: white;">Informations sur les clubs</div>
+            <div class="card-body">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Nom</th>
+                            <th scope="col">Propriétaire</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for club in clubs %}
+                        <tr>
+                            <th scope="row">{{ club.id }}</th>
+                            <td>{{ club.name }}</td>
+                            <td>{{ club.user ? club.user.firstname : '-' }} {{ club.user ? club.user.lastname : '' }}</td>
+                            <td>
+                            <a href="{{ path('app_club_show', {'id': club.id})}}" class="btn btn-sm" style="color: white; background-color: #EA5C0A; border-color: white;"><i class="bi bi-search"></i></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <div class="d-grid gap-4">
+                    <a href="{{ path('app_club') }}" class="btn" style="color: white; background-color: #EA5C0A; border-color: white;">Voir plus</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% if is_granted('ROLE_SUPER_ADMIN') %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="card col-3 p-0">
+            <div class="card-header text-center">
+                Configuration des formulaires
+            </div>
+            <ul class="list-group list-group-flush text-center">
+                <li class="list-group-item"><a class="btn btn-sm" href="{{ path('app_gender') }}">Gestion des Genres</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endif %} 
+{% endblock %}
