@@ -70,7 +70,7 @@ class BlockedCourt
 
     /**
      * @ORM\ManyToOne(targetEntity=Court::class, inversedBy="blockedCourts")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(onDelete="CASCADE", nullable=false)
      * @Assert\NotNull(message = "Veuillez associer le terrain bloqué.")
      */
     private $court;
