@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class GenderController extends AbstractController
 {
     /**
-     * @Route("/", name="app_gender", methods={"GET"})
+     * @Route("", name="app_gender", methods={"GET"})
      */
     public function index(GenderRepository $genderRepository): Response
     {
@@ -51,8 +51,11 @@ class GenderController extends AbstractController
     /**
      * @Route("/{id}", name="app_gender_show", methods={"GET"})
      */
-    public function show(Gender $gender): Response
+    public function show(Gender $gender = null): Response
     {
+        if ($gender === null) {
+            throw $this->createNotFoundException('genre non trouvé');
+        }
         return $this->render('gender/show.html.twig', [
             'gender' => $gender,
         ]);
@@ -61,8 +64,11 @@ class GenderController extends AbstractController
     /**
      * @Route("/{id}/modification", name="app_gender_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, Gender $gender, GenderRepository $genderRepository): Response
+    public function edit(Request $request, Gender $gender = null, GenderRepository $genderRepository): Response
     {
+        if ($gender === null) {
+            throw $this->createNotFoundException('genre non trouvé');
+        }
         $form = $this->createForm(GenderType::class, $gender);
         $form->handleRequest($request);
 
@@ -83,9 +89,12 @@ class GenderController extends AbstractController
     /**
      * @Route("/{id}", name="app_gender_delete", methods={"POST"})
      */
-    public function delete(Request $request, Gender $gender, GenderRepository $genderRepository): Response
+    public function delete(Request $request, Gender $gender = null, GenderRepository $genderRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$gender->getId(), $request->request->get('_token'))) {
+        if ($gender === null) {
+            throw $this->createNotFoundException('genre non trouvé');
+        }
+        if ($this->isCsrfTokenValid('delete' . $gender->getId(), $request->request->get('_token'))) {
             $genderRepository->remove($gender, true);
 
             $this->addFlash('warning', $gender->getType() . ' supprimé!');

@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 /**
  * @Route("/clubs")
@@ -34,9 +35,9 @@ class ClubController extends AbstractController
         $club = new Club();
         $form = $this->createForm(ClubType::class, $club);
         $form->handleRequest($request);
-        
+
         if ($form->isSubmitted() && $form->isValid()) {
-            
+
             $clubRepository->add($club, true);
 
             $this->addFlash('success', $club->getName() . ' ajouté !');
@@ -51,21 +52,28 @@ class ClubController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="app_club_show", methods={"GET"})
+     * @Route("/{id}", name="app_club_show", methods={"GET"}, requirements={"id":"\d+"})
      */
-    public function show(Club $club): Response
+    public function show(Club $club = null): Response
     {
-       
+        if ($club === null) {
+            throw $this->createNotFoundException('club non trouvé');
+        }
+
         return $this->render('club/show.html.twig', [
             'club' => $club,
         ]);
     }
 
     /**
-     * @Route("/{id}/modification", name="app_club_edit", methods={"GET", "POST"})
+     * @Route("/{id}/modification", name="app_club_edit", methods={"GET", "POST"}, requirements={"id":"\d+"})
      */
-    public function edit(Request $request, Club $club, ClubRepository $clubRepository): Response
+    public function edit(Request $request, Club $club = null, ClubRepository $clubRepository): Response
     {
+        if ($club === null) {
+            throw $this->createNotFoundException('club non trouvé');
+        }
+
         $form = $this->createForm(ClubType::class, $club);
         $form->handleRequest($request);
 
@@ -84,11 +92,14 @@ class ClubController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="app_club_delete", methods={"POST"})
+     * @Route("/{id}", name="app_club_delete", methods={"POST"}, requirements={"id":"\d+"})
      */
-    public function delete(Request $request, Club $club, ClubRepository $clubRepository): Response
+    public function delete(Request $request, Club $club = null, ClubRepository $clubRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$club->getId(), $request->request->get('_token'))) {
+        if ($club === null) {
+            throw $this->createNotFoundException('club non trouvé');
+        }
+        if ($this->isCsrfTokenValid('delete' . $club->getId(), $request->request->get('_token'))) {
             $clubRepository->remove($club, true);
 
             $this->addFlash('warning', $club->getName() . ' supprimé!');

@@ -31,9 +31,12 @@ class UserController extends AbstractController
     /**
      * @Route("/membres/ajout", name="app_user_member_new", methods={"GET", "POST"})
      */
-    public function newMember(Request $request, UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher, 
-    SendEmail $sendEmail): Response
-    {
+    public function newMember(
+        Request $request,
+        UserRepository $userRepository,
+        UserPasswordHasherInterface $passwordHasher,
+        SendEmail $sendEmail
+    ): Response {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
@@ -44,7 +47,7 @@ class UserController extends AbstractController
             $hashedPassword = $passwordHasher->hashPassword($user, $user->getPassword());
             // On l'écrase dans le $user
             $user->setPassword($hashedPassword);
-            
+
             $userRepository->add($user, true);
 
             // Send email with SendEmail service
@@ -64,8 +67,11 @@ class UserController extends AbstractController
     /**
      * @Route("/membres/{id}", name="app_user_member_show", methods={"GET"}, requirements={"id"="\d+"})
      */
-    public function showMember(User $user): Response
+    public function showMember(User $user = null): Response
     {
+        if ($user === null) {
+            throw $this->createNotFoundException('ce membre est introuvable');
+        }
         return $this->render('user/member/show.html.twig', [
             'user' => $user,
         ]);
@@ -74,8 +80,12 @@ class UserController extends AbstractController
     /**
      * @Route("/membres/{id}/modification", name="app_user_member_edit", methods={"GET", "POST"})
      */
-    public function editMember(Request $request, User $user, UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher): Response
+    public function editMember(Request $request, User $user = null, UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher): Response
     {
+        if ($user === null) {
+            throw $this->createNotFoundException('ce membre est introuvable');
+        }
+
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
@@ -107,9 +117,13 @@ class UserController extends AbstractController
     /**
      * @Route("/membres/{id}", name="app_user_member_delete", methods={"POST"})
      */
-    public function deleteMember(Request $request, User $user, UserRepository $userRepository): Response
+    public function deleteMember(Request $request, User $user = null, UserRepository $userRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
+        if ($user === null) {
+            throw $this->createNotFoundException('ce membre est introuvable');
+        }
+
+        if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->request->get('_token'))) {
             $userRepository->remove($user, true);
             $this->addFlash('success', 'Utilisateur supprimé.');
         }
@@ -142,7 +156,7 @@ class UserController extends AbstractController
             $hashedPassword = $passwordHasher->hashPassword($user, $user->getPassword());
             // On l'écrase dans le $user
             $user->setPassword($hashedPassword);
-            
+
             $userRepository->add($user, true);
 
             // Send email with SendEmail service
@@ -162,8 +176,12 @@ class UserController extends AbstractController
     /**
      * @Route("/back-office/{id}", name="app_user_back-office_show", methods={"GET"}, requirements={"id"="\d+"})
      */
-    public function showBackOffice(User $user): Response
+    public function showBackOffice(User $user = null): Response
     {
+        if ($user === null) {
+            throw $this->createNotFoundException('cet utilisateur est introuvable');
+        }
+
         return $this->render('user/back-office/show.html.twig', [
             'user' => $user,
         ]);
@@ -172,8 +190,12 @@ class UserController extends AbstractController
     /**
      * @Route("/back-office/{id}/modification", name="app_user_back-office_edit", methods={"GET", "POST"})
      */
-    public function editBackOffice(Request $request, User $user, UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher): Response
+    public function editBackOffice(Request $request, User $user = null , UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher): Response
     {
+        if ($user === null) {
+            throw $this->createNotFoundException('cet utilisateur est introuvable');
+        }
+
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
@@ -205,9 +227,13 @@ class UserController extends AbstractController
     /**
      * @Route("/back-office/{id}", name="app_user_back-office_delete", methods={"POST"})
      */
-    public function deleteBackOffice(Request $request, User $user, UserRepository $userRepository): Response
+    public function deleteBackOffice(Request $request, User $user = null, UserRepository $userRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
+        if ($user === null) {
+            throw $this->createNotFoundException('cet utilisateur est introuvable');
+        }
+
+        if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->request->get('_token'))) {
             $userRepository->remove($user, true);
             $this->addFlash('success', 'Utilisateur supprimé.');
         }

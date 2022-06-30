@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 /**
  * @Route("/reservations")
@@ -38,13 +39,12 @@ class ReservationController extends AbstractController
         $form->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid()) {
-        
             $reservationRepository->add($reservation, true);
 
             // Send email with SendEmail service
             $sendEmail->toUserReservationConfirmation($reservation);
 
-            $this->addFlash('success', 'Réservation pour '. $reservation->getId() . ' ajoutée !');
+            $this->addFlash('success', 'Réservation pour ' . $reservation->getId() . ' ajoutée !');
 
             return $this->redirectToRoute('app_reservation', [], Response::HTTP_SEE_OTHER);
         }
@@ -56,28 +56,33 @@ class ReservationController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="app_reservation_show", methods={"GET"})
+     * @Route("/{id}", name="app_reservation_show", methods={"GET"}, requirements={"id":"\d+"})
      */
-    public function show(Reservation $reservation): Response
+    public function show(Reservation $reservation = null): Response
     {
-                
+        if ($reservation === null) {
+            throw $this->createNotFoundException('réservation introuvable');
+        }
         return $this->render('reservation/show.html.twig', [
             'reservation' => $reservation,
         ]);
     }
 
     /**
-     * @Route("/{id}/modification", name="app_reservation_edit", methods={"GET", "POST"})
+     * @Route("/{id}/modification", name="app_reservation_edit", methods={"GET", "POST"}, requirements={"id":"\d+"})
      */
-    public function edit(Request $request, Reservation $reservation, ReservationRepository $reservationRepository): Response
+    public function edit(Request $request, Reservation $reservation = null, ReservationRepository $reservationRepository): Response
     {
+        if ($reservation === null) {
+            throw $this->createNotFoundException('réservation introuvable');
+        }
         $form = $this->createForm(ReservationType::class, $reservation);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $reservationRepository->add($reservation, true);
 
-            $this->addFlash('success', 'réservation numéro ' .$reservation->getId() . ' modifié !');
+            $this->addFlash('success', 'réservation numéro ' . $reservation->getId() . ' modifié !');
 
             return $this->redirectToRoute('app_reservation', [], Response::HTTP_SEE_OTHER);
         }
@@ -91,16 +96,19 @@ class ReservationController extends AbstractController
     /**
      * 
      * 
-     * @Route("/{id}/suppression", name="app_reservation_deactivate", methods={"GET", "PATCH"})
-     */
-    public function deactivate(Request $request, Reservation $reservation, ReservationRepository $reservationRepository, ManagerRegistry $doctrine): Response
-    {   
+     * @Route("/{id}/suppression", name="app_reservation_deactivate", methods={"GET", "PATCH"}, requirements={"id":"\d+"})
+      */
+    public function deactivate(Reservation $reservation = null, ReservationRepository $reservationRepository): Response
+    {
+        if ($reservation === null) {
+            throw $this->createNotFoundException('réservation introuvable');
+        }
         $status = $reservation->setStatus(false);
 
         $reservationRepository->add($status, true);
 
         $this->addFlash('warning', 'La réservation numéro ' . $reservation->getId() . ' a été annulée!');
-        
+
         return $this->redirectToRoute('app_reservation', [], Response::HTTP_SEE_OTHER);
-    }   
+    }
 }
