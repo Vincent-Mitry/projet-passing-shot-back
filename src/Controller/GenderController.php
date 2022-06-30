@@ -97,7 +97,7 @@ class GenderController extends AbstractController
         if ($this->isCsrfTokenValid('delete' . $gender->getId(), $request->request->get('_token'))) {
             $genderRepository->remove($gender, true);
 
-            $this->addFlash('warning', $gender->getType() . ' supprimé!');
+            $this->addFlash('warning', $gender->getType() . ' supprimé !');
         }
 
         return $this->redirectToRoute('app_gender', [], Response::HTTP_SEE_OTHER);
