@@ -26,7 +26,7 @@
                             <tr>
                                 <th scope="row">{{ reservation.id }}</th>
                                 <td>{{ reservation.createdAt|date('d-m-Y')}}</td>
-                                <td>{{ reservation.court.id }}</td>
+                                <td>{{ reservation.court.id|default('') }}</td>
                                 <td>{{ reservation.startDateTime|date('d-m-Y-H:i') }}</td>
                                 <td>
                                 <a href="{{ path('app_reservation_show', {'id': reservation.id})}}" class="btn btn-sm" style="color: white; background-color: #EA5C0A; border-color: white;"><i class="bi bi-search"></i></a>
