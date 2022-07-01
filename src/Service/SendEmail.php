@@ -16,6 +16,7 @@ class SendEmail
         $this->configureEmail = $configureEmail;
     }
 
+    // Email received by the user when the court is blocked
     public function toUserBlockedCourt(Reservation $reservation, BlockedCourt $blockedCourt)
     {
         $adressFrom = 'contact.passingshot@gmail.com';
@@ -31,6 +32,7 @@ class SendEmail
         $this->configureEmail->emailConfig($adressFrom, $addressTo, $replyTo, $subject, $htmlTemplate, $context);
     }
 
+    // Email received by the user when the reservation is confirmed
     public function toUserReservationConfirmation(Reservation $reservation)
     {
         $adressFrom = 'contact.passingshot@gmail.com';
@@ -45,6 +47,7 @@ class SendEmail
         $this->configureEmail->emailConfig($adressFrom, $addressTo, $replyTo, $subject, $htmlTemplate, $context);
     }
 
+    // Email received by the admin when the user confirmed contact form
     public function toAdminContactForm(Contact $contact)
     {
         // Send email with SendEmail service
@@ -58,6 +61,7 @@ class SendEmail
         $this->configureEmail->emailConfig($adressFrom, $addressTo, $replyTo, $subject, $htmlTemplate, $context);
     }
 
+    // Email received by the user when the registration is valided
     public function toUserRegistrationValidation(User $user)
     {
         $adressFrom = 'contact.passingshot@gmail.com';

@@ -32,7 +32,7 @@ class ConfigureEmail
         $from = new Address($adressFrom);
         $to = new Address($addressTo);
 
-        
+        // We create the email
         $email = new TemplatedEmail();
         $email->from($from)
             ->to($to)
@@ -43,10 +43,11 @@ class ConfigureEmail
         
         $this->renderInTwig($email);
 
-        // We send the mail
+        // We send the email
         $this->sendMail($email);        
     }
 
+    // Function for load templates
     public function renderInTwig($email)
     {
         $loader = new \Twig\Loader\FilesystemLoader('../templates');
