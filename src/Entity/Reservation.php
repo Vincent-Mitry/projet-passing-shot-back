@@ -32,7 +32,7 @@ class Reservation
      * @ORM\Column(type="datetime_immutable")
      * @Assert\Type("\DateTimeInterface")
      * @Assert\NotNull(message="Veuillez sélectionner un horaire de début pour la réservation.")
-     * @Assert\GreaterThanOrEqual("now")
+     * Assert\GreaterThanOrEqual("now")
      * 
      * @Groups({"reservations_get_item"})
      * @Groups({"reservations_put_item"})
