@@ -8,7 +8,6 @@ use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * Sets Average rating to a movie
- * Copyright *Vincent Mitry*
  */
 class RatingAverage
 {
