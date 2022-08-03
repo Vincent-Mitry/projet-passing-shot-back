@@ -5,13 +5,15 @@ namespace App\Controller;
 use App\Entity\Club;
 use App\Form\ClubType;
 use App\Repository\ClubRepository;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 /**
- * @Route("/club")
+ * @Route("/clubs")
  */
 class ClubController extends AbstractController
 {
@@ -26,18 +28,21 @@ class ClubController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="app_club_new", methods={"GET", "POST"})
+     * @Route("/ajout", name="app_club_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, ClubRepository $clubRepository): Response
+    public function new(Request $request, ClubRepository $clubRepository, UserRepository $userRepository): Response
     {
         $club = new Club();
         $form = $this->createForm(ClubType::class, $club);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             $clubRepository->add($club, true);
 
-            return $this->redirectToRoute('app_club_index', [], Response::HTTP_SEE_OTHER);
+            $this->addFlash('success', $club->getName() . ' ajouté !');
+
+            return $this->redirectToRoute('app_club', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('club/new.html.twig', [
@@ -47,27 +52,37 @@ class ClubController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="app_club_show", methods={"GET"})
+     * @Route("/{id}", name="app_club_show", methods={"GET"}, requirements={"id":"\d+"})
      */
-    public function show(Club $club): Response
+    public function show(Club $club = null): Response
     {
+        if ($club === null) {
+            throw $this->createNotFoundException('club non trouvé');
+        }
+
         return $this->render('club/show.html.twig', [
             'club' => $club,
         ]);
     }
 
     /**
-     * @Route("/{id}/edit", name="app_club_edit", methods={"GET", "POST"})
+     * @Route("/{id}/modification", name="app_club_edit", methods={"GET", "POST"}, requirements={"id":"\d+"})
      */
-    public function edit(Request $request, Club $club, ClubRepository $clubRepository): Response
+    public function edit(Request $request, Club $club = null, ClubRepository $clubRepository): Response
     {
+        if ($club === null) {
+            throw $this->createNotFoundException('club non trouvé');
+        }
+
         $form = $this->createForm(ClubType::class, $club);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $clubRepository->add($club, true);
 
-            return $this->redirectToRoute('app_club_index', [], Response::HTTP_SEE_OTHER);
+            $this->addFlash('success', $club->getName() . ' modifié !');
+
+            return $this->redirectToRoute('app_club', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('club/edit.html.twig', [
@@ -77,14 +92,19 @@ class ClubController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="app_club_delete", methods={"POST"})
+     * @Route("/{id}", name="app_club_delete", methods={"POST"}, requirements={"id":"\d+"})
      */
-    public function delete(Request $request, Club $club, ClubRepository $clubRepository): Response
+    public function delete(Request $request, Club $club = null, ClubRepository $clubRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$club->getId(), $request->request->get('_token'))) {
+        if ($club === null) {
+            throw $this->createNotFoundException('club non trouvé');
+        }
+        if ($this->isCsrfTokenValid('delete' . $club->getId(), $request->request->get('_token'))) {
             $clubRepository->remove($club, true);
+
+            $this->addFlash('warning', $club->getName() . ' supprimé!');
         }
 
-        return $this->redirectToRoute('app_club_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_club', [], Response::HTTP_SEE_OTHER);
     }
 }

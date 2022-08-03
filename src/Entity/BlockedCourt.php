@@ -10,6 +10,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * @ORM\Entity(repositoryClass=BlockedCourtRepository::class)
  * @UniqueEntity(fields={"startDatetime", "endDatetime"})
+ * 
+ * @ORM\HasLifecycleCallbacks()
  */
 class BlockedCourt
 {
@@ -21,38 +23,55 @@ class BlockedCourt
     private $id;
 
     /**
-     * @ORM\Column(type="time")
-     * @Assert\DateTime
+     * @ORM\Column(type="datetime_immutable")
+     * @Assert\Type("\DateTimeInterface")
+     * @Assert\GreaterThanOrEqual(
+     *  "today",
+     *  message = "La date choisie ne peut pas être inférieure à la date d'aujourd'hui."
+     * )
      */
     private $startDatetime;
 
     /**
-     * @ORM\Column(type="time")
-     * @Assert\DateTime
+     * @ORM\Column(type="datetime_immutable")
+     * @Assert\Type("\DateTimeInterface")
+     * @Assert\GreaterThanOrEqual(
+     *  "today",
+     *  message = "La date choisie ne peut pas être inférieure à la date d'aujourd'hui."
+     * )
+     * @Assert\GreaterThan(
+     *  propertyPath = "startDatetime",
+     *  message = "La date et heure de fin doit être supérieure à celle du début."
+     * )
      */
     private $endDatetime;
 
     /**
      * @ORM\Column(type="string", length=200)
-     * @Assert\NotBlank
+     * @Assert\NotBlank(message = "Veuillez indiquer la raison du blocage du terrain.")
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 200,
+     * )
      */
     private $blockedReason;
 
     /**
      * @ORM\Column(type="datetime_immutable")
-     * @Assert\DateTime
+     * @Assert\Type("\DateTimeInterface")
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime_immutable", nullable=true)
-     * @Assert\DateTime
+     * @Assert\Type("\DateTimeInterface")
      */
     private $updatedAt;
 
     /**
      * @ORM\ManyToOne(targetEntity=Court::class, inversedBy="blockedCourts")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(onDelete="CASCADE", nullable=false)
+     * @Assert\NotNull(message = "Veuillez associer le terrain bloqué.")
      */
     private $court;
 
@@ -71,7 +90,7 @@ class BlockedCourt
         return $this->startDatetime;
     }
 
-    public function setStartDatetime(\DateTimeInterface $startDatetime): self
+    public function setStartDatetime(?\DateTimeInterface $startDatetime): self
     {
         $this->startDatetime = $startDatetime;
 
@@ -83,7 +102,7 @@ class BlockedCourt
         return $this->endDatetime;
     }
 
-    public function setEndDatetime(\DateTimeInterface $endDatetime): self
+    public function setEndDatetime(?\DateTimeInterface $endDatetime): self
     {
         $this->endDatetime = $endDatetime;
 
@@ -95,7 +114,7 @@ class BlockedCourt
         return $this->blockedReason;
     }
 
-    public function setBlockedReason(string $blockedReason): self
+    public function setBlockedReason(?string $blockedReason): self
     {
         $this->blockedReason = $blockedReason;
 
@@ -107,7 +126,7 @@ class BlockedCourt
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): self
+    public function setCreatedAt(?\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
 
@@ -148,5 +167,21 @@ class BlockedCourt
         $this->user = $user;
 
         return $this;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function setCreatedAtValue(): void
+    {
+        $this->createdAt = new \DateTimeImmutable();
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function setUpdatedAtValue(): void
+    {
+        $this->updatedAt = new \DateTimeImmutable();
     }
 }

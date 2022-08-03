@@ -1,3 +1,72 @@
 body {
     font-family: 'Montserrat', sans-serif;
 }
+
+.wrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.main {
+    flex-grow: 1;
+}
+
+.list {
+    font-size: 0.84em;
+}
+
+.form-login {
+    background-image: url(../images/bgtennis.jpg);
+    padding-top: 10%;
+    padding-right: 30%;
+}
+
+.section-login {
+    max-width: 60%;
+    margin: 0 auto;
+    border: 100px;
+}
+
+.text-color-white {
+    color: white;
+}
+
+.text-color-black {
+    color: black;
+}
+
+.col-form-label, .form-label {
+    font-weight:400;
+    color: #EA5C0A;
+}
+
+.col-form-label.required::after, .form-label.required::after {
+    content: " *";
+}
+a:link {
+    text-decoration: none;
+  }
+  
+  .resTable {
+    text-decoration: none;
+    color: white;
+  }
+  
+  a:hover {
+    text-decoration: none;
+  }
+  
+  a:active {
+    text-decoration: none;
+  }
+
+  .notFound {
+      border-radius: 3%;
+      margin-left: 3.5em;
+  }
+  .out {
+        color: #d94711;
+        font-weight: bold;
+        padding: 1em;
+    }

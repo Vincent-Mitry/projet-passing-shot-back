@@ -2,9 +2,11 @@
 
 namespace App\Repository;
 
+use App\Entity\User;
 use App\Entity\Reservation;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use App\Entity\BlockedCourt;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Reservation>
@@ -39,6 +41,19 @@ class ReservationRepository extends ServiceEntityRepository
         }
     }
 
+    public function getAllReservationsByDateAndCourt($date, $court)
+    {
+        return $this->createQueryBuilder('r')
+            ->where('CAST(r.startDatetime as DATE) = :date')
+            ->andWhere('r.status = TRUE')
+            ->andWhere('r.court = :court')
+            ->setParameter('date', $date)
+            ->setParameter('court', $court)
+            ->getQuery()            
+            ->getResult()
+        ;
+    }
+  
     /**
     * Find last three reservations for home
     */
@@ -53,6 +68,79 @@ class ReservationRepository extends ServiceEntityRepository
         )->setMaxResults(3);
 
         return $query->getResult();
+    }
+
+    /**
+     * Find the upcoming reservation by users
+     */
+
+    public function upcomingReservationsByUser(User $user)
+    {
+        //we are looking in the reservations entity (r)
+       return $this->createQueryBuilder('r')
+                //join user table ('u')
+                ->innerJoin('r.user', 'u')
+                //comparing reservation date is > to current date
+
+                ->where('(CAST(r.startDatetime as DATE) ) >= CURRENT_DATE()')
+
+                //get reservations by user
+                ->andWhere('u.id = :user')
+                //displaying reservations by ascending dates
+                ->orderBy('r.startDatetime', 'ASC')
+                //value of user is defined
+                ->setParameter('user', $user)
+                ->getQuery()            
+                ->getResult();
+
+    }
+
+    public function fiveLastReservationByUser(User $user)
+    {
+        //we are looking in the reservations entity (r)
+       return $this->createQueryBuilder('r')
+                    //join user table ('u')
+                ->innerJoin('r.user', 'u')
+                //comparing reservation date is < to current date
+                ->where('(CAST(r.startDatetime as DATE) ) < CURRENT_DATE()')
+                //get reservations by user
+                ->andWhere('u.id = :user')
+                //displaying reservations by ascending dates
+                ->orderBy('r.startDatetime', 'DESC')
+                //value of user is defined
+                ->setParameter('user', $user)
+                //limit the number of results by 5
+                ->setMaxResults(5)
+                ->getQuery()            
+                ->getResult();
+
+    }
+
+    /**
+     * Gets all reservations affected by the blocked court (if a reservation's time slot is included in the blocked court's time slot)
+     *
+     * @param Court $court
+     * @param \DateTimeInterface $blockedStartDatetime
+     * @param \DateTimeInterface $blockedEndDatetime
+     * @return array
+     */
+    public function getReservationsInBlockedCourt($court, $blockedStartDatetime, $blockedEndDatetime)
+    {
+        return $this->createQueryBuilder('r')
+            ->innerJoin('r.court', 'c')
+            ->where('c.id = :court')
+            ->andWhere(
+                '(r.startDatetime >= :blockedStartDatetime AND r.startDatetime < :blockedEndDatetime) 
+                OR (r.endDatetime > :blockedStartDatetime AND r.endDatetime <= :blockedEndDatetime)'
+            )
+            ->setParameters([
+                'court' => $court,
+                'blockedStartDatetime' => $blockedStartDatetime,
+                'blockedEndDatetime' => $blockedEndDatetime,
+            ])
+            ->getQuery()            
+            ->getResult()
+        ;
     }
 
 //    /**

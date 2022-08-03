@@ -1,0 +1,22 @@
+{% extends '/email/base_email.html.twig' %}
+
+{% block title %} - Confirmation de réservation{% endblock %}
+
+{% block body %}
+    <h3 style="color: #C23D12;">
+        Bonjour {{ reservation.user.firstname }}, </h3>
+    <h3>    
+        Votre réservation du <span style="color: #C23D12;">{{ reservation.startDatetime|date('d/m/Y') }}</span> a été validée.
+    </h3>
+
+    <p>
+        Horaires : {{ reservation.startDatetime|date('H:i') }} - {{ reservation.endDatetime|date('H:i') }} <br>
+        Terrain : {{ reservation.court.name }} <br>
+        Numéro de la réservation : {{ reservation.id }}
+    </p>
+
+    <p>
+        Sportivement, <br>
+        L’équipe <span style="color: #C23D12;">Passing ShO't</span>
+    </p>
+{% endblock %}

@@ -2,23 +2,24 @@
 
 namespace App\Entity;
 
-use App\Repository\CourtRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\CourtRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\Ignore;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Serializer\Annotation\Groups;
 
 
 /**
  * @ORM\Entity(repositoryClass=CourtRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  * 
  * @UniqueEntity(fields={"name"})
  */
 class Court
 {
-
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -29,44 +30,49 @@ class Court
 
     /**
      * @ORM\Column(type="string", length=64)
-     * @Assert\NotBlank
-     * @Groups ({"court_list"}) 
+     * @Assert\NotBlank(message = "Veuillez saisir le nom du terrain.")
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 64,
+     * )
+     * 
+     * @Groups({"reservations_get_item"})
+     * @Groups ({"court_list"})
+     * @Groups({"user_see_reservations"})
+     * @Groups({"past_user_reservations"}) 
      */
     private $name;
 
     /**
-     * @ORM\Column(type="smallint")
-     * @Assert\NotBlank
-     * @Groups ({"court_list"}) 
-     */
-    private $surface;
-
-    /**
      * @ORM\Column(type="boolean")
-     * @Assert\NotBlank
+     * @Assert\Choice(choices = {true, false})
+     * 
      * @Groups ({"court_list"}) 
      */
     private $lightning;
 
     /**
      * @ORM\Column(type="boolean")
-     * @Assert\NotBlank
+     * @Assert\Choice(choices = {true, false})
+     * 
      * @Groups ({"court_list"}) 
      */
-    private $type;
+    private $indoor;
 
     /**
      * @ORM\Column(type="time")
-     * @Assert\NotBlank
-     * @Assert\Time
+     * @Assert\NotBlank(message="Veuillez ajouter un horaire d'ouverture pour le terrain.")
+     * @Assert\Type("\DateTimeInterface")
+     * 
      * @Groups ({"court_list"}) 
      */
     private $startTime;
 
     /**
      * @ORM\Column(type="time")
-     * @Assert\NotBlank
-     * @Assert\Time
+     * @Assert\NotBlank(message="Veuillez ajouter un horaire de fermeture pour le terrain.")
+     * @Assert\Type("\DateTimeInterface")
+     * 
      * @Groups({"court_list"}) 
      */
     private $endTime;
@@ -81,7 +87,7 @@ class Court
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Groups({"court_list"}) 
      */
-    private $detailled_map;
+    private $detailed_map;
 
     /**
      * @ORM\Column(type="decimal", precision=2, scale=1, nullable=true)
@@ -92,39 +98,47 @@ class Court
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 255,
+     * )
+     * 
      * @Groups({"court_list"}) 
      */
     private $slug;
 
     /**
      * @ORM\Column(type="datetime_immutable", nullable=true)
-     * @Assert\DateTime
+     * @Assert\Type("\DateTimeInterface")
+     * 
      * @Groups({"court_list"}) 
      */
     private $renovatedAt;
 
     /**
      * @ORM\Column(type="datetime_immutable")
-     * @Assert\DateTime
-     * @Groups({"court_list"}) 
+     * @Assert\Type("\DateTimeInterface")
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime_immutable", nullable=true)
-     * @Assert\DateTime
-     * @Groups({"court_list"}) 
+     * @Assert\Type("\DateTimeInterface")
      */
     private $updatedAt;
 
     /**
      * @ORM\OneToMany(targetEntity=Reservation::class, mappedBy="court")
+     * @Ignore()
      */
     private $reservations;
 
     /**
      * @ORM\ManyToOne(targetEntity=Club::class, inversedBy="courts")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(onDelete="SET NULL", nullable=true)
+     * @Assert\NotBlank(message="Veuillez associer un club au terrain.")
+     * 
+     * @Ignore()
      */
     private $club;
 
@@ -132,6 +146,20 @@ class Court
      * @ORM\OneToMany(targetEntity=BlockedCourt::class, mappedBy="court")
      */
     private $blockedCourts;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $RatingCount;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Surface::class, inversedBy="courts")
+     * @ORM\JoinColumn(onDelete="SET NULL", nullable=true)
+     * @Assert\NotBlank(message = "Veuillez sélectionner un terrain.")
+     * 
+     * @Groups ({"court_list"})
+     */
+    private $surface;
 
     public function __construct()
     {
@@ -150,21 +178,9 @@ class Court
         return $this->name;
     }
 
-    public function setName(string $name): self
+    public function setName(?string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    public function getSurface(): ?int
-    {
-        return $this->surface;
-    }
-
-    public function setSurface(int $surface): self
-    {
-        $this->surface = $surface;
 
         return $this;
     }
@@ -174,21 +190,21 @@ class Court
         return $this->lightning;
     }
 
-    public function setLightning(bool $lightning): self
+    public function setLightning(?bool $lightning): self
     {
         $this->lightning = $lightning;
 
         return $this;
     }
 
-    public function isType(): ?bool
+    public function isIndoor(): ?bool
     {
-        return $this->type;
+        return $this->indoor;
     }
 
-    public function setType(bool $type): self
+    public function setIndoor(?bool $indoor): self
     {
-        $this->type = $type;
+        $this->indoor = $indoor;
 
         return $this;
     }
@@ -198,7 +214,7 @@ class Court
         return $this->startTime;
     }
 
-    public function setStartTime(\DateTimeInterface $startTime): self
+    public function setStartTime(?\DateTimeInterface $startTime): self
     {
         $this->startTime = $startTime;
 
@@ -210,7 +226,7 @@ class Court
         return $this->endTime;
     }
 
-    public function setEndTime(\DateTimeInterface $endTime): self
+    public function setEndTime(?\DateTimeInterface $endTime): self
     {
         $this->endTime = $endTime;
 
@@ -222,21 +238,21 @@ class Court
         return $this->picture;
     }
 
-    public function setPicture(string $picture): self
+    public function setPicture(?string $picture): self
     {
         $this->picture = $picture;
 
         return $this;
     }
 
-    public function getDetailledMap(): ?string
+    public function getDetailedMap(): ?string
     {
-        return $this->detailled_map;
+        return $this->detailed_map;
     }
 
-    public function setDetailledMap(string $detailled_map): self
+    public function setDetailedMap(?string $detailed_map): self
     {
-        $this->detailled_map = $detailled_map;
+        $this->detailed_map = $detailed_map;
 
         return $this;
     }
@@ -258,7 +274,7 @@ class Court
         return $this->slug;
     }
 
-    public function setSlug(string $slug): self
+    public function setSlug(?string $slug): self
     {
         $this->slug = $slug;
 
@@ -282,7 +298,7 @@ class Court
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): self
+    public function setCreatedAt(?\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
 
@@ -369,6 +385,46 @@ class Court
                 $blockedCourt->setCourt(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function setCreatedAtValue(): void
+    {
+        $this->createdAt = new \DateTimeImmutable();
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function setUpdatedAtValue(): void
+    {
+        $this->updatedAt = new \DateTimeImmutable();
+    }
+
+    public function getRatingCount(): ?int
+    {
+        return $this->RatingCount;
+    }
+
+    public function setRatingCount(?int $RatingCount): self
+    {
+        $this->RatingCount = $RatingCount;
+
+        return $this;
+    }
+
+    public function getSurface(): ?Surface
+    {
+        return $this->surface;
+    }
+
+    public function setSurface(?Surface $surface): self
+    {
+        $this->surface = $surface;
 
         return $this;
     }
